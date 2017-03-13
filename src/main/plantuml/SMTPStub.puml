@@ -1,0 +1,55 @@
+@startuml
+skinparam componentStyle uml2
+
+package org.yj.smtpstub {
+
+  package configuration {
+    class CLIParamsHandler
+    class ConfigurationHandler
+    class I18nHandler
+  }
+
+  package exception {
+    abstract class AbstractPortException
+    class BindPortException extends AbstractPortException
+    class InvalidHostException
+    class InvalidPortException extends AbstractPortException
+    class OutOfRangePortException extends AbstractPortException
+    class UncaughtExceptionHandler
+  }
+
+  package model {
+    class EmailModel
+  }
+
+  package processor {
+    class EmailProcessor
+  }
+
+  package service {
+    package http {
+    }
+    package imap {
+    }
+    package pop {
+    }
+    package smtp {
+      class SMTPListener
+      class SMTPServerFactory {
+        + {static} SMTPServer getServer()
+      }
+      class SMTPAuthHandler
+      class SMTPAuthHandlerFactory
+    }
+  }
+
+  package storage {
+    abstract class MailStore
+    class DBMailStore extends MailStore
+    class FSMailStore extends MailStore
+    class MailStoreFactory
+  }
+
+}
+
+@enduml
