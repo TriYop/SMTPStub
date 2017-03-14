@@ -1,12 +1,19 @@
 package org.yj.smtpstub.storage;
 
+import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.File;
+
+import static org.junit.Assert.*;
 /**
- * Created by yjanet on 08/03/2017.
+ * SMTPStub
+ * --------------------------------------------
+ *
+ * @author TriYop
  */
 public class TestFSMailStore {
     @Before
@@ -21,9 +28,14 @@ public class TestFSMailStore {
     }
 
     @Test
-    @Ignore
     public void testGetUniqueFile_invalidPath() {
-
+        try {
+            File f = FSMailStore.getUniqueFile("w:\\toto");
+            System.out.println(f.getCanonicalPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Exception thrown: "+ e.getMessage());
+        }
     }
 
     @Test
