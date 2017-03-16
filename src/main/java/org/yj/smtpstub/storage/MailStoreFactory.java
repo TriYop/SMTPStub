@@ -6,7 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.yj.smtpstub.exception.InvalidStoreException;
 
 /**
- * Created by TriYop on 01/03/2017.
+ * SMTPStub
+ * --------------------------------------------
+ *
+ * @author TriYop
+ * @since 1.0
  */
 public final class MailStoreFactory {
     private static final Logger logger = LoggerFactory.getLogger(MailStoreFactory.class);

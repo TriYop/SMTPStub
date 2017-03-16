@@ -3,10 +3,9 @@ package org.yj.smtpstub.exception;
 import java.net.UnknownHostException;
 
 /**
+ * SMTPStub
+ * --------------------------------------------
  * Thrown if the host name is invalid while trying to start the smtp.
- * <p>
- * This is a wrapper for UnknownHostException
- * </p>
  *
  * @author TriYop
  * @since 1.0

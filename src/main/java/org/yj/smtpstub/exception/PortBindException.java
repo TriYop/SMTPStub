@@ -1,8 +1,10 @@
 package org.yj.smtpstub.exception;
 
 /**
- * Thrown if the TCP server socket cannot be bound while trying to start the smtp server.
+ * SMTPStub
+ * --------------------------------------------
  * <p>
+ * Thrown if the TCP server socket cannot be bound while trying to start the smtp server.
  * It may already be used by another application or the user running the server
  * is not allowed to open port (reserved ports, system security policy, ...)
  *

@@ -9,8 +9,10 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yj.smtpstub.configuration.Configuration;
+import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.model.EmailModel;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -22,15 +24,35 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by TriYop on 01/03/2017.
+ * SMTPStub
+ * --------------------------------------------
+ * Stores received emails into filesystem-based storage.
+ *
+ * @author TriYop
+ * @since 1.0
  */
 public class FSMailStore implements MailStore {
     private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
 
+    /**
+     * The Index idx file.
+     */
     static final String INDEX_IDX_FILE = "file";
+    /**
+     * The Index idx to.
+     */
     static final String INDEX_IDX_TO = "to";
+    /**
+     * The Index idx from.
+     */
     static final String INDEX_IDX_FROM = "from";
+    /**
+     * The Index idx subject.
+     */
     static final String INDEX_IDX_SUBJECT = "subject";
+    /**
+     * The Index idx date.
+     */
     static final String INDEX_IDX_DATE = "date";
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
@@ -41,8 +63,9 @@ public class FSMailStore implements MailStore {
      *
      * @param baseName base name
      * @return the file descriptor based on the base name and an iterator
+     * @throws IOException the io exception
      */
-    protected static synchronized File getUniqueFile(String baseName) {
+    protected static synchronized File getUniqueFile(String baseName) throws IOException {
         int i = 0;
 
         File file = null;
@@ -57,11 +80,15 @@ public class FSMailStore implements MailStore {
             }
             file = new File(filename.toString());
         }
-        return file;
+        file.createNewFile();
+        return file.getCanonicalFile();
     }
 
+
     /**
-     * @param email
+     * Add to index.
+     *
+     * @param email the email
      */
     protected static synchronized void addToIndex(EmailModel email) {
         JSONObject emailObj = new JSONObject();
@@ -76,6 +103,9 @@ public class FSMailStore implements MailStore {
         }
     }
 
+    /**
+     * Save index.
+     */
     protected static synchronized void saveIndex() {
         synchronized (emailsList) {
             String indexFile = Configuration.get("emails.storage.fs.indexfile");
@@ -93,6 +123,8 @@ public class FSMailStore implements MailStore {
     }
 
     /**
+     * Load index.
+     *
      * @return
      */
     protected static void loadIndex() {
@@ -116,20 +148,22 @@ public class FSMailStore implements MailStore {
      * @param email
      */
     @Override
-    public synchronized void save(EmailModel email) {
+    public synchronized void save(@Nullable EmailModel email) throws IncompleteEmailException {
+        if (email == null) {
+            return;
+        }
+        if (email.getReceivedDate() == null || email.getEmailStr() == null) {
+            throw new IncompleteEmailException();
+        }
 
         String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path"), File.separator,
                 dateFormat.format(new Date()));
 
-        // Create file
-        File file = getUniqueFile(filePath);
-
-        // Copy String to file
         try {
+            File file = getUniqueFile(filePath);
             email.setFilePath(file.getPath());
             FileUtils.writeStringToFile(file, email.getEmailStr());
         } catch (IOException e) {
-            // If we can't save file, we display the error in the SMTP logs
             logger.error("Error: Can't save email: {}", e.getMessage(), e);
         }
 

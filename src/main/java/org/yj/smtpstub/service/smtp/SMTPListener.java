@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * SMTPStub
+ * --------------------------------------------
  * Listens to incoming emails and redirects them to the {@code EmailProcessor} object.
  *
  * @author TriYop
@@ -15,13 +17,12 @@ import java.io.InputStream;
 public final class SMTPListener implements SimpleMessageListener {
 
     /**
-     * determins if messsage will be accepted for delivery or not.
-     * <p>
-     * TODO: add some configuration based filtering based on source/target domains
+     * determins if messsage will be accepted for delivery or not
      *
      * @param from      the user who send the email.
      * @param recipient the recipient of the email.
      * @return always return {@code true}
+     * @todo add some configuration based filtering based on source/target domains
      */
     public boolean accept(String from, String recipient) {
         return true;

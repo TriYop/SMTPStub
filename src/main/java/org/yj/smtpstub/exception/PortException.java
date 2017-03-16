@@ -1,6 +1,8 @@
 package org.yj.smtpstub.exception;
 
 /**
+ * SMTPStub
+ * --------------------------------------------
  * Abstract class to simplify creation of exceptions due to a SMTP port error.
  *
  * @author TriYop

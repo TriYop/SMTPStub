@@ -2,6 +2,7 @@ package org.yj.smtpstub.processor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.model.EmailModel;
 import org.yj.smtpstub.storage.MailStore;
 
@@ -12,7 +13,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by TriYop on 01/03/2017.
+ * SMTPStub
+ * --------------------------------------------
+ * Class that processes email related actions.
+ *
+ * @author TriYop
+ * @since 1.0
  */
 public final class EmailProcessor {
 
@@ -20,16 +26,36 @@ public final class EmailProcessor {
     private static final Pattern SUBJECT_PATTERN = Pattern.compile("^Subject: (.*)$");
     private static MailStore store = null;
 
+    /**
+     *
+     */
     private EmailProcessor() {}
 
+    /**
+     * Gets store.
+     *
+     * @return the store
+     */
     public static MailStore getStore() {
         return store;
     }
 
+    /**
+     * Sets store.
+     *
+     * @param store the store
+     */
     public static void setStore(MailStore store) {
         EmailProcessor.store = store;
     }
 
+    /**
+     * Process.
+     *
+     * @param from the from
+     * @param to   the to
+     * @param data the data
+     */
     public static final void process(String from, String to, InputStream data) {
         EmailModel model = new EmailModel();
         model.setFrom(from);
@@ -41,7 +67,12 @@ public final class EmailProcessor {
         model.setReceivedDate(new Date());
 
         if (store != null) {
-            store.save(model);
+           try {
+               store.save(model);
+           } catch (IncompleteEmailException e) {
+               logger.error("email was incomplete.  ", e);
+           }
+
         }
     }
 

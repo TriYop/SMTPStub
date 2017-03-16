@@ -9,6 +9,8 @@ import org.yj.smtpstub.service.smtp.SMTPServerFactory;
 import org.yj.smtpstub.storage.MailStoreFactory;
 
 /**
+ * SMTPStub
+ * --------------------------------------------
  * Entry point of the SMTP Stubbed server
  *
  * @author TriYop
@@ -22,21 +24,9 @@ public final class SMTPStub {
     }
 
     /**
-     * Checks command line arguments, sets some specific properties, and runs the main window.
-     * <p>
-     * Before opening the main window, this method will:
-     * </p>
-     * <ul>
-     * <li>check command line arguments, and possibly display an error dialog,</li>
-     * <li>set a default uncaught exception handler to intercept every uncaught exception;</li>
-     * <li>use a custom icon in the Mac Dock;</li>
-     * <li>set a property for Mac OS X to take the menu bar off the JFrame;</li>
-     * <li>set a property for Mac OS X to set the name of the application menu item;</li>
-     * <li>turn off the bold font in all components for swing default theme;</li>
-     * <li>use the platform look and feel.</li>
-     * </ul>
+     * Launches SMTPStub server
      *
-     * @param args a list of command line parameters.
+     * @param args a list of arguments that are not in use.
      */
     public static void main(final String[] args) {
 

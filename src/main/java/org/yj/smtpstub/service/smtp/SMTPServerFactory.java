@@ -10,7 +10,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * Instanciates and Starts the SMTP smtp.
+ * SMTPStub
+ * --------------------------------------------
+ * Instanciates and Starts the SMTP service.
  *
  * @author TriYop
  * @since 1.0
