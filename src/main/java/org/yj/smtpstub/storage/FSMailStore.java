@@ -80,7 +80,9 @@ public class FSMailStore implements MailStore {
             }
             file = new File(filename.toString());
         }
-        file.createNewFile();
+        if (!file.createNewFile()) {
+            throw new IOException("File " + filename.toString() + " could not be created");
+        }
         return file.getCanonicalFile();
     }
 

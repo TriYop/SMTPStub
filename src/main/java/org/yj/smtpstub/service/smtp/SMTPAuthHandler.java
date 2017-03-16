@@ -13,7 +13,7 @@ import org.subethamail.smtp.AuthenticationHandler;
 /*package*/ final class SMTPAuthHandler implements AuthenticationHandler {
     private static final String USER_IDENTITY = "User"
             ;
-    // FIXME: encode messages with Base64 codec instead of hardcoding them
+    // TODO: encode messages with Base64 codec instead of hardcoding them
     private static final String CALLBACK_USERNAME = "334 VXNlcm5hbWU6"; // VXNlcm5hbWU6 is base64 for "Username:"
     private static final String CALLBACK_PASSWORD = "334 UGFzc3dvcmQ6"; // UGFzc3dvcmQ6 is base64 for "Password:"
 
