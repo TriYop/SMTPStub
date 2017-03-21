@@ -78,7 +78,7 @@ public class TestSMTPServerFactory {
     @Test
     public void testGetRunningServer_nominal() {
         try {
-            SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, null);
+            SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, "localhost");
             assert true;
             srvr.stop();
 
