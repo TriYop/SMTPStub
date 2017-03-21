@@ -36,7 +36,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer_invalidPort() {
+    public void testGetRunningServer_invalidLowPort() {
         try {
             SMTPServer srvr= SMTPServerFactory.getRunningServer(0, "localhost");
             srvr.stop();
@@ -47,6 +47,20 @@ public class TestSMTPServerFactory {
             fail("A port exception was expected instead of a InvalidHost");
         }
     }
+
+    @Test
+    public void testGetRunningServer_invalidHighPort() {
+        try {
+            SMTPServer srvr= SMTPServerFactory.getRunningServer(65536, "localhost");
+            srvr.stop();
+            fail("A port exception was expected");
+        } catch (PortException  e) {
+            assert true;
+        } catch (InvalidHostException e) {
+            fail("A port exception was expected instead of a InvalidHost");
+        }
+    }
+
 
     @Test
     public void testGetRunningServer_invalidHost() {
