@@ -108,9 +108,9 @@ public class TestSMTPServerFactory {
             srvr.stop();
             fail("A host exception was expected");
         } catch (PortException  e) {
-            fail("A port exception was expected instead of a InvalidHost");
-        } catch (InvalidHostException e) {
             assert true;
+        } catch (InvalidHostException e) {
+            fail("A port exception was expected instead of a InvalidHost");
         }
     }
 
@@ -118,9 +118,8 @@ public class TestSMTPServerFactory {
     public void testGetRunningServer_nominal() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, "localhost");
-            assert true;
             srvr.stop();
-
+            assert true;
         } catch (PortException|InvalidHostException  e) {
             fail("no exception was expected");
         }
@@ -214,9 +213,9 @@ public class TestSMTPServerFactory {
             srvr.stop();
             fail("A host exception was expected");
         } catch (PortException  e) {
-            fail("A port exception was expected instead of a InvalidHost");
-        } catch (InvalidHostException e) {
             assert true;
+        } catch (InvalidHostException e) {
+            fail("A port exception was expected instead of a InvalidHost");
         }
     }
 
