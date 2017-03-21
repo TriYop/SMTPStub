@@ -19,7 +19,9 @@ public abstract class PortException extends Exception {
      * @param port the selected port which was the cause of the exception.
      */
     public PortException(Exception e, int port) {
-        setStackTrace(e.getStackTrace());
+        if (e!=null) {
+            setStackTrace(e.getStackTrace());
+        }
         this.port = port;
     }
 
