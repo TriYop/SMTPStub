@@ -7,7 +7,6 @@ import org.yj.smtpstub.exception.PortException;
 
 import static org.junit.Assert.fail;
 
-:
 
 /**
  * SMTPStub
