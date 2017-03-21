@@ -23,12 +23,37 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer() {
+    public void testGetRunningServer_invalidParameters() {
         try {
             SMTPServerFactory.getRunningServer(0, null);
             fail("An exception was expected");
         } catch (PortException | InvalidHostException e) {
+            assert true;
 
+        }
+    }
+
+    @Test
+    public void testGetRunningServer_invalidPort() {
+        try {
+            SMTPServerFactory.getRunningServer(0, "localhost");
+            fail("A port exception was expected");
+        } catch (PortException  e) {
+            assert true;
+        } catch (InvalidHostException e) {
+            fail("A port exception was expected instead of a InvalidHost");
+        }
+    }
+
+    @Test
+    public void testGetRunningServer_invalidHost() {
+        try {
+            SMTPServerFactory.getRunningServer(2525, "");
+            fail("A host exception was expected");
+        } catch (PortException  e) {
+            fail("A port exception was expected instead of a InvalidHost");
+        } catch (InvalidHostException e) {
+            assert true;
 
         }
     }
