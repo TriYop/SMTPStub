@@ -6,6 +6,7 @@ import org.subethamail.smtp.helper.SimpleMessageListenerAdapter;
 import org.subethamail.smtp.server.SMTPServer;
 import org.yj.smtpstub.exception.*;
 
+import javax.annotation.Nonnull;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -40,6 +41,9 @@ public final class SMTPServerFactory {
         if (0 >= port || port >= 65536) {
             throw new InvalidPortException(null, port);
         }
+        if (null == address || "".equals(address)) {
+            throw new InvalidHostException(null, address);
+        }
 
         try {
             final InetAddress bindAddress = InetAddress.getByName(address);
@@ -70,6 +74,9 @@ public final class SMTPServerFactory {
     public static final SMTPServer getRunningTLSServer(int port, String address) throws PortException, InvalidHostException {
         if (0 >= port || port >= 65536) {
             throw new InvalidPortException(null, port);
+        }
+        if (null == address || "".equals(address)) {
+            throw new InvalidHostException(null, address);
         }
 
         try {
