@@ -34,7 +34,7 @@ public final class MailStoreFactory {
                 logger.error("Invalid configuration: {} is not a valid MailStore implementation.");
                 throw new InvalidStoreException();
             }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException|NullPointerException e) {
             logger.error("Mail storage engine {} is not a valid Storage engine", type, e);
             throw new InvalidStoreException();
         } catch (InstantiationException e) {
