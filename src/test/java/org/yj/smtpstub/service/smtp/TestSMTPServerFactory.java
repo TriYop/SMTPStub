@@ -24,15 +24,12 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void test
-
-    {
+    public void testGetRunningServer() {
         try {
             SMTPServerFactory.getRunningServer(0, null);
             fail("An exception was expected");
-        } catch (PortException|InvalidHostException e) {
+        } catch (PortException | InvalidHostException e) {
 
-        
 
         }
     }
