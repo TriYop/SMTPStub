@@ -19,8 +19,7 @@ public class TestSMTPAuthHandler {
     }
 
     @Test
-    @Ignore
-    private void testMe () {
-
+    private void testGetIdentity () {
+        smtpAuthHandler.getIdentity();
     }
 }

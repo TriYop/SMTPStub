@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author TriYop
  */
 public class TestEmailProcessor {
-    
+
     @Before
     public void setup() {
 
