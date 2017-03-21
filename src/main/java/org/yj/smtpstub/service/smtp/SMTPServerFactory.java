@@ -37,7 +37,7 @@ public final class SMTPServerFactory {
      * @throws IllegalArgumentException when port is out of range.
      */
     public static final SMTPServer getRunningServer(int port, String address) throws PortException, InvalidHostException {
-        if (0 > port || port > 65536) {
+        if (0 >= port || port > 65536) {
             throw new InvalidPortException(null, port);
         }
 

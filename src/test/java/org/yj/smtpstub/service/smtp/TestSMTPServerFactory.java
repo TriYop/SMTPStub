@@ -2,6 +2,7 @@ package org.yj.smtpstub.service.smtp;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.subethamail.smtp.server.SMTPServer;
 import org.yj.smtpstub.exception.InvalidHostException;
 import org.yj.smtpstub.exception.PortException;
 
@@ -25,7 +26,8 @@ public class TestSMTPServerFactory {
     @Test
     public void testGetRunningServer_invalidParameters() {
         try {
-            SMTPServerFactory.getRunningServer(0, null);
+            SMTPServer srvr= SMTPServerFactory.getRunningServer(0, null);
+            srvr.stop();
             fail("An exception was expected");
         } catch (PortException | InvalidHostException e) {
             assert true;
@@ -36,7 +38,8 @@ public class TestSMTPServerFactory {
     @Test
     public void testGetRunningServer_invalidPort() {
         try {
-            SMTPServerFactory.getRunningServer(0, "localhost");
+            SMTPServer srvr= SMTPServerFactory.getRunningServer(0, "localhost");
+            srvr.stop();
             fail("A port exception was expected");
         } catch (PortException  e) {
             assert true;
@@ -48,13 +51,25 @@ public class TestSMTPServerFactory {
     @Test
     public void testGetRunningServer_invalidHost() {
         try {
-            SMTPServerFactory.getRunningServer(2525, "");
+            SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, null);
+            srvr.stop();
             fail("A host exception was expected");
         } catch (PortException  e) {
             fail("A port exception was expected instead of a InvalidHost");
         } catch (InvalidHostException e) {
             assert true;
+        }
+    }
 
+    @Test
+    public void testGetRunningServer_nominal() {
+        try {
+            SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, null);
+            assert true;
+            srvr.stop();
+
+        } catch (PortException|InvalidHostException  e) {
+            fail("no exception was expected");
         }
     }
 }
