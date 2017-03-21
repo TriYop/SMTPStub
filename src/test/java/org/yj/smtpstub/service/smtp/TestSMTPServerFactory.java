@@ -222,9 +222,9 @@ public class TestSMTPServerFactory {
     @Test
     public void testGetRunningTLSServer_nominal() {
         try {
-            SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, "localhost");
-            assert true;
+            SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2526, "localhost");
             srvr.stop();
+            assert true;
 
         } catch (PortException|InvalidHostException  e) {
             fail("no exception was expected");
