@@ -45,5 +45,16 @@ public class TestMailStoreFactory {
         } catch (InvalidStoreException ex) {
             Assert.assertTrue(true);
         }
+
+        type= null;
+        try {
+            Object obj= MailStoreFactory.getMailStore(type);
+            Assert.fail("should have thrown an exception");
+        } catch (InvalidStoreException ex) {
+            Assert.assertTrue(true);
+        }
+
     }
+
+
 }
