@@ -115,7 +115,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningTLSServer_nominal() {
+    public void testGetRunningServer_nominal() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, "localhost");
             assert true;
