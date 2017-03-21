@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author TriYop
  */
 public class TestEmailProcessor {
-    EmailProcessor processor;
+    
     @Before
     public void setup() {
 
@@ -22,7 +22,6 @@ public class TestEmailProcessor {
     public void testGetStore() {}
 
     @Test
-    @Ignore
     public void testProcess() {
         EmailProcessor.process(null, null, null);
         assert true;
