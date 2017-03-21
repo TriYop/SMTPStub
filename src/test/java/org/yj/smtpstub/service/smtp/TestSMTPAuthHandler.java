@@ -14,12 +14,12 @@ public class TestSMTPAuthHandler {
     private SMTPAuthHandler smtpAuthHandler;
 
     @Before
-    private void setup() {
+    public void setup() {
         smtpAuthHandler = new SMTPAuthHandler();
     }
 
     @Test
-    private void testGetIdentity () {
+    public void testGetIdentity () {
         smtpAuthHandler.getIdentity();
     }
 }

@@ -24,16 +24,4 @@ public abstract class PortException extends Exception {
         }
         this.port = port;
     }
-
-    /**
-     * Returns the port entered by the user.
-     * <p>
-     * Useful to know why the SMTP smtp could not start.
-     * </p>
-     *
-     * @return the port which caused the exception.
-     */
-    public int getPort() {
-        return port;
-    }
 }
