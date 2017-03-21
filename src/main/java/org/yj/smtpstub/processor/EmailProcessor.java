@@ -57,6 +57,10 @@ public final class EmailProcessor {
      * @param data the data
      */
     public static final void process(String from, String to, InputStream data) {
+        if (from==null || to==null || data==null)  {
+            return;
+        }
+
         EmailModel model = new EmailModel();
         model.setFrom(from);
         model.setFrom(from);

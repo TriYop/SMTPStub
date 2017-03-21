@@ -7,4 +7,5 @@ package org.yj.smtpstub.service.smtp;
  * @author TriYop
  */
 public class TestSMTPListener {
+
 }

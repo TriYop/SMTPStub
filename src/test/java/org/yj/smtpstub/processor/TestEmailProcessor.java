@@ -13,7 +13,9 @@ import org.junit.Test;
 public class TestEmailProcessor {
     EmailProcessor processor;
     @Before
-    public void setup() {}
+    public void setup() {
+
+    }
 
     @Test
     @Ignore
@@ -21,7 +23,10 @@ public class TestEmailProcessor {
 
     @Test
     @Ignore
-    public void testProcess() {}
+    public void testProcess() {
+        EmailProcessor.process(null, null, null);
+        assert true;
+    }
 
     @Test
     @Ignore
