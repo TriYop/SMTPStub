@@ -1,5 +1,7 @@
 package org.yj.smtpstub.service.smtp;
 
+import org.junit.Before;
+
 /**
  * SMTPStub
  * --------------------------------------------
@@ -7,4 +9,10 @@ package org.yj.smtpstub.service.smtp;
  * @author TriYop
  */
 public class TestSMTPAuthHandlerFactory {
+    SMTPAuthHandlerFactory factory;
+
+    @Before
+    public void setup() {
+        factory = new SMTPAuthHandlerFactory();
+    }
 }
