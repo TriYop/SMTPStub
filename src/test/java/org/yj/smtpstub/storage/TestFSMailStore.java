@@ -120,7 +120,6 @@ public class TestFSMailStore {
 
 
     @Test
-    @Ignore
     public void testAddToIndex_emptyModel() {
         EmailModel model = new EmailModel();
         try {
@@ -190,5 +189,13 @@ public class TestFSMailStore {
     @Ignore
     public void testGetEmail() {
 
+    }
+
+
+
+    @Test
+    public void testLoadIndex() {
+        FSMailStore.loadIndex();
+        
     }
 }
