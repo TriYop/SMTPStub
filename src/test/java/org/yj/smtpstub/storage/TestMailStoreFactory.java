@@ -66,31 +66,7 @@ public class TestMailStoreFactory {
         }
     }
 
-    @Test
-    public void testGetMailStore_validAnonymousType() {
-        MailStore c = new MailStore() {
-            @Override
-            public void save(EmailModel email) throws IncompleteEmailException {
 
-            }
-
-            @Override
-            public Collection<EmailModel> getAllEmails() {
-                return null;
-            }
-
-            @Override
-            public EmailModel getEmail(int id) {
-                return null;
-            }
-        };
-        try {
-            Object obj = MailStoreFactory.getMailStore(c.getClass().getCanonicalName());
-            assert true;
-        } catch (InvalidStoreException e) {
-            fail("No exception was expected for this valid test case.");
-        }
-    }
 
 
 }
