@@ -28,7 +28,7 @@ public class TestFSMailStore {
     }
 
     @After
-    public void tearOff() {
+    public void tearDown() {
 
     }
 
@@ -106,9 +106,28 @@ public class TestFSMailStore {
         }
     }
 
+
+    // Test addToIndex
+
+    @Test
+    public void testAddToIndex_nullModel() {
+        try {
+            FSMailStore.addToIndex(null);
+        } catch (NullPointerException e) {
+            fail("Null pointer exceptions should have been thrown");
+        }
+    }
+
+
     @Test
     @Ignore
-    public void testAddToIndex_emptyIndex() {
+    public void testAddToIndex_emptyModel() {
+        EmailModel model = new EmailModel();
+        try {
+            FSMailStore.addToIndex(model);
+        } catch (NullPointerException e) {
+            fail("Null pointer exceptions should have been thrown");
+        }
 
     }
 

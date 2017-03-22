@@ -93,6 +93,10 @@ public class FSMailStore implements MailStore {
      * @param email the email
      */
     protected static synchronized void addToIndex(EmailModel email) {
+        if (email==null) {
+            logger.warn("A null email was sent for indexing ...");
+            return;
+        }
         JSONObject emailObj = new JSONObject();
 
         emailObj.put(INDEX_IDX_FILE, email.getFilePath());
