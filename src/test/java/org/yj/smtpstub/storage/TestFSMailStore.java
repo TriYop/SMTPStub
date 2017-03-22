@@ -196,6 +196,6 @@ public class TestFSMailStore {
     @Test
     public void testLoadIndex() {
         FSMailStore.loadIndex();
-        
+
     }
 }
