@@ -6,6 +6,7 @@ import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.model.EmailModel;
 import org.yj.smtpstub.storage.MailStore;
 
+import javax.annotation.Nonnull;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -80,7 +81,7 @@ public final class EmailProcessor {
         }
     }
 
-    private static String getStringFromStream(InputStream is) {
+    protected static String getStringFromStream(InputStream is) {
         // final long prefixLines = 4; // Do not copy the first 4 lines (received part)
         final long prefixLines = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF8")));
@@ -106,7 +107,7 @@ public final class EmailProcessor {
      * @param data a string representing the email content.
      * @return the subject of the email, or an empty subject if not found.
      */
-    private static String parseMessageSubject(String data) {
+    protected static String parseMessageSubject(@Nonnull String data) {
         try {
             BufferedReader reader = new BufferedReader(new StringReader(data));
 
