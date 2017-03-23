@@ -1,6 +1,5 @@
 package org.yj.smtpstub.storage;
 
-import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -10,6 +9,7 @@ import org.yj.smtpstub.model.EmailModel;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -21,11 +21,18 @@ import static org.junit.Assert.*;
  */
 public class TestFSMailStore {
     FSMailStore store;
+    EmailModel sampleEmail;
 
     @Before
     public void setup() {
         store = new FSMailStore();
-
+        sampleEmail = new EmailModel();
+        sampleEmail.setEmailStr("Email content");
+        sampleEmail.setSubject("This is the subject");
+        sampleEmail.setTo("Somebody<somebody@example.com>");
+        sampleEmail.setFrom("Someone<Someone@example.com>");
+        sampleEmail.setFilePath("sample_path");
+        sampleEmail.setReceivedDate(new Date());
     }
 
     @After
@@ -187,16 +194,18 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testGetEmail() {
-        FSMailStore.loadIndex();
+    public void testGetEmail_nominal() {
         try {
-            store.getEmail(0);
-        } catch (Exception e) {
-            fail("method crashes." + e.getMessage());
-        }
-        fail ("should test more further than only 'does not crash'");
-    }
 
+            FSMailStore.addToIndex(sampleEmail);
+            EmailModel result = store.getEmail(0);
+            assertEquals(sampleEmail, result);
+
+
+        } catch (Exception e) {
+            fail("method shouldn't crash. " + e.getMessage());
+        }
+    }
 
 
     @Test
@@ -206,9 +215,5 @@ public class TestFSMailStore {
         } catch (Exception e) {
             fail("method crashed" + e.getMessage());
         }
-        fail ("should test more further than only 'does not crash'");
-
-
-
     }
 }
