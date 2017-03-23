@@ -187,13 +187,12 @@ public class TestFSMailStore {
     }
 
     @Test
-    @Ignore
     public void testGetEmail() {
         FSMailStore.loadIndex();
         try {
             store.getEmail(0);
         } catch (Exception e) {
-            fail();
+            fail("method crashes." + e.getMessage());
         }
         fail ("should test more further than only 'does not crash'");
     }
@@ -205,7 +204,7 @@ public class TestFSMailStore {
         try {
             FSMailStore.loadIndex();
         } catch (Exception e) {
-            fail();
+            fail("method crashed" + e.getMessage());
         }
         fail ("should test more further than only 'does not crash'");
 
