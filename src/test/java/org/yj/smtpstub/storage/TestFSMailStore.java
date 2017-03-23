@@ -1,5 +1,6 @@
 package org.yj.smtpstub.storage;
 
+import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -188,14 +189,27 @@ public class TestFSMailStore {
     @Test
     @Ignore
     public void testGetEmail() {
-
+        FSMailStore.loadIndex();
+        try {
+            store.getEmail(0);
+        } catch (Exception e) {
+            fail();
+        }
+        fail ("should test more further than only 'does not crash'");
     }
 
 
 
     @Test
     public void testLoadIndex() {
-        FSMailStore.loadIndex();
+        try {
+            FSMailStore.loadIndex();
+        } catch (Exception e) {
+            fail();
+        }
+        fail ("should test more further than only 'does not crash'");
+
+
 
     }
 }
