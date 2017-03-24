@@ -26,7 +26,7 @@ public class TestMailStoreFactory {
         String type= FSMailStore.class.getCanonicalName();
         try {
             Object obj= MailStoreFactory.getMailStore(type);
-            assert FSMailStore.class.isAssignableFrom(obj.getClass());
+            assert FSMailStore.class.equals(obj.getClass());
         } catch (InvalidStoreException ex) {
             Assert.fail("Invalid class returned");
         }
