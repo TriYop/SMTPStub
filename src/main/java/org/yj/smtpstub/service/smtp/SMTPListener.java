@@ -1,6 +1,9 @@
 package org.yj.smtpstub.service.smtp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.subethamail.smtp.helper.SimpleMessageListener;
+import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.processor.EmailProcessor;
 
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.io.InputStream;
  * @since 1.0
  */
 public final class SMTPListener implements SimpleMessageListener {
+    private Logger logger = LoggerFactory.getLogger(SMTPListener.class);
 
     /**
      * determins if messsage will be accepted for delivery or not
@@ -33,6 +37,10 @@ public final class SMTPListener implements SimpleMessageListener {
      */
     @Override
     public void deliver(String from, String recipient, InputStream data) throws IOException {
-        EmailProcessor.process(from, recipient, data);
+        try {
+            EmailProcessor.process(from, recipient, data);
+        } catch (IncompleteEmailException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }
