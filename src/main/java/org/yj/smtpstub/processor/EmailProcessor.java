@@ -81,7 +81,7 @@ public final class EmailProcessor {
         }
     }
 
-    protected static String getStringFromStream(InputStream is) {
+    protected static String getStringFromStream(@Nonnull InputStream is) {
         // final long prefixLines = 4; // Do not copy the first 4 lines (received part)
         final long prefixLines = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF8")));
@@ -113,6 +113,9 @@ public final class EmailProcessor {
 
             String line;
             while ((line = reader.readLine()) != null) {
+                if (line.equals("")) {
+                    break;
+                }
                 Matcher matcher = SUBJECT_PATTERN.matcher(line);
                 if (matcher.matches()) {
                     return matcher.group(1);
