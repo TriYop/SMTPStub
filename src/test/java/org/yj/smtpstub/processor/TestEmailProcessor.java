@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
  */
 public class TestEmailProcessor {
 
+
+
     @Before
     public void setup() {
 
@@ -62,12 +64,20 @@ public class TestEmailProcessor {
 
     @Test
     public void testProcess_emptyValues() {
+
         try {
+            MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+            EmailProcessor.setStore(store);
+
             EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
             assert true;
-        } catch (IncompleteEmailException e) {
+        } catch (InvalidStoreException e) {
+            fail("Store management seems not to be ready to be used");
+        }  catch (IncompleteEmailException e) {
             fail("No exception should have been thrown.");
         }
+
+
     }
 
     // test getter and setter at once.

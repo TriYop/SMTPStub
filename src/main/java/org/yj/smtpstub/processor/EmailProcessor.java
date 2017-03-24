@@ -113,7 +113,7 @@ public final class EmailProcessor {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.equals("")) {
+                if ("".equals(line)) {
                     break;
                 }
                 Matcher matcher = SUBJECT_PATTERN.matcher(line);
