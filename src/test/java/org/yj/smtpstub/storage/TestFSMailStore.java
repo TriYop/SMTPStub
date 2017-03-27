@@ -240,13 +240,26 @@ public class TestFSMailStore {
         }
     }
 
+    @Test
+    public void testLoadIndex_noJSONFile() {
+        try {
+            Configuration.set("emails.storage.fs.indexfile", "invalid_index.json");
+            FSMailStore.loadIndex();
+            fail("should have thrown an InvalidStoreException");
+        } catch (InvalidStoreException e) {
+            assert true;
+        } catch (Exception e) {
+            fail("method crashed" + e.getMessage());
+        }
+    }
+
 
     @Test
     public void testLoadIndex_nominal() {
         try {
             FSMailStore.loadIndex();
             assert !store.getAllEmails().isEmpty();
-            
+
         } catch (Exception e) {
             fail("method crashed" + e.getMessage());
         }
