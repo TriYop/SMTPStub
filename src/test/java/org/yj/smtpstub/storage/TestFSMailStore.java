@@ -37,7 +37,9 @@ public class TestFSMailStore {
         sampleEmail.setFilePath("sample_path");
         sampleEmail.setReceivedDate(new Date());
 
-        Configuration.set("emails.storage.fs.indexfile", getClass().getResource("/valid_index.json").toString());
+
+
+        Configuration.set("emails.storage.fs.indexfile", getResourceFile("/valid_index.json"));
     }
 
     @After
@@ -230,7 +232,7 @@ public class TestFSMailStore {
     @Test
     public void testLoadIndex_emptyFile() {
         try {
-            Configuration.set("emails.storage.fs.indexfile", "/empty_index.json");
+            Configuration.set("emails.storage.fs.indexfile", getResourceFile("/empty_index.json"));
             FSMailStore.loadIndex();
             assert store.getAllEmails().isEmpty();
         } catch (InvalidStoreException e) {
@@ -243,7 +245,7 @@ public class TestFSMailStore {
     @Test
     public void testLoadIndex_noJSONFile() {
         try {
-            Configuration.set("emails.storage.fs.indexfile", "/invalid_index.json");
+            Configuration.set("emails.storage.fs.indexfile",getResourceFile( "/invalid_index.json"));
             FSMailStore.loadIndex();
             fail("should have thrown an InvalidStoreException");
         } catch (InvalidStoreException e) {
@@ -263,5 +265,10 @@ public class TestFSMailStore {
         } catch (Exception e) {
             fail("method crashed" + e.getMessage());
         }
+    }
+
+
+    public final String getResourceFile(String filename) {
+        return getClass().getResource(filename).getFile();
     }
 }
