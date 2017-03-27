@@ -146,9 +146,10 @@ public class FSMailStore implements MailStore {
 
         } catch (IOException ex) {
             logger.error("Could not load emails index file {}", indexFile, ex);
-
+            throw new InvalidStoreException();
         } catch (ParseException ex) {
             logger.error("Could not parse emails index file {}", indexFile, ex);
+            throw new InvalidStoreException();
         }
     }
 
