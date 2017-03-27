@@ -37,7 +37,7 @@ public class TestFSMailStore {
         sampleEmail.setFilePath("sample_path");
         sampleEmail.setReceivedDate(new Date());
 
-        Configuration.set("emails.storage.fs.indexfile", "valid_index.json");
+        Configuration.set("emails.storage.fs.indexfile", getClass().getResource("/valid_index.json").toString());
     }
 
     @After
