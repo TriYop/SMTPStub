@@ -1,5 +1,6 @@
 package org.yj.smtpstub.storage;
 
+import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -231,9 +232,9 @@ public class TestFSMailStore {
         try {
             Configuration.set("emails.storage.fs.indexfile", "empty_index.json");
             FSMailStore.loadIndex();
-            fail("should have thrown an InvalidStoreException");
+            assert store.getAllEmails().isEmpty();
         } catch (InvalidStoreException e) {
-            assert true;
+            fail("should not have thrown an InvalidStoreException");
         } catch (Exception e) {
             fail("method crashed" + e.getMessage());
         }
@@ -244,6 +245,8 @@ public class TestFSMailStore {
     public void testLoadIndex_nominal() {
         try {
             FSMailStore.loadIndex();
+            assert !store.getAllEmails().isEmpty();
+            
         } catch (Exception e) {
             fail("method crashed" + e.getMessage());
         }
