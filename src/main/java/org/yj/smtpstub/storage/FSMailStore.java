@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.yj.smtpstub.configuration.Configuration;
 import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.model.EmailModel;
+import org.yj.smtpstub.exception.InvalidStoreException;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -133,7 +134,7 @@ public class FSMailStore implements MailStore {
      *
      * @return
      */
-    protected static void loadIndex() {
+    protected static void loadIndex() throws InvalidStoreException {
         String indexFile = Configuration.get("emails.storage.fs.indexfile");
         JSONParser parser = new JSONParser();
         try (FileReader file = new FileReader(indexFile)) {
@@ -145,6 +146,7 @@ public class FSMailStore implements MailStore {
 
         } catch (IOException ex) {
             logger.error("Could not load emails index file {}", indexFile, ex);
+
         } catch (ParseException ex) {
             logger.error("Could not parse emails index file {}", indexFile, ex);
         }

@@ -4,7 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.yj.smtpstub.configuration.Configuration;
 import org.yj.smtpstub.exception.IncompleteEmailException;
+import org.yj.smtpstub.exception.InvalidStoreException;
 import org.yj.smtpstub.model.EmailModel;
 
 import java.io.File;
@@ -208,8 +210,22 @@ public class TestFSMailStore {
     }
 
 
+
     @Test
-    public void testLoadIndex() {
+    public void testLoadIndex_invalidFile() {
+        try {
+            Configuration.set("emails.storage.fs.indexfile", "");
+            FSMailStore.loadIndex();
+            fail("should have thrown an InvalidStoreException");
+        } catch (InvalidStoreException e) {
+            assert true;
+        } catch (Exception e) {
+            fail("method crashed" + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testLoadIndex_nominal() {
         try {
             FSMailStore.loadIndex();
         } catch (Exception e) {
