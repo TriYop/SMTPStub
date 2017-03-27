@@ -35,6 +35,8 @@ public class TestFSMailStore {
         sampleEmail.setFrom("Someone<Someone@example.com>");
         sampleEmail.setFilePath("sample_path");
         sampleEmail.setReceivedDate(new Date());
+
+        Configuration.set("emails.storage.fs.indexfile", "valid_index.json");
     }
 
     @After
@@ -223,6 +225,20 @@ public class TestFSMailStore {
             fail("method crashed" + e.getMessage());
         }
     }
+
+    @Test
+    public void testLoadIndex_emptyFile() {
+        try {
+            Configuration.set("emails.storage.fs.indexfile", "empty_index.json");
+            FSMailStore.loadIndex();
+            fail("should have thrown an InvalidStoreException");
+        } catch (InvalidStoreException e) {
+            assert true;
+        } catch (Exception e) {
+            fail("method crashed" + e.getMessage());
+        }
+    }
+
 
     @Test
     public void testLoadIndex_nominal() {
