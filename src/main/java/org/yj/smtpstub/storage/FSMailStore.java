@@ -138,18 +138,20 @@ public class FSMailStore implements MailStore {
         String indexFile = Configuration.get("emails.storage.fs.indexfile");
         JSONParser parser = new JSONParser();
         try (FileReader file = new FileReader(indexFile)) {
-            Object obj = parser.parse(file);
-            JSONObject jsonObject = (JSONObject) obj;
-
-            emailsList = (JSONArray) jsonObject.getOrDefault("emailsIndex", new JSONArray());
-
-
+            if (file.ready()) {
+                // ...
+                Object obj = parser.parse(file);
+                JSONObject jsonObject = (JSONObject) obj;
+                emailsList = (JSONArray) jsonObject.getOrDefault("emailsIndex", new JSONArray());
+            } else {
+                emailsList = new JSONArray();
+            }
         } catch (IOException ex) {
             logger.error("Could not load emails index file {}", indexFile, ex);
-            throw new InvalidStoreException();
+            throw new InvalidStoreException(ex);
         } catch (ParseException ex) {
             logger.error("Could not parse emails index file {}", indexFile, ex);
-            throw new InvalidStoreException();
+            throw new InvalidStoreException(ex);
         }
     }
 

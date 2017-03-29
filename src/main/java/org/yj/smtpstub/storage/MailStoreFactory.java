@@ -32,17 +32,17 @@ public final class MailStoreFactory {
                 return (MailStore) c.newInstance();
             } else {
                 logger.error("Invalid configuration: {} is not a valid MailStore implementation.");
-                throw new InvalidStoreException();
+                throw new InvalidStoreException(null);
             }
-        } catch (ClassNotFoundException|NullPointerException e) {
-            logger.error("Mail storage engine {} is not a valid Storage engine", type, e);
-            throw new InvalidStoreException();
-        } catch (InstantiationException e) {
-            logger.error("Mail storage engine {} could not be instanciated", type, e);
-            throw new InvalidStoreException();
-        } catch (IllegalAccessException e) {
-            logger.error("Access to class {} is not granted.", type, e);
-            throw new InvalidStoreException();
+        } catch (ClassNotFoundException|NullPointerException ex) {
+            logger.error("Mail storage engine {} is not a valid Storage engine", type, ex);
+            throw new InvalidStoreException(ex);
+        } catch (InstantiationException ex) {
+            logger.error("Mail storage engine {} could not be instanciated", type, ex);
+            throw new InvalidStoreException(ex);
+        } catch (IllegalAccessException ex) {
+            logger.error("Access to class {} is not granted.", type, ex);
+            throw new InvalidStoreException(ex);
         }
 
     }

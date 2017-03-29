@@ -203,7 +203,7 @@ public class TestFSMailStore {
     @Test
     public void testGetEmail_nominal() {
         try {
-
+            store.getAllEmails().clear();
             FSMailStore.addToIndex(sampleEmail);
             EmailModel result = store.getEmail(0);
             assertEquals(sampleEmail, result);
@@ -226,6 +226,7 @@ public class TestFSMailStore {
             assert true;
         } catch (Exception e) {
             fail("method crashed" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -233,12 +234,14 @@ public class TestFSMailStore {
     public void testLoadIndex_emptyFile() {
         try {
             Configuration.set("emails.storage.fs.indexfile", getResourceFile("/empty_index.json"));
-            FSMailStore.loadIndex();
+
+            store.loadIndex();
             assert store.getAllEmails().isEmpty();
         } catch (InvalidStoreException e) {
             fail("should not have thrown an InvalidStoreException");
         } catch (Exception e) {
-            fail("method crashed" + e.getMessage());
+            fail("method crashed with message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -251,7 +254,8 @@ public class TestFSMailStore {
         } catch (InvalidStoreException e) {
             assert true;
         } catch (Exception e) {
-            fail("method crashed" + e.getMessage());
+            fail("method crashed with message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -263,7 +267,8 @@ public class TestFSMailStore {
             assert !store.getAllEmails().isEmpty();
 
         } catch (Exception e) {
-            fail("method crashed" + e.getMessage());
+            fail("method crashed with message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -98,7 +98,7 @@ public final class SMTPServerFactory {
 
         } catch (RuntimeException exception) {
             logger.error("Error '{}' encountered while opening port {}.", exception.getMessage(), port, exception);
-            throw exception;
+            throw new PortBindException(exception, port);
 
         }
     }
