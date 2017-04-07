@@ -34,34 +34,29 @@ public class TestConfiguration {
     @Test
     public void testGet_existingKey() {
         Configuration.set(TEST_STRING_KEY, TEST_STRING_VALUE);
-        assertEquals("either get or set method doesn't do the job.", TEST_STRING_VALUE, Configuration.get(TEST_STRING_KEY));
+        assertEquals("either get or set method doesn't do the job.", TEST_STRING_VALUE, Configuration.get(TEST_STRING_KEY, "modified"+TEST_STRING_VALUE));
     }
 
     @Test
     public void testGet_absentKey() {
-        assertEquals("Get method should return an empty string when key not found", "", Configuration.get(""));
+        assertEquals("Get method should return an empty string when key not found", "defaultValue", Configuration.get("", "defaultValue"));
     }
 
     @Test
     public void testGetInt_existingKey() {
         Configuration.set(TEST_INT_KEY, String.valueOf(TEST_INT_VALUE));
-        assertEquals(TEST_INT_VALUE, Configuration.getInt(TEST_INT_KEY));
+        assertEquals(TEST_INT_VALUE, Configuration.getInt(TEST_INT_KEY, -1));
     }
 
     @Test
     public void testGetInt_absentKey() {
-        assertEquals(0, Configuration.getInt(""));
+        assertEquals(-1, Configuration.getInt("", -1));
     }
 
     @Test
     public void testGetInt_invalidValue() {
-        Configuration.set(TEST_STRING_KEY, TEST_STRING_VALUE);
-        try {
-            int i = Configuration.getInt(TEST_STRING_KEY);
-            fail("should not have returned a value. An exception was expected.");
-        } catch (NumberFormatException ex) {
-            assertTrue(true);
-        }
+        Configuration.set(TEST_STRING_KEY, TEST_STRING_VALUE);assertEquals( -123, Configuration.getInt(TEST_STRING_KEY, -123);
+
     }
 
 

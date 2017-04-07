@@ -9,8 +9,6 @@ import org.yj.smtpstub.service.smtp.SMTPServerFactory;
 import org.yj.smtpstub.storage.FSMailStore;
 import org.yj.smtpstub.storage.MailStoreFactory;
 
-import javax.naming.ConfigurationException;
-
 /**
  * SMTPStub
  * --------------------------------------------

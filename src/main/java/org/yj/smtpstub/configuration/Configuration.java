@@ -29,7 +29,7 @@ public class Configuration {
 
     private static void init() {
         InputStream in = config.getClass().getResourceAsStream(CONFIG_FILE);
-        if (in==null) {
+        if (in == null) {
             config.clear();
             isInit = true;
             return;
@@ -55,10 +55,8 @@ public class Configuration {
         if (!Configuration.isInit) {
             init();
         }
-        if (!config.isEmpty()) {
-            if (config.containsKey(key)) {
-                return config.getProperty(key);
-            }
+        if (!config.isEmpty() && config.containsKey(key)) {
+            return config.getProperty(key);
         }
         return defaultValue;
     }
