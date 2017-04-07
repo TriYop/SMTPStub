@@ -1,7 +1,6 @@
 package org.yj.smtpstub.service.smtp;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**

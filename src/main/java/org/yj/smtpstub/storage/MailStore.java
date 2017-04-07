@@ -20,14 +20,14 @@ public interface MailStore {
      * @param email the email
      * @throws IncompleteEmailException the incomplete email exception
      */
-    public void save(EmailModel email) throws IncompleteEmailException;
+    void save(EmailModel email) throws IncompleteEmailException;
 
     /**
      * Gets all emails.
      *
      * @return the all emails
      */
-    public Collection<EmailModel> getAllEmails();
+    Collection<EmailModel> getAllEmails();
 
     /**
      * Gets email.
@@ -35,5 +35,5 @@ public interface MailStore {
      * @param id the id
      * @return the email
      */
-    public EmailModel getEmail(int id);
+    EmailModel getEmail(int id);
 }

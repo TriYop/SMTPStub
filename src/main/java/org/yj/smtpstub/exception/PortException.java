@@ -18,10 +18,15 @@ public abstract class PortException extends Exception {
      * @param e    the exception we need to copy the stack trace from.
      * @param port the selected port which was the cause of the exception.
      */
-    public PortException(Exception e, int port) {
+    PortException(Exception e, int port) {
         if (e!=null) {
             setStackTrace(e.getStackTrace());
         }
         this.port = port;
+    }
+
+    @Override
+    public String getMessage() {
+        return "Port " + port + " could not be opened.";
     }
 }

@@ -9,7 +9,7 @@
 
     <name>SMTP Stubbed server</name>
     <description>Dummy Headless SMTP server for testing</description>
-    <url>https://github.com/TriYop/FakeSMTP</url>
+    <url>https://github.com/TriYop/SMTPStub</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

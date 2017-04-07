@@ -17,8 +17,8 @@ import java.io.InputStream;
  * @author TriYop
  * @since 1.0
  */
-public final class SMTPListener implements SimpleMessageListener {
-    private Logger logger = LoggerFactory.getLogger(SMTPListener.class);
+final class SMTPListener implements SimpleMessageListener {
+    private static final Logger logger = LoggerFactory.getLogger(SMTPListener.class);
 
     /**
      * determins if messsage will be accepted for delivery or not

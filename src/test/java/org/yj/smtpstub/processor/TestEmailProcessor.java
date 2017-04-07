@@ -1,7 +1,6 @@
 package org.yj.smtpstub.processor;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.exception.InvalidStoreException;

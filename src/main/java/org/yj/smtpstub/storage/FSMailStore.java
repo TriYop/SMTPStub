@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yj.smtpstub.configuration.Configuration;
 import org.yj.smtpstub.exception.IncompleteEmailException;
-import org.yj.smtpstub.model.EmailModel;
 import org.yj.smtpstub.exception.InvalidStoreException;
+import org.yj.smtpstub.model.EmailModel;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -34,7 +34,9 @@ import java.util.Set;
  */
 public class FSMailStore implements MailStore {
     private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
-
+    private static final String DEFAULT_MAILS_DIRECTORY = "inbox";
+    private static final String DEFAULT_MAILS_INDEX_FILE = "index.json";
+    private static final String DEFAULT_MAILS_EXTENSION = "eml";
     /**
      * The Index idx file.
      */
@@ -66,7 +68,7 @@ public class FSMailStore implements MailStore {
      * @return the file descriptor based on the base name and an iterator
      * @throws IOException the io exception
      */
-    protected static synchronized File getUniqueFile(String baseName) throws IOException {
+    static synchronized File getUniqueFile(String baseName) throws IOException {
         int i = 0;
 
         File file = null;
@@ -75,9 +77,9 @@ public class FSMailStore implements MailStore {
             filename.delete(0, filename.length());
             filename.append(baseName);
             if (i++ > 0) {
-                filename.append("_").append(i).append(Configuration.get("mails.suffix"));
+                filename.append("_").append(i).append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
             } else {
-                filename.append(Configuration.get("mails.suffix"));
+                filename.append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
             }
             file = new File(filename.toString());
         }
@@ -93,8 +95,8 @@ public class FSMailStore implements MailStore {
      *
      * @param email the email
      */
-    protected static synchronized void addToIndex(EmailModel email) {
-        if (email==null) {
+    static synchronized void addToIndex(EmailModel email) {
+        if (email == null) {
             logger.warn("A null email was sent for indexing ...");
             return;
         }
@@ -115,7 +117,7 @@ public class FSMailStore implements MailStore {
      */
     protected static synchronized void saveIndex() {
         synchronized (emailsList) {
-            String indexFile = Configuration.get("emails.storage.fs.indexfile");
+            String indexFile = Configuration.get("emails.storage.fs.indexfile", DEFAULT_MAILS_INDEX_FILE);
             JSONObject obj = new JSONObject();
             obj.put("list", emailsList);
             try (FileWriter file = new FileWriter(indexFile)) {
@@ -134,8 +136,8 @@ public class FSMailStore implements MailStore {
      *
      * @return
      */
-    protected static void loadIndex() throws InvalidStoreException {
-        String indexFile = Configuration.get("emails.storage.fs.indexfile");
+    static void loadIndex() throws InvalidStoreException {
+        String indexFile = Configuration.get("emails.storage.fs.indexfile", DEFAULT_MAILS_INDEX_FILE);
         JSONParser parser = new JSONParser();
         try (FileReader file = new FileReader(indexFile)) {
             if (file.ready()) {
@@ -167,7 +169,7 @@ public class FSMailStore implements MailStore {
             throw new IncompleteEmailException();
         }
 
-        String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path"), File.separator,
+        String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path",DEFAULT_MAILS_DIRECTORY), File.separator,
                 dateFormat.format(new Date()));
 
         try {

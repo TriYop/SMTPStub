@@ -1,6 +1,5 @@
 package org.yj.smtpstub.storage;
 
-import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -38,8 +37,8 @@ public class TestFSMailStore {
         sampleEmail.setReceivedDate(new Date());
 
 
-
         Configuration.set("emails.storage.fs.indexfile", getResourceFile("/valid_index.json"));
+
     }
 
     @After
@@ -176,15 +175,27 @@ public class TestFSMailStore {
     }
 
     @Test
-    @Ignore
-    public void testSave_nominal() {
 
+    public void testSave_nominal() {
+        try {
+
+            store.save(sampleEmail);
+        } catch (IncompleteEmailException ex) {
+            fail("Bad email model handling in test.");
+        }
         // store.save();
     }
 
     @Test
     @Ignore
     public void testGetAllEmails_empty() {
+        try {
+            MailStore str = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+
+            assert str.getAllEmails().isEmpty();
+        } catch (InvalidStoreException e) {
+            fail("should not have thrown an invalid store exception.");
+        }
 
     }
 
@@ -201,10 +212,12 @@ public class TestFSMailStore {
     }
 
     @Test
+    @Ignore
     public void testGetEmail_nominal() {
         try {
-            store.getAllEmails().clear();
-            FSMailStore.addToIndex(sampleEmail);
+
+            // FSMailStore.addToIndex(sampleEmail);
+            store.save(sampleEmail);
             EmailModel result = store.getEmail(0);
             assertEquals(sampleEmail, result);
 
@@ -213,7 +226,6 @@ public class TestFSMailStore {
             fail("method shouldn't crash. " + e.getMessage());
         }
     }
-
 
 
     @Test
@@ -235,7 +247,7 @@ public class TestFSMailStore {
         try {
             Configuration.set("emails.storage.fs.indexfile", getResourceFile("/empty_index.json"));
 
-            store.loadIndex();
+            FSMailStore.loadIndex();
             assert store.getAllEmails().isEmpty();
         } catch (InvalidStoreException e) {
             fail("should not have thrown an InvalidStoreException");
@@ -248,7 +260,7 @@ public class TestFSMailStore {
     @Test
     public void testLoadIndex_noJSONFile() {
         try {
-            Configuration.set("emails.storage.fs.indexfile",getResourceFile( "/invalid_index.json"));
+            Configuration.set("emails.storage.fs.indexfile", getResourceFile("/invalid_index.json"));
             FSMailStore.loadIndex();
             fail("should have thrown an InvalidStoreException");
         } catch (InvalidStoreException e) {
