@@ -2,6 +2,7 @@ package org.yj.smtpstub.service.smtp;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * SMTPStub
@@ -20,5 +21,13 @@ public class TestSMTPAuthHandler {
     @Test
     public void testGetIdentity () {
         smtpAuthHandler.getIdentity();
+    }
+
+    @Test
+    public void testAuth() {
+        assertEquals(SMTPAuthHandler.CALLBACK_USERNAME, smtpAuthHandler.auth(""));
+        assertEquals(SMTPAuthHandler.CALLBACK_PASSWORD, smtpAuthHandler.auth(""));
+        assertEquals(SMTPAuthHandler."", smtpAuthHandler.auth(""));
+
     }
 }

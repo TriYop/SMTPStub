@@ -1,5 +1,6 @@
 package org.yj.smtpstub.configuration;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.util.Properties;
  * @since 1.0
  */
 public class Configuration {
-
+    private  static  final Logger logger = LoggerFactory.getLogger(Configuration.class);
     private static final String CONFIG_FILE = "/configuration.properties";
     private static final Properties config = new Properties();
     private static boolean isInit = false;
@@ -74,7 +75,7 @@ public class Configuration {
             try {
                 value =  Integer.parseInt(config.getProperty(key));
             } catch(NumberFormatException e) {
-
+                logger.warn("Value for key '" + key + "' was expected to be integer.");
             }
         }
         return value;

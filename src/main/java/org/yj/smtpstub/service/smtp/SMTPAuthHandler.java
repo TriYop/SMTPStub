@@ -11,11 +11,10 @@ import org.subethamail.smtp.AuthenticationHandler;
  * @since 1.0
  */
 /*package*/ final class SMTPAuthHandler implements AuthenticationHandler {
-    private static final String USER_IDENTITY = "User"
-            ;
+    private static final String USER_IDENTITY = "User";
     // TODO: encode messages with Base64 codec instead of hardcoding them
-    private static final String CALLBACK_USERNAME = "334 VXNlcm5hbWU6"; // VXNlcm5hbWU6 is base64 for "Username:"
-    private static final String CALLBACK_PASSWORD = "334 UGFzc3dvcmQ6"; // UGFzc3dvcmQ6 is base64 for "Password:"
+    public static final String CALLBACK_USERNAME = "334 VXNlcm5hbWU6"; // VXNlcm5hbWU6 is base64 for "Username:"
+    public static final String CALLBACK_PASSWORD = "334 UGFzc3dvcmQ6"; // UGFzc3dvcmQ6 is base64 for "Password:"
 
     private int pass = 0;
 
@@ -28,14 +27,17 @@ import org.subethamail.smtp.AuthenticationHandler;
     @Override
     public String auth(String clientInput) {
         String prompt;
-
-        if (++pass == 1) {
-            prompt = SMTPAuthHandler.CALLBACK_USERNAME;
-        } else if (pass == 2) {
-            prompt = SMTPAuthHandler.CALLBACK_PASSWORD;
-        } else {
-            pass = 0;
-            prompt = null;
+        pass++; // increment pass number
+        switch (pass) {
+            case 1:
+                prompt = SMTPAuthHandler.CALLBACK_USERNAME;
+                break;
+            case 2:
+                prompt = SMTPAuthHandler.CALLBACK_PASSWORD;
+                break;
+            default:
+                pass = 0;
+                prompt = null;
         }
         return prompt;
     }
