@@ -27,7 +27,7 @@ public class TestSMTPAuthHandler {
     public void testAuth() {
         assertEquals(SMTPAuthHandler.CALLBACK_USERNAME, smtpAuthHandler.auth(""));
         assertEquals(SMTPAuthHandler.CALLBACK_PASSWORD, smtpAuthHandler.auth(""));
-        assertEquals(SMTPAuthHandler."", smtpAuthHandler.auth(""));
+        assertEquals("", smtpAuthHandler.auth(""));
 
     }
 }
