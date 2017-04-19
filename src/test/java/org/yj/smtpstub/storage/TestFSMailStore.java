@@ -145,9 +145,9 @@ public class TestFSMailStore {
     }
 
     @Test
-    @Ignore
     public void testAddToIndex_nominal() {
-
+        FSMailStore.addToIndex(sampleEmail);;
+        assertFalse(store.getAllEmails().isEmpty());
     }
 
     @Test
@@ -187,11 +187,10 @@ public class TestFSMailStore {
     }
 
     @Test
-    @Ignore
     public void testGetAllEmails_empty() {
         try {
             MailStore str = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
-
+            str.getAllEmails().clear();
             assert str.getAllEmails().isEmpty();
         } catch (InvalidStoreException e) {
             fail("should not have thrown an invalid store exception.");
@@ -202,6 +201,8 @@ public class TestFSMailStore {
     @Test
     @Ignore
     public void testGetAllEmails_invalidIndex() {
+
+
 
     }
 

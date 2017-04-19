@@ -6,6 +6,7 @@ import org.subethamail.smtp.server.SMTPServer;
 import org.yj.smtpstub.exception.InvalidHostException;
 import org.yj.smtpstub.exception.PortException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 
@@ -42,7 +43,7 @@ public class TestSMTPServerFactory {
             srvr.stop();
             fail("A port exception was expected");
         } catch (PortException e) {
-            assert true;
+            assertEquals("Port " + 0 + " could not be opened.", e.getMessage());
         } catch (InvalidHostException e) {
             fail("A port exception was expected instead of a InvalidHost");
         }
@@ -55,7 +56,7 @@ public class TestSMTPServerFactory {
             srvr.stop();
             fail("A port exception was expected");
         } catch (PortException e) {
-            assert true;
+            assertEquals("Port " + 65536 + " could not be opened.", e.getMessage());
         } catch (InvalidHostException e) {
             fail("A port exception was expected instead of a InvalidHost");
         }

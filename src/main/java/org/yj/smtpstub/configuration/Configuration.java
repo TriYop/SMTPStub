@@ -69,10 +69,15 @@ public class Configuration {
         if (!Configuration.isInit) {
             init();
         }
+        int value = defaultValue;
         if (config.containsKey(key)) {
-            return Integer.parseInt(config.getProperty(key));
+            try {
+                value =  Integer.parseInt(config.getProperty(key));
+            } catch(NumberFormatException e) {
+
+            }
         }
-        return defaultValue;
+        return value;
     }
 
     /**

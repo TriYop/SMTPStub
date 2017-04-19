@@ -55,8 +55,8 @@ public class TestConfiguration {
 
     @Test
     public void testGetInt_invalidValue() {
-        Configuration.set(TEST_STRING_KEY, TEST_STRING_VALUE);assertEquals( -123, Configuration.getInt(TEST_STRING_KEY, -123);
-
+        Configuration.set(TEST_STRING_KEY, TEST_STRING_VALUE);
+        assertEquals( -123, Configuration.getInt(TEST_STRING_KEY, -123));
     }
 
 
