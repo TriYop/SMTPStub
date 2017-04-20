@@ -42,7 +42,7 @@ public final class MailStoreFactory {
             logger.error("Access to class {} is not granted.", type, ex);
             exc = new InvalidStoreException(ex);
         }
-        if (null != exc) {
+        if (null == exc) {
             logger.error("Invalid configuration: {} is not a valid MailStore implementation.", type);
             exc = new InvalidStoreException(null);
         }
