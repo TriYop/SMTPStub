@@ -26,24 +26,27 @@ public final class MailStoreFactory {
      * @throws InvalidStoreException
      */
     public static MailStore getMailStore(String type) throws InvalidStoreException {
+        InvalidStoreException exc = null;
         try {
             Class c = Class.forName(type);
             if (MailStore.class.isAssignableFrom(c)) {
                 return (MailStore) c.newInstance();
-            } else {
-                logger.error("Invalid configuration: {} is not a valid MailStore implementation.");
-                throw new InvalidStoreException(null);
             }
-        } catch (ClassNotFoundException|NullPointerException ex) {
+        } catch (ClassNotFoundException | NullPointerException ex) {
             logger.error("Mail storage engine {} is not a valid Storage engine", type, ex);
-            throw new InvalidStoreException(ex);
+            exc = new InvalidStoreException(ex);
         } catch (InstantiationException ex) {
             logger.error("Mail storage engine {} could not be instanciated", type, ex);
-            throw new InvalidStoreException(ex);
+            exc = new InvalidStoreException(ex);
         } catch (IllegalAccessException ex) {
             logger.error("Access to class {} is not granted.", type, ex);
-            throw new InvalidStoreException(ex);
+            exc = new InvalidStoreException(ex);
         }
+        if (null != exc) {
+            logger.error("Invalid configuration: {} is not a valid MailStore implementation.", type);
+            exc = new InvalidStoreException(null);
+        }
+        throw exc;
 
     }
 }
