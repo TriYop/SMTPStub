@@ -213,7 +213,6 @@ public class TestFSMailStore {
     }
 
     @Test
-    @Ignore
     public void testGetEmail_nominal() {
         try {
 
@@ -221,7 +220,6 @@ public class TestFSMailStore {
             store.save(sampleEmail);
             EmailModel result = store.getEmail(0);
             assertEquals(sampleEmail, result);
-
 
         } catch (Exception e) {
             fail("method shouldn't crash. " + e.getMessage());

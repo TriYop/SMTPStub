@@ -169,7 +169,7 @@ public class FSMailStore implements MailStore {
             throw new IncompleteEmailException();
         }
 
-        String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path",DEFAULT_MAILS_DIRECTORY), File.separator,
+        String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path", DEFAULT_MAILS_DIRECTORY), File.separator,
                 dateFormat.format(new Date()));
 
         try {
@@ -208,16 +208,21 @@ public class FSMailStore implements MailStore {
      * @return
      */
     @Override
-    public EmailModel getEmail(int id) {
-        JSONObject emailObj = (JSONObject) emailsList.get(id);
-        EmailModel email = new EmailModel();
-        email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
-        email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
-        email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
-        email.setTo((String) emailObj.get(INDEX_IDX_TO));
-        email.setReceivedDate((Date) emailObj.get(INDEX_IDX_DATE));
-        // TODO: load email content from file
+    public EmailModel getEmail(int id) throws InvalidStoreException {
+        try {
+            JSONObject emailObj = (JSONObject) emailsList.get(id);
+            EmailModel email = new EmailModel();
+            email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
+            email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
+            email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
+            email.setTo((String) emailObj.get(INDEX_IDX_TO));
+            email.setReceivedDate((Date) emailObj.get(INDEX_IDX_DATE));
+            // TODO: load email content from file
 
-        return email;
+            return email;
+        } catch (NullPointerException ex) {
+            logger.error("Could not load email from index.");
+            throw new InvalidStoreException(ex);
+        }
     }
 }
