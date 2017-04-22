@@ -44,7 +44,7 @@ public final class MailStoreFactory {
         }
         if (null == exc) {
             logger.error("Invalid configuration: {} is not a valid MailStore implementation.", type);
-            exc = new InvalidStoreException(null);
+            exc = new InvalidStoreException(new Exception("Invalid configuration"));
         }
         throw exc;
 

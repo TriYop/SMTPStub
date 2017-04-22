@@ -1,1 +1,11 @@
-{"emailsIndex":[{"index":0}]}
+{
+  "list": [
+    {
+      "date": "2017-04-22 11:26:41.587",
+      "file": "sample_path",
+      "subject": "This is the subject",
+      "from": "Someone<Someone@example.com>",
+      "to": "Somebody<somebody@example.com>"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -34,9 +35,10 @@ import java.util.Set;
  */
 public class FSMailStore implements MailStore {
     private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
-    private static final String DEFAULT_MAILS_DIRECTORY = "inbox";
-    private static final String DEFAULT_MAILS_INDEX_FILE = "index.json";
-    private static final String DEFAULT_MAILS_EXTENSION = "eml";
+    public static final String DEFAULT_MAILS_DIRECTORY = "inbox";
+    public static final String DEFAULT_MAILS_INDEX_FILE = "index.json";
+    public static final String DEFAULT_MAILS_EXTENSION = "eml";
+    public static final String INDEX_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss.SSS";
     /**
      * The Index idx file.
      */
@@ -57,6 +59,8 @@ public class FSMailStore implements MailStore {
      * The Index idx date.
      */
     static final String INDEX_IDX_DATE = "date";
+
+    static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
     private static JSONArray emailsList = new JSONArray();
@@ -106,7 +110,7 @@ public class FSMailStore implements MailStore {
         emailObj.put(INDEX_IDX_SUBJECT, email.getSubject());
         emailObj.put(INDEX_IDX_FROM, email.getFrom());
         emailObj.put(INDEX_IDX_TO, email.getTo());
-        emailObj.put(INDEX_IDX_DATE, email.getReceivedDate());
+        emailObj.put(INDEX_IDX_DATE, indexDateFormat.format(email.getReceivedDate()));
         synchronized (emailsList) {
             emailsList.add(emailObj);
         }
@@ -144,7 +148,7 @@ public class FSMailStore implements MailStore {
                 // ...
                 Object obj = parser.parse(file);
                 JSONObject jsonObject = (JSONObject) obj;
-                emailsList = (JSONArray) jsonObject.getOrDefault("emailsIndex", new JSONArray());
+                emailsList = (JSONArray) jsonObject.getOrDefault("list", new JSONArray());
             } else {
                 emailsList = new JSONArray();
             }
@@ -197,7 +201,11 @@ public class FSMailStore implements MailStore {
             email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
             email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
             email.setTo((String) emailObj.get(INDEX_IDX_TO));
-            email.setReceivedDate((Date) emailObj.get(INDEX_IDX_DATE));
+            try {
+                email.setReceivedDate(indexDateFormat.parse((String) emailObj.get(INDEX_IDX_DATE)));
+            } catch (java.text.ParseException ex) {
+                logger.warn(ex.getMessage());
+            }
             models.add(email);
         });
         return models;
