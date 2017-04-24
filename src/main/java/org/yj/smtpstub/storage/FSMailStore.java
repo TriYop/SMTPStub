@@ -82,7 +82,7 @@ public class FSMailStore implements MailStore {
     /**
      * DateFormat utility instance to format received emails filenames
      */
-    private final SimpleDateFormat filenameDateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
+    private transient final SimpleDateFormat filenameDateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
     /**
      * JSON Array to store in memory the emails index
      */
