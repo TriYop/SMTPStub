@@ -23,14 +23,24 @@ import java.util.regex.Pattern;
  */
 public final class EmailProcessor {
 
+    /**
+     * logs events into a dedicated stream
+     */
     private static final Logger logger = LoggerFactory.getLogger(EmailProcessor.class);
+    /**
+     * Subject  matching pattern
+     */
     private static final Pattern SUBJECT_PATTERN = Pattern.compile("^Subject: (.*)$");
+    /**
+     * global Mail store object
+     */
     private static MailStore store = null;
 
     /**
      *
      */
-    private EmailProcessor() {}
+    private EmailProcessor() {
+    }
 
     /**
      * Gets store.
@@ -58,7 +68,7 @@ public final class EmailProcessor {
      * @param data the data
      */
     public static final void process(String from, String to, InputStream data) throws org.yj.smtpstub.exception.IncompleteEmailException {
-        if (from==null || to==null || data==null)  {
+        if (from == null || to == null || data == null) {
             throw new IncompleteEmailException();
         }
 
@@ -72,18 +82,22 @@ public final class EmailProcessor {
         model.setReceivedDate(new Date());
 
         if (store != null) {
-           try {
-               store.save(model);
-           } catch (IncompleteEmailException e) {
-               logger.error("email was incomplete.  ", e);
-           }
+            try {
+                store.save(model);
+            } catch (IncompleteEmailException e) {
+                logger.error("email was incomplete.  ", e);
+            }
 
         }
     }
 
-     static String getStringFromStream(@Nonnull InputStream is) {
+    /**
+     * @param is the input stream that will be transformed into a String
+     * @return
+     */
+    static String getStringFromStream(@Nonnull InputStream is) {
         // final long prefixLines = 4; // Do not copy the first 4 lines (received part)
-        final long prefixLines = 0;
+        long prefixLines = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF8")));
         StringBuilder sb = new StringBuilder();
 

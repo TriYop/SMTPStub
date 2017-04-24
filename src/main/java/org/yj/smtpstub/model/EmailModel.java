@@ -13,11 +13,30 @@ import java.util.Date;
  */
 public final class EmailModel {
 
+    /**
+     * date when message was received by server.
+     * This may not be execution time due to asynchronous handling
+     */
     private Date receivedDate;
+    /**
+     * message emitter
+     */
     private String from;
+    /**
+     * message recipient
+     */
     private String to;
+    /**
+     * message subject
+     */
     private String subject;
+    /**
+     * message content body
+     */
     private String emailStr;
+    /**
+     * message file path used for storing message.
+     */
     private String filePath;
 
 

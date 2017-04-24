@@ -10,15 +10,15 @@ import org.subethamail.smtp.AuthenticationHandler;
  * @author TriYop
  * @since 1.0
  */
-/*package*/ final class SMTPAuthHandler implements AuthenticationHandler {
-    // default user identity for simulating authentication.
+final class SMTPAuthHandler implements AuthenticationHandler {
+    /** default user identity for simulating authentication. **/
     private static final String USER_IDENTITY = "User";
     // TODO: encode messages with Base64 codec instead of hardcoding them
-    // VXNlcm5hbWU6 is base64 for "Username:"
+    /** VXNlcm5hbWU6 is base64 for "Username:" */
     public static final String CALLBACK_USERNAME = "334 VXNlcm5hbWU6";
-    // UGFzc3dvcmQ6 is base64 for "Password:"
+    /** UGFzc3dvcmQ6 is base64 for "Password:" */
     public static final String CALLBACK_PASSWORD = "334 UGFzc3dvcmQ6";
-    // initializes pass number to 0
+    /** initializes pass number to 0 */
     private transient int pass = 0;
 
     /**
