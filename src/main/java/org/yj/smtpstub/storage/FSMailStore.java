@@ -42,25 +42,26 @@ public class FSMailStore implements MailStore {
     /**
      * The Index idx file.
      */
-    static final String INDEX_IDX_FILE = "file";
+    private static final String INDEX_IDX_FILE = "file";
     /**
      * The Index idx to.
      */
-    static final String INDEX_IDX_TO = "to";
+    private static final String INDEX_IDX_TO = "to";
     /**
      * The Index idx from.
      */
-    static final String INDEX_IDX_FROM = "from";
+    private static final String INDEX_IDX_FROM = "from";
     /**
      * The Index idx subject.
      */
-    static final String INDEX_IDX_SUBJECT = "subject";
+    private static final String INDEX_IDX_SUBJECT = "subject";
     /**
      * The Index idx date.
      */
-    static final String INDEX_IDX_DATE = "date";
+    private static final String INDEX_IDX_DATE = "date";
 
-    static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
+    //
+    private static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
     private static JSONArray emailsList = new JSONArray();

@@ -34,7 +34,10 @@ public final class EmailModel {
      * @return the received date
      */
     public Date getReceivedDate() {
-        return receivedDate;
+        if (receivedDate == null) {
+            return null;
+        }
+        return (Date) receivedDate.clone();
     }
 
     /**
@@ -42,8 +45,13 @@ public final class EmailModel {
      *
      * @param receivedDate the received date
      */
-    public void setReceivedDate(Date receivedDate) {
-        this.receivedDate = receivedDate;
+
+    public void setReceivedDate(final Date receivedDate) {
+        if (receivedDate == null) {
+            this.receivedDate = null;
+        } else {
+            this.receivedDate = (Date) receivedDate.clone();
+        }
     }
 
     /**

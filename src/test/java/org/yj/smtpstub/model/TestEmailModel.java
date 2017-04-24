@@ -30,6 +30,8 @@ public class TestEmailModel {
         Date now = new Date();
         model.setReceivedDate(now);
         assertEquals("Expecting the provided date to be returned after setting value", now, model.getReceivedDate());
+        model.setReceivedDate(null);
+        assertEquals("Expecting value to be reset to null after null asignment", null, model.getReceivedDate());
     }
 
     @Test
