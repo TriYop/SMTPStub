@@ -271,6 +271,17 @@ public class TestFSMailStore {
     }
 
 
+    @Test
+    @Ignore
+    public void testSaveIndex_nominal() {
+        try {
+            //FIXME: implement this test with valid in and out index.
+            FSMailStore.saveIndex();
+        } catch (Exception e) {
+            fail("method crashed");
+        }
+    }
+
     public final String getResourceFile(String filename) {
         return  getClass().getResource(filename).getPath();
     }
