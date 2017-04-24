@@ -228,14 +228,10 @@ public class FSMailStore implements MailStore {
      */
     @Override
     public EmailModel getEmail(int id) throws InvalidStoreException {
-        try {
-            JSONObject emailObj = (JSONObject) emailsList.get(id);
-            return getEmailFromJSONObject(emailObj);
-            // TODO: load email content from file
+        JSONObject emailObj = (JSONObject) emailsList.get(id);
+        return getEmailFromJSONObject(emailObj);
+        // TODO: load email content from file
 
-        } catch (NullPointerException ex) {
-            logger.error("Could not load email from index.");
-            throw new InvalidStoreException(ex);
-        }
+
     }
 }

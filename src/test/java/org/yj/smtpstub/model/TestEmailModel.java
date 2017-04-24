@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+
 /**
  * SMTPStub
  * --------------------------------------------
@@ -87,19 +88,19 @@ public class TestEmailModel {
         model.setEmailStr("Subject: test\n\n");
         assertTrue(model.hasEmptyField());
 
-        model.setTo("to_value");
+        model.setFilePath("inbox/test");
         assertTrue(model.hasEmptyField());
 
         model.setFrom("from_value");
         assertTrue(model.hasEmptyField());
 
+        model.setReceivedDate(new Date());
+        assertTrue(model.hasEmptyField());
+
         model.setSubject("subject_value");
         assertTrue(model.hasEmptyField());
 
-        model.setFilePath("inbox/test");
-        assertTrue(model.hasEmptyField());
-
-        model.setReceivedDate(new Date());
+        model.setTo("to_value");
         assertFalse(model.hasEmptyField());
 
     }
