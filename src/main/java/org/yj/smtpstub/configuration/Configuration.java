@@ -16,9 +16,21 @@ import java.util.Properties;
  * @since 1.0
  */
 public class Configuration {
+    /**
+     * logs events in a dedicated stream
+     */
     private  static  final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    /**
+     * default configuration file name
+     */
     private static final String CONFIG_FILE = "/configuration.properties";
+    /**
+     * config properties in memory representation
+     */
     private static final Properties config = new Properties();
+    /**
+     * tells if config has already been initialized.
+     */
     private static boolean isInit = false;
 
     /**
@@ -28,21 +40,27 @@ public class Configuration {
         init();
     }
 
+    /**
+     * Initializes
+     */
     private static void init() {
         InputStream in = config.getClass().getResourceAsStream(CONFIG_FILE);
-        if (in == null) {
-            config.clear();
-            isInit = true;
-            return;
-        }
-        try {
-            // Load defaults settings
-            config.load(in);
-            in.close();
-            isInit = true;
-            // and override them from user settings
-        } catch (IOException e) {
-            LoggerFactory.getLogger(Configuration.class).error("", e);
+        synchronized (config) {
+            if (in == null) {
+                config.clear();
+                isInit = true;
+                return;
+            }
+            try {
+                // Load defaults settings
+
+                config.load(in);
+                in.close();
+                isInit = true;
+                // and override them from user settings
+            } catch (IOException e) {
+                LoggerFactory.getLogger(Configuration.class).error("", e);
+            }
         }
     }
 

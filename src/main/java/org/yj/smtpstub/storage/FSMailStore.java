@@ -34,10 +34,25 @@ import java.util.Set;
  * @since 1.0
  */
 public class FSMailStore implements MailStore {
+    /**
+     * logs events to a dedicated stream
+     */
     private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
+    /**
+     * defines default directory for storing received emails
+     */
     public static final String DEFAULT_MAILS_DIRECTORY = "inbox";
+    /**
+     * defines default index file name
+     */
     public static final String DEFAULT_MAILS_INDEX_FILE = "index.json";
+    /**
+     * defines received emails default file extension
+     */
     public static final String DEFAULT_MAILS_EXTENSION = "eml";
+    /**
+     * defines index date format to be used for storage
+     */
     public static final String INDEX_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss.SSS";
     /**
      * The Index idx file.
@@ -60,10 +75,17 @@ public class FSMailStore implements MailStore {
      */
     private static final String INDEX_IDX_DATE = "date";
 
-    //
+    /**
+     * DateFormat utility instance to parse and format Index stored dates
+     */
     private static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
-
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
+    /**
+     * DateFormat utility instance to format received emails filenames
+     */
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
+    /**
+     * JSON Array to store in memory the emails index
+     */
     private static JSONArray emailsList = new JSONArray();
 
     /**
