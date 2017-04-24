@@ -135,4 +135,13 @@ public final class EmailModel {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
+
+    /**
+     * @return
+     */
+    public boolean hasEmptyField() {
+        return null == this.emailStr || null == this.filePath || null == this.from || null == this.receivedDate || null == this.subject || null == this.to;
+    }
+
+
 }

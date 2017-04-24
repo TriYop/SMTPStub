@@ -22,7 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -86,6 +86,7 @@ public class FSMailStore implements MailStore {
                 filename.append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
             }
             file = new File(filename.toString());
+            logger.info("Checking if filename '{}' is valid", filename);
         }
         if (!file.createNewFile()) {
             throw new IOException("File " + filename.toString() + " could not be created");
@@ -100,8 +101,8 @@ public class FSMailStore implements MailStore {
      * @param email the email
      */
     static synchronized void addToIndex(EmailModel email) {
-        if (email == null) {
-            logger.warn("A null email was sent for indexing ...");
+        if (email == null || email.hasEmptyField()) {
+            logger.warn("A null or incomplete email was sent for indexing ...");
             return;
         }
         JSONObject emailObj = new JSONObject();
@@ -189,24 +190,34 @@ public class FSMailStore implements MailStore {
     }
 
     /**
+     * common method for parsing email models from JSON Objects
+     *
+     * @param emailObj
+     * @return
+     */
+    private static final EmailModel getEmailFromJSONObject(JSONObject emailObj) {
+        EmailModel email = new EmailModel();
+        email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
+        email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
+        email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
+        email.setTo((String) emailObj.get(INDEX_IDX_TO));
+        try {
+            email.setReceivedDate(indexDateFormat.parse((String) emailObj.get(INDEX_IDX_DATE)));
+        } catch (java.text.ParseException ex) {
+            logger.warn(ex.getMessage());
+        }
+        return email;
+    }
+
+    /**
      * @return
      */
     @Override
     public Collection<EmailModel> getAllEmails() {
-        Set<EmailModel> models = new HashSet<>();
+        Set<EmailModel> models = new LinkedHashSet<>();
         emailsList.forEach((Object obj) -> {
             JSONObject emailObj = (JSONObject) obj;
-            EmailModel email = new EmailModel();
-            email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
-            email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
-            email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
-            email.setTo((String) emailObj.get(INDEX_IDX_TO));
-            try {
-                email.setReceivedDate(indexDateFormat.parse((String) emailObj.get(INDEX_IDX_DATE)));
-            } catch (java.text.ParseException ex) {
-                logger.warn(ex.getMessage());
-            }
-            models.add(email);
+            models.add(getEmailFromJSONObject(emailObj));
         });
         return models;
     }
@@ -219,15 +230,9 @@ public class FSMailStore implements MailStore {
     public EmailModel getEmail(int id) throws InvalidStoreException {
         try {
             JSONObject emailObj = (JSONObject) emailsList.get(id);
-            EmailModel email = new EmailModel();
-            email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
-            email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
-            email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
-            email.setTo((String) emailObj.get(INDEX_IDX_TO));
-            email.setReceivedDate((Date) emailObj.get(INDEX_IDX_DATE));
+            return getEmailFromJSONObject(emailObj);
             // TODO: load email content from file
 
-            return email;
         } catch (NullPointerException ex) {
             logger.error("Could not load email from index.");
             throw new InvalidStoreException(ex);

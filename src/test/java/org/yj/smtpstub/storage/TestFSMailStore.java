@@ -134,7 +134,7 @@ public class TestFSMailStore {
         try {
             FSMailStore.addToIndex(null);
         } catch (NullPointerException e) {
-            fail("Null pointer exceptions should have been thrown");
+            fail("Null pointer exceptions should have been caught");
         }
     }
 
@@ -144,8 +144,9 @@ public class TestFSMailStore {
         EmailModel model = new EmailModel();
         try {
             FSMailStore.addToIndex(model);
+            assertTrue(true);
         } catch (NullPointerException e) {
-            fail("Null pointer exceptions should have been thrown");
+            fail("Null pointer exceptions should have been caught");
         }
 
     }
@@ -193,14 +194,19 @@ public class TestFSMailStore {
 
 
     @Test
-    @Ignore
     public void testGetEmail_nominal() {
         try {
-
-            // FSMailStore.addToIndex(sampleEmail);
-            store.save(sampleEmail);
+            EmailModel expect = (EmailModel)store.getAllEmails().toArray()[0];
             EmailModel result = store.getEmail(0);
-            assertEquals(sampleEmail, result);
+
+            assertEquals(expect.getFilePath(), result.getFilePath());
+            assertEquals(expect.getFrom(), result.getFrom());
+            assertEquals(expect.getTo(), result.getTo());
+            assertEquals(expect.getReceivedDate(),result.getReceivedDate());
+            assertEquals(expect.getSubject(), result.getSubject());
+            assertEquals(expect.getEmailStr(), result.getEmailStr());
+
+            // assertEquals(expect, result);
 
         } catch (Exception e) {
             fail("method shouldn't crash. " + e.getMessage());
