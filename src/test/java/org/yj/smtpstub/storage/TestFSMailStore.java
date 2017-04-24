@@ -179,10 +179,31 @@ public class TestFSMailStore {
         } catch (Exception e) {
             fail("An IncompleteEmailException should have been thrown");
         }
+
+        try {
+            EmailModel model = new EmailModel();
+            model.setReceivedDate(new Date());
+            store.save(model);
+            fail("An IncompleteEmailException should have been thrown");
+        } catch (IncompleteEmailException e) {
+            assertTrue(true);
+        } catch (Exception e) {
+            fail("An IncompleteEmailException should have been thrown");
+        }
+
+        try {
+            EmailModel model = new EmailModel();
+            model.setEmailStr("not empty string");
+            store.save(model);
+            fail("An IncompleteEmailException should have been thrown");
+        } catch (IncompleteEmailException e) {
+            assertTrue(true);
+        } catch (Exception e) {
+            fail("An IncompleteEmailException should have been thrown");
+        }
     }
 
     @Test
-
     public void testSave_nominal() {
         try {
             store.save(sampleEmail);
