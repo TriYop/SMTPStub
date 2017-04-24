@@ -82,7 +82,7 @@ public class FSMailStore implements MailStore {
     /**
      * DateFormat utility instance to format received emails filenames
      */
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
+    private final SimpleDateFormat filenameDateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
     /**
      * JSON Array to store in memory the emails index
      */
@@ -198,7 +198,7 @@ public class FSMailStore implements MailStore {
         }
 
         String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path", DEFAULT_MAILS_DIRECTORY), File.separator,
-                dateFormat.format(new Date()));
+                filenameDateFormat.format(new Date()));
 
         try {
             File file = getUniqueFile(filePath);
