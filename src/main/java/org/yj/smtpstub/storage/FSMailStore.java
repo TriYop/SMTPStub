@@ -204,12 +204,12 @@ public class FSMailStore implements MailStore {
             File file = getUniqueFile(filePath);
             email.setFilePath(file.getPath());
             FileUtils.writeStringToFile(file, email.getEmailStr());
+            // we want to update the index only when email is well stored onto disk
+            addToIndex(email);
+            saveIndex();
         } catch (IOException e) {
             logger.error("Error: Can't save email: {}", e.getMessage(), e);
         }
-
-        addToIndex(email);
-        saveIndex();
     }
 
     /**
