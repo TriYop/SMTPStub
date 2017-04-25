@@ -55,7 +55,7 @@ final class SMTPStub {
 
             EmailProcessor.setStore(MailStoreFactory.getMailStore(storeClassNmae));
             server = SMTPServerFactory.getRunningServer(
-                    Configuration.getInt("smtp.secure.port", DEFAULT_LISTEN_PORT),
+                    Configuration.getInt("smtp.default.port", DEFAULT_LISTEN_PORT),
                     Configuration.get("smtp.bind.address", DEFAULT_BIND_ADDRESS));
         } catch (NumberFormatException e) {
             logger.error("Error: Invalid port number", e);
