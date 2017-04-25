@@ -55,7 +55,7 @@ public class TestFSMailStore {
     @Test
     public void testGetUniqueFile_invalidPath() {
         try {
-            File f = FSMailStore.getUniqueFile("xw:\\toto");
+            File f = FSMailStore.getUniqueFile("xw:///toto");
             fail("An exception should have been thrown for this invalid path.");
         } catch (IOException e) {
             assertTrue(true);
@@ -66,7 +66,7 @@ public class TestFSMailStore {
 
     @Test
     public void testGetUniqueFile_missingDir() {
-        String filename = "C:\\TMPMAILS\\toto";
+        String filename = "/TMPMAILS/toto";
         File f = null;
 
         try {
@@ -85,11 +85,11 @@ public class TestFSMailStore {
 
     @Test
     public void testGetUniqueFile_withoutCollision() {
-        String baseName = "C:\\toto";
+        String baseName = "toto";
         File f = null;
         try {
             f = FSMailStore.getUniqueFile(baseName);
-            assertEquals("File name should be equal to provided name + .eml extension", baseName + ".eml", f.getPath());
+            assertEquals("File name should be equal to provided name + .eml extension", baseName + ".eml", f.getName());
         } catch (IOException e) {
             assertTrue(true);
         } catch (Exception e) {
@@ -103,7 +103,7 @@ public class TestFSMailStore {
 
     @Test
     public void testGetUniqueFile_withCollision() {
-        String baseName = "e:\\toto";
+        String baseName = "toto";
         File f1 = null;
         File f2 = null;
         try {
@@ -293,7 +293,6 @@ public class TestFSMailStore {
 
 
     @Test
-    @Ignore
     public void testSaveIndex_nominal() {
         try {
             //FIXME: implement this test with valid in and out index.
