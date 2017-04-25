@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.subethamail.smtp.server.SMTPServer;
 import org.yj.smtpstub.exception.InvalidHostException;
+import org.yj.smtpstub.exception.NetworkException;
 import org.yj.smtpstub.exception.PortException;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +31,7 @@ public class TestSMTPServerFactory {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(0, null);
             srvr.stop();
             fail("An exception was expected");
-        } catch (PortException | InvalidHostException e) {
+        } catch (NetworkException e) {
             assert true;
 
         }
@@ -44,7 +45,7 @@ public class TestSMTPServerFactory {
             fail("A port exception was expected");
         } catch (PortException e) {
             assertEquals("Port " + 0 + " could not be opened.", e.getMessage());
-        } catch (InvalidHostException e) {
+        } catch (NetworkException e) {
             fail("A port exception was expected instead of a InvalidHost");
         }
     }
@@ -57,7 +58,7 @@ public class TestSMTPServerFactory {
             fail("A port exception was expected");
         } catch (PortException e) {
             assertEquals("Port " + 65536 + " could not be opened.", e.getMessage());
-        } catch (InvalidHostException e) {
+        } catch (NetworkException e) {
             fail("A port exception was expected instead of a InvalidHost");
         }
     }
@@ -69,10 +70,10 @@ public class TestSMTPServerFactory {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, null);
             srvr.stop();
             fail("A host exception was expected");
-        } catch (PortException e) {
-            fail("A port exception was expected instead of a InvalidHost");
         } catch (InvalidHostException e) {
             assert true;
+        } catch (NetworkException e) {
+            fail("A port exception was expected instead of a InvalidHost");
         }
     }
 
@@ -82,10 +83,10 @@ public class TestSMTPServerFactory {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, null);
             srvr.stop();
             fail("A host exception was expected");
-        } catch (PortException e) {
-            fail("A port exception was expected instead of a InvalidHost");
         } catch (InvalidHostException e) {
             assert true;
+        } catch (NetworkException e) {
+            fail("A port exception was expected instead of a InvalidHost");
         }
     }
 
@@ -95,10 +96,10 @@ public class TestSMTPServerFactory {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, "10.20.30.40.50");
             srvr.stop();
             fail("A host exception was expected");
-        } catch (PortException e) {
-            fail("A port exception was expected instead of a InvalidHost");
         } catch (InvalidHostException e) {
             assert true;
+        } catch (NetworkException e) {
+            fail("A port exception was expected instead of a InvalidHost");
         }
     }
 
@@ -113,7 +114,7 @@ public class TestSMTPServerFactory {
             fail("A port exception was expected");
         } catch (PortException e) {
             assert true;
-        } catch (InvalidHostException e) {
+        } catch (NetworkException e) {
             fail("A port exception was expected instead of a InvalidHost");
         } finally {
             if (null != srvr2 && srvr2.isRunning()) {
