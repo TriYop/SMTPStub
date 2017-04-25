@@ -13,8 +13,14 @@ import org.yj.smtpstub.exception.InvalidStoreException;
  * @since 1.0
  */
 public final class MailStoreFactory {
+    /**
+     * Logs events into a dedicated stream
+     */
     private static final Logger logger = LoggerFactory.getLogger(MailStoreFactory.class);
 
+    /**
+     *
+     */
     private MailStoreFactory() {
     }
 

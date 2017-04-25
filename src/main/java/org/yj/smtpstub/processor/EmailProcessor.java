@@ -96,7 +96,6 @@ public final class EmailProcessor {
      * @return
      */
     static String getStringFromStream(@Nonnull InputStream is) {
-        // final long prefixLines = 4; // Do not copy the first 4 lines (received part)
         long prefixLines = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF8")));
         StringBuilder sb = new StringBuilder();

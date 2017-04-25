@@ -13,25 +13,30 @@ import java.util.List;
  * --------------------------------------------
  * The factory interface for creating authentication handlers.
  * with / without TLS capabilities
+ *
  * @author TriYop
  * @since 1.0
  */
 final class SMTPAuthHandlerFactory implements AuthenticationHandlerFactory {
+    /**
+     * Logs events into a dedicated stream
+     */
     private static final Logger logger = LoggerFactory.getLogger(SMTPAuthHandler.class);
+    /**
+     * defines default authentication mecanism.
+     */
     private static final String LOGIN_MECHANISM = "LOGIN";
 
     /**
-     *
      * @return
      */
     @Override
     public AuthenticationHandler create() {
-        logger.debug( "Created new SMTP Authentication handler" );
+        logger.debug("Created new SMTP Authentication handler");
         return new SMTPAuthHandler();
     }
 
     /**
-     *
      * @return
      */
     @Override

@@ -9,6 +9,12 @@ package org.yj.smtpstub.exception;
  * @since 1.0
  */
 public final class InvalidPortException extends PortException {
+    /**
+     * Creates a new InvalidPortException
+     *
+     * @param ex   parent exception that was caught
+     * @param port the port number involved in the exception
+     */
     public InvalidPortException(Exception ex, int port) {
         super(ex, port);
     }

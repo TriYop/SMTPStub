@@ -8,7 +8,7 @@ package org.yj.smtpstub.exception;
  * @author TriYop
  * @since 1.0
  */
-public abstract class PortException extends Exception {
+public abstract class PortException extends NetworkException {
     /**
      * expected TCP port involved in the exception
      */
