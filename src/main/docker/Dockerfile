@@ -1,4 +1,5 @@
 FROM java:8
+MAINTAINER TriYop "dev@yvanjanet.net"
 
 RUN mkdir -p /output
 
