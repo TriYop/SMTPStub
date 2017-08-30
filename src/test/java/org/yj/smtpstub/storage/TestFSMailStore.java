@@ -84,7 +84,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testGetUniqueFile_withoutCollision() {
+    public void testGetUniqueFileWithoutCollision() {
         String baseName = "toto";
         File f = null;
         try {
@@ -102,7 +102,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testGetUniqueFile_withCollision() {
+    public void testGetUniqueFileWithCollision() {
         String baseName = "toto";
         File f1 = null;
         File f2 = null;
@@ -130,7 +130,7 @@ public class TestFSMailStore {
     // Test addToIndex
 
     @Test
-    public void testAddToIndex_nullModel() {
+    public void testAddToIndexNullModel() {
         try {
             FSMailStore.addToIndex(null);
         } catch (NullPointerException e) {
@@ -140,7 +140,7 @@ public class TestFSMailStore {
 
 
     @Test
-    public void testAddToIndex_emptyModel() {
+    public void testAddToIndexEmptyModel() {
         EmailModel model = new EmailModel();
         try {
             FSMailStore.addToIndex(model);
@@ -152,13 +152,13 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testAddToIndex_nominal() {
+    public void testAddToIndexNominal() {
         FSMailStore.addToIndex(sampleEmail);;
         assertFalse(store.getAllEmails().isEmpty());
     }
 
     @Test
-    public void testSave_null() {
+    public void testSaveNull() {
         try {
             store.save(null);
             assertTrue(true);
@@ -170,7 +170,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testSave_incomplete() {
+    public void testSaveIncomplete() {
         try {
             store.save(new EmailModel());
             fail("An IncompleteEmailException should have been thrown");
@@ -204,7 +204,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testSave_nominal() {
+    public void testSaveNominal() {
         try {
             store.save(sampleEmail);
         } catch (IncompleteEmailException ex) {
@@ -215,7 +215,7 @@ public class TestFSMailStore {
 
 
     @Test
-    public void testGetEmail_nominal() {
+    public void testGetEmailNominal() {
         try {
             EmailModel expect = (EmailModel)store.getAllEmails().toArray()[0];
             EmailModel result = store.getEmail(0);
@@ -236,7 +236,7 @@ public class TestFSMailStore {
 
 
     @Test
-    public void testLoadIndex_invalidFile() {
+    public void testLoadIndex_InvalidFile() {
         try {
             Configuration.set("emails.storage.fs.indexfile", "");
             FSMailStore.loadIndex();
@@ -250,7 +250,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testLoadIndex_emptyFile() {
+    public void testLoadIndexEmptyFile() {
         try {
             Configuration.set(STORAGE_INDEX_FILE_KEY, getResourceFile("/empty_index.json"));
             FSMailStore.loadIndex();
@@ -264,7 +264,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testLoadIndex_noJSONFile() {
+    public void testLoadIndexNoJSONFile() {
         try {
             Configuration.set("emails.storage.fs.indexfile", getResourceFile("/invalid_index.json"));
             FSMailStore.loadIndex();
@@ -279,7 +279,7 @@ public class TestFSMailStore {
 
 
     @Test
-    public void testLoadIndex_nominal() {
+    public void testLoadIndexNominal() {
         try {
             logger.warn("Index file is set to {}", Configuration.get("emails.storage.fs.indexfile", FSMailStore.DEFAULT_MAILS_INDEX_FILE));
             FSMailStore.loadIndex();
@@ -293,7 +293,7 @@ public class TestFSMailStore {
 
 
     @Test
-    public void testSaveIndex_nominal() {
+    public void testSaveIndexNominal() {
         try {
             //FIXME: implement this test with valid in and out index.
             FSMailStore.saveIndex();
