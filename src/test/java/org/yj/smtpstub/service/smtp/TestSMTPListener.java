@@ -16,42 +16,42 @@ public class TestSMTPListener {
     private SMTPListener listener;
 
     @Before
-    public void setup() {
+    public void setUp() {
         listener = new SMTPListener();
     }
 
     @Test
-    public void testAccept_emptyBoth() {
+    public void testAcceptEmptyBoth() {
         assertTrue("all inputs are currently accepted", listener.accept("", ""));
     }
 
     @Test
-    public void testAccept_emptyFrom() {
+    public void testAcceptEmptyFrom() {
         assertTrue("all inputs are currently accepted", listener.accept("", "somebody@somewhere.com"));
     }
 
     @Test
-    public void testAccept_emptyRecipient() {
+    public void testAcceptEmptyRecipient() {
         assertTrue("", listener.accept("somebody@somewhere.com", ""));
     }
 
     @Test
-    public void testAccept_invalidBoth() {
+    public void testAcceptInvalidBoth() {
         assertTrue("all inputs are currently accepted", listener.accept("invalid@somewher@somehow", "invalid@somewhere@somehow"));
     }
 
     @Test
-    public void testAccept_invalidFrom() {
+    public void testAcceptInvalidFrom() {
         assertTrue("all inputs are currently accepted", listener.accept("invalid@somewhere@somehow", "somebody@somewhere.com"));
     }
 
     @Test
-    public void testAccept_invalidRecipient() {
+    public void testAcceptInvalidRecipient() {
         assertTrue("", listener.accept("somebody@somewhere.com", "invalid@somewhere@somehow"));
     }
 
     @Test
-    public void testAccept_nominal() {
+    public void testAcceptNominal() {
         assertTrue(listener.accept("from@somewhere.com", "recipient@somewhere.com"));
     }
 
