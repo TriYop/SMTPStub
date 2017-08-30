@@ -14,7 +14,7 @@ public class TestSMTPAuthHandler {
     private SMTPAuthHandler smtpAuthHandler;
 
     @Before
-    public void setup() {
+    public void setUp() {
         smtpAuthHandler = new SMTPAuthHandler();
     }
 
