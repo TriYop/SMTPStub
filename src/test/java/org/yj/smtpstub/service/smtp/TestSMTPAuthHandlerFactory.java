@@ -13,7 +13,7 @@ public class TestSMTPAuthHandlerFactory {
     SMTPAuthHandlerFactory factory;
 
     @Before
-    public void setup() {
+    public void setUp() {
         factory = new SMTPAuthHandlerFactory();
     }
 

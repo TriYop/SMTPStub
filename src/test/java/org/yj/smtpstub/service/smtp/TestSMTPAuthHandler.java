@@ -2,7 +2,8 @@ package org.yj.smtpstub.service.smtp;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * SMTPStub
@@ -19,7 +20,7 @@ public class TestSMTPAuthHandler {
     }
 
     @Test
-    public void testGetIdentity () {
+    public void testGetIdentity() {
         smtpAuthHandler.getIdentity();
     }
 

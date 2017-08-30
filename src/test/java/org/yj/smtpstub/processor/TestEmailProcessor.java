@@ -1,6 +1,5 @@
 package org.yj.smtpstub.processor;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.exception.InvalidStoreException;
@@ -20,13 +19,6 @@ import static org.junit.Assert.fail;
  * @author TriYop
  */
 public class TestEmailProcessor {
-
-
-
-    @Before
-    public void setup() {
-
-    }
 
     @Test
     public void testProcess_nullValues() {
@@ -72,7 +64,7 @@ public class TestEmailProcessor {
             assert true;
         } catch (InvalidStoreException e) {
             fail("Store management seems not to be ready to be used");
-        }  catch (IncompleteEmailException e) {
+        } catch (IncompleteEmailException e) {
             fail("No exception should have been thrown.");
         }
 

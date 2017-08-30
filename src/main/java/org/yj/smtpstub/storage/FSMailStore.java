@@ -35,10 +35,6 @@ import java.util.Set;
  */
 public class FSMailStore implements MailStore {
     /**
-     * logs events to a dedicated stream
-     */
-    private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
-    /**
      * defines default directory for storing received emails
      */
     public static final String DEFAULT_MAILS_DIRECTORY = "inbox";
@@ -54,6 +50,10 @@ public class FSMailStore implements MailStore {
      * defines index date format to be used for storage
      */
     public static final String INDEX_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss.SSS";
+    /**
+     * logs events to a dedicated stream
+     */
+    private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
     /**
      * The Index idx file.
      */
@@ -80,13 +80,13 @@ public class FSMailStore implements MailStore {
      */
     private static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
     /**
-     * DateFormat utility instance to format received emails filenames
-     */
-    private  final transient SimpleDateFormat filenameDateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
-    /**
      * JSON Array to store in memory the emails index
      */
     private static JSONArray emailsList = new JSONArray();
+    /**
+     * DateFormat utility instance to format received emails filenames
+     */
+    private final transient SimpleDateFormat filenameDateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
 
     /**
      * Gets a uniquely named filedescriptor for writing mails to disk
@@ -186,6 +186,26 @@ public class FSMailStore implements MailStore {
     }
 
     /**
+     * common method for parsing email models from JSON Objects
+     *
+     * @param emailObj
+     * @return
+     */
+    private static EmailModel getEmailFromJSONObject(JSONObject emailObj) {
+        EmailModel email = new EmailModel();
+        email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
+        email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
+        email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
+        email.setTo((String) emailObj.get(INDEX_IDX_TO));
+        try {
+            email.setReceivedDate(indexDateFormat.parse((String) emailObj.get(INDEX_IDX_DATE)));
+        } catch (java.text.ParseException ex) {
+            logger.warn(ex.getMessage());
+        }
+        return email;
+    }
+
+    /**
      * @param email
      */
     @Override
@@ -210,26 +230,6 @@ public class FSMailStore implements MailStore {
         } catch (IOException e) {
             logger.error("Error: Can't save email: {}", e.getMessage(), e);
         }
-    }
-
-    /**
-     * common method for parsing email models from JSON Objects
-     *
-     * @param emailObj
-     * @return
-     */
-    private static final EmailModel getEmailFromJSONObject(JSONObject emailObj) {
-        EmailModel email = new EmailModel();
-        email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
-        email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
-        email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
-        email.setTo((String) emailObj.get(INDEX_IDX_TO));
-        try {
-            email.setReceivedDate(indexDateFormat.parse((String) emailObj.get(INDEX_IDX_DATE)));
-        } catch (java.text.ParseException ex) {
-            logger.warn(ex.getMessage());
-        }
-        return email;
     }
 
     /**

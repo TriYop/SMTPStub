@@ -1,6 +1,5 @@
 package org.yj.smtpstub.service.smtp;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.subethamail.smtp.server.SMTPServer;
 import org.yj.smtpstub.exception.InvalidHostException;
@@ -19,11 +18,6 @@ import static org.junit.Assert.fail;
  */
 public class TestSMTPServerFactory {
     private SMTPServerFactory factory;
-
-    @Before
-    public void setup() {
-
-    }
 
     @Test
     public void testGetRunningServer_invalidParameters() {

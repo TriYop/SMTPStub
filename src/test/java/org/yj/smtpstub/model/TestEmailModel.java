@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class TestEmailModel {
 
-    EmailModel model;
+    private EmailModel model;
 
     @Before
     public void setup() {

@@ -1,9 +1,6 @@
 package org.yj.smtpstub.storage;
 
-import com.sun.corba.se.spi.orbutil.fsm.FSM;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +22,13 @@ import static org.junit.Assert.*;
  * @author TriYop
  */
 public class TestFSMailStore {
+    static final String STORAGE_INDEX_FILE_KEY = "emails.storage.fs.indexfile";
     private static final Logger logger = LoggerFactory.getLogger(TestFSMailStore.class);
     FSMailStore store;
     EmailModel sampleEmail;
 
-    static final String STORAGE_INDEX_FILE_KEY =  "emails.storage.fs.indexfile";
-
     @Before
-    public void setup() {
+    public void setUp() {
         store = new FSMailStore();
         sampleEmail = new EmailModel();
         sampleEmail.setEmailStr("Email content");
@@ -47,15 +43,10 @@ public class TestFSMailStore {
 
     }
 
-    @After
-    public void tearDown() {
-
-    }
-
     @Test
     public void testGetUniqueFile_invalidPath() {
         try {
-            File f = FSMailStore.getUniqueFile("xw:///toto");
+            FSMailStore.getUniqueFile("xw:///toto");
             fail("An exception should have been thrown for this invalid path.");
         } catch (IOException e) {
             assertTrue(true);
@@ -153,7 +144,7 @@ public class TestFSMailStore {
 
     @Test
     public void testAddToIndex_nominal() {
-        FSMailStore.addToIndex(sampleEmail);;
+        FSMailStore.addToIndex(sampleEmail);
         assertFalse(store.getAllEmails().isEmpty());
     }
 
@@ -217,13 +208,13 @@ public class TestFSMailStore {
     @Test
     public void testGetEmail_nominal() {
         try {
-            EmailModel expect = (EmailModel)store.getAllEmails().toArray()[0];
+            EmailModel expect = (EmailModel) store.getAllEmails().toArray()[0];
             EmailModel result = store.getEmail(0);
 
             assertEquals(expect.getFilePath(), result.getFilePath());
             assertEquals(expect.getFrom(), result.getFrom());
             assertEquals(expect.getTo(), result.getTo());
-            assertEquals(expect.getReceivedDate(),result.getReceivedDate());
+            assertEquals(expect.getReceivedDate(), result.getReceivedDate());
             assertEquals(expect.getSubject(), result.getSubject());
             assertEquals(expect.getEmailStr(), result.getEmailStr());
 
@@ -303,6 +294,6 @@ public class TestFSMailStore {
     }
 
     public final String getResourceFile(String filename) {
-        return  getClass().getResource(filename).getPath();
+        return getClass().getResource(filename).getPath();
     }
 }

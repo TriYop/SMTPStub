@@ -16,7 +16,7 @@ public class TestSMTPListener {
     private SMTPListener listener;
 
     @Before
-    public void setup() {
+    public void setUp() {
         listener = new SMTPListener();
     }
 
