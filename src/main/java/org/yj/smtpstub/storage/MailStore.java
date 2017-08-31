@@ -36,5 +36,5 @@ public interface MailStore {
      * @param id the id
      * @return the email
      */
-    EmailModel getEmail(int id) throws InvalidStoreException;
+    EmailModel getEmail(int id);
 }

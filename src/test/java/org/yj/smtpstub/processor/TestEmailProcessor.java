@@ -18,10 +18,10 @@ import static org.junit.Assert.fail;
  *
  * @author TriYop
  */
-public class TestEmailProcessor {
-
+public class TestEmailProcessor {²
+    
     @Test
-    public void testProcess_nullValues() {
+    public void testProcessNullValues() {
         try {
             EmailProcessor.process(null, null, null);
             fail("test should have thrown an IncompleteEmailException.");
@@ -54,7 +54,7 @@ public class TestEmailProcessor {
     }
 
     @Test
-    public void testProcess_emptyValues() {
+    public void testProcessEmptyValues() {
 
         try {
             MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
@@ -87,13 +87,13 @@ public class TestEmailProcessor {
 
     // Test getStringFromStream method
     @Test
-    public void testGetStringFromStream_nominal() {
+    public void testGetStringFromStreamNominal() {
         //InputStream stream =
         EmailProcessor.getStringFromStream(new ByteArrayInputStream("This is my test string.".getBytes()));
     }
 
     @Test
-    public void testGetStringFromStream_emptyString() {
+    public void testGetStringFromStreamEmptyString() {
         //InputStream stream =
         EmailProcessor.getStringFromStream(new ByteArrayInputStream(new byte[0]));
     }
@@ -101,27 +101,27 @@ public class TestEmailProcessor {
 
     // Test  forparseMessageSubject method
     @Test
-    public void testParseMessageSubject_emptyMesage() {
+    public void testParseMessageSubjectEmptyMesage() {
         assertEquals("", EmailProcessor.parseMessageSubject(""));
     }
 
     @Test
-    public void testParseMessageSubject_noSubjectMesage() {
+    public void testParseMessageSubjectNoSubjectMesage() {
         assertEquals("", EmailProcessor.parseMessageSubject("This is a message\nwithout subject\nwithout subject:"));
     }
 
     @Test
-    public void testParseMessageSubject_subjectOnly() {
+    public void testParseMessageSubjectSubjectOnly() {
         assertEquals("this is my subject", EmailProcessor.parseMessageSubject("Subject: this is my subject"));
     }
 
     @Test
-    public void testParseMessageSubject_nominal() {
+    public void testParseMessageSubjectNominal() {
         assertEquals("this is my subject", EmailProcessor.parseMessageSubject("something:\nSubject: this is my subject\n\n and now, this is my message body"));
     }
 
     @Test
-    public void testParseMessageSubject_subjectInBody() {
+    public void testParseMessageSubjectSubjectInBody() {
         // Check that subject is parsed only in message headers and not in message body
         assertEquals("", EmailProcessor.parseMessageSubject("something:\n\n\nTest body\nSubject: this is my subject\n\n and now, this is my message body"));
     }

@@ -18,7 +18,7 @@ public class TestEmailModel {
     private EmailModel model;
 
     @Before
-    public void setup() {
+    public void setUp() {
         model = new EmailModel();
 
     }

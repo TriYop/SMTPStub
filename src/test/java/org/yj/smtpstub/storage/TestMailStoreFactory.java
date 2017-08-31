@@ -11,7 +11,11 @@ import org.yj.smtpstub.exception.InvalidStoreException;
  * @author TriYop
  */
 public class TestMailStoreFactory {
+<<<<<<< HEAD
 
+=======
+
+    >>>>>>> 4a800c802fe0e6ce538a2a61e1a5132f21711085
 
     @Test
     public void testGetMailStore_validType() {
@@ -26,7 +30,7 @@ public class TestMailStoreFactory {
     }
 
     @Test
-    public void testGetMailStore_invalidInheritedType() {
+    public void testGetMailStoreInvalidInheritedType() {
         String type = String.class.getCanonicalName();
         try {
             Object obj = MailStoreFactory.getMailStore(type);
@@ -37,7 +41,7 @@ public class TestMailStoreFactory {
     }
 
     @Test
-    public void testGetMailStore_invalidType() {
+    public void testGetMailStoreInvalidType() {
         String type = "InvalidType";
         try {
             Object obj = MailStoreFactory.getMailStore(type);
@@ -48,10 +52,17 @@ public class TestMailStoreFactory {
     }
 
     @Test
+<<<<<<< HEAD
     public void testGetMailStore_nullType() {
         String type = null;
         try {
             Object obj = MailStoreFactory.getMailStore(type);
+=======
+    public void testGetMailStoreNullType() {
+        String type= null;
+        try {
+            MailStoreFactory.getMailStore(type);
+>>>>>>> 4a800c802fe0e6ce538a2a61e1a5132f21711085
             Assert.fail("should have thrown an exception");
         } catch (InvalidStoreException ex) {
             Assert.assertTrue(true);

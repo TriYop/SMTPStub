@@ -250,7 +250,7 @@ public class FSMailStore implements MailStore {
      * @return
      */
     @Override
-    public EmailModel getEmail(int id) throws InvalidStoreException {
+    public EmailModel getEmail(int id) {
         JSONObject emailObj = (JSONObject) emailsList.get(id);
         return getEmailFromJSONObject(emailObj);
         // TODO: load email content from file

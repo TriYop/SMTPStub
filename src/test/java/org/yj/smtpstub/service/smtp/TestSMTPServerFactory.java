@@ -20,7 +20,7 @@ public class TestSMTPServerFactory {
     private SMTPServerFactory factory;
 
     @Test
-    public void testGetRunningServer_invalidParameters() {
+    public void testGetRunningServerInvalidParameters() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(0, null);
             srvr.stop();
@@ -32,7 +32,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer_invalidLowPort() {
+    public void testGetRunningServerInvalidLowPort() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(0, "localhost");
             srvr.stop();
@@ -45,7 +45,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer_invalidHighPort() {
+    public void testGetRunningServerInvalidHighPort() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(65536, "localhost");
             srvr.stop();
@@ -59,7 +59,7 @@ public class TestSMTPServerFactory {
 
 
     @Test
-    public void testGetRunningServer_nullHost() {
+    public void testGetRunningServerNullHost() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, null);
             srvr.stop();
@@ -72,7 +72,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer_emptyHost() {
+    public void testGetRunningServerEmptyHost() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, null);
             srvr.stop();
@@ -85,7 +85,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer_invalidHost() {
+    public void testGetRunningServerInvalidHost() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningServer(2525, "10.20.30.40.50");
             srvr.stop();
@@ -98,7 +98,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer_occupiedPort() {
+    public void testGetRunningServerOccupiedPort() {
         SMTPServer srvr1 = null;
         SMTPServer srvr2 = null;
         try {
@@ -121,7 +121,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningServer_nominal() {
+    public void testGetRunningServerNominal() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, "localhost");
             srvr.stop();
@@ -135,7 +135,7 @@ public class TestSMTPServerFactory {
 //
 
     @Test
-    public void testGetRunningTLSServer_invalidParameters() {
+    public void testGetRunningTLSServerInvalidParameters() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(0, null);
             srvr.stop();
@@ -147,7 +147,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningTLSServer_invalidLowPort() {
+    public void testGetRunningTLSServerInvalidLowPort() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(0, "localhost");
             srvr.stop();
@@ -160,7 +160,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningTLSServer_invalidHighPort() {
+    public void testGetRunningTLSServerInvalidHighPort() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(65536, "localhost");
             srvr.stop();
@@ -174,7 +174,7 @@ public class TestSMTPServerFactory {
 
 
     @Test
-    public void testGetRunningTLSServer_nullHost() {
+    public void testGetRunningTLSServerNullHost() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, null);
             srvr.stop();
@@ -187,7 +187,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningTLSServer_emptyHost() {
+    public void testGetRunningTLSServerEmptyHost() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, null);
             srvr.stop();
@@ -200,7 +200,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningTLSServer_invalidHost() {
+    public void testGetRunningTLSServerInvalidHost() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, "10.20.30.40.50");
             srvr.stop();
@@ -213,7 +213,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningTLSServer_occupiedPort() {
+    public void testGetRunningTLSServerOccupiedPort() {
         SMTPServer srvr1 = null;
         SMTPServer srvr2 = null;
         try {
@@ -236,7 +236,7 @@ public class TestSMTPServerFactory {
     }
 
     @Test
-    public void testGetRunningTLSServer_nominal() {
+    public void testGetRunningTLSServerNominal() {
         try {
             SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2526, "localhost");
             srvr.stop();
