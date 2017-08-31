@@ -1,7 +1,6 @@
 package org.yj.smtpstub.storage;
 
 import org.yj.smtpstub.exception.IncompleteEmailException;
-import org.yj.smtpstub.exception.InvalidStoreException;
 import org.yj.smtpstub.model.EmailModel;
 
 import java.util.Collection;

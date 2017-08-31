@@ -22,10 +22,10 @@ import static org.junit.Assert.*;
  * @author TriYop
  */
 public class TestFSMailStore {
-    static final String STORAGE_INDEX_FILE_KEY = "emails.storage.fs.indexfile";
+    private static final String STORAGE_INDEX_FILE_KEY = "emails.storage.fs.indexfile";
     private static final Logger logger = LoggerFactory.getLogger(TestFSMailStore.class);
-    FSMailStore store;
-    EmailModel sampleEmail;
+    private FSMailStore store;
+    private EmailModel sampleEmail;
 
     @Before
     public void setUp() {
@@ -44,7 +44,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testGetUniqueFile_invalidPath() {
+    public void testGetUniqueFileInvalidPath() {
         try {
             FSMailStore.getUniqueFile("xw:///toto");
             fail("An exception should have been thrown for this invalid path.");
@@ -56,7 +56,7 @@ public class TestFSMailStore {
     }
 
     @Test
-    public void testGetUniqueFile_missingDir() {
+    public void testGetUniqueFileMissingDir() {
         String filename = "/TMPMAILS/toto";
         File f = null;
 
@@ -104,7 +104,7 @@ public class TestFSMailStore {
 
             assertTrue("File names should not be respectively equal", !f1.getPath().equals(f2.getPath()));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warn(e.getLocalizedMessage(),e);
             fail("Exception thrown but was not expected");
         } finally {
             if (f1 != null && f1.isFile()) {
@@ -143,13 +143,9 @@ public class TestFSMailStore {
     }
 
     @Test
-<<<<<<< HEAD
-    public void testAddToIndex_nominal() {
-        FSMailStore.addToIndex(sampleEmail);
-=======
+
     public void testAddToIndexNominal() {
         FSMailStore.addToIndex(sampleEmail);
->>>>>>> 4a800c802fe0e6ce538a2a61e1a5132f21711085
         assertFalse(store.getAllEmails().isEmpty());
     }
 
@@ -232,7 +228,7 @@ public class TestFSMailStore {
 
 
     @Test
-    public void testLoadIndex_InvalidFile() {
+    public void testLoadIndexInvalidFile() {
         try {
             Configuration.set("emails.storage.fs.indexfile", "");
             FSMailStore.loadIndex();
@@ -241,7 +237,7 @@ public class TestFSMailStore {
             assert true;
         } catch (Exception e) {
             fail("method crashed" + e.getMessage());
-            e.printStackTrace();
+            logger.warn(e.getLocalizedMessage(),e);
         }
     }
 
@@ -255,7 +251,7 @@ public class TestFSMailStore {
             fail("should not have thrown an InvalidStoreException");
         } catch (Exception e) {
             fail("method crashed with message: " + e.getMessage());
-            e.printStackTrace();
+            logger.warn(e.getLocalizedMessage(),e);
         }
     }
 
@@ -269,7 +265,7 @@ public class TestFSMailStore {
             assert true;
         } catch (Exception e) {
             fail("method crashed with message: " + e.getMessage());
-            e.printStackTrace();
+            logger.warn(e.getLocalizedMessage(),e);
         }
     }
 
@@ -282,7 +278,7 @@ public class TestFSMailStore {
             assert !store.getAllEmails().isEmpty();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warn(e.getLocalizedMessage(),e);
             fail("method crashed with message: " + e.getMessage());
         }
     }

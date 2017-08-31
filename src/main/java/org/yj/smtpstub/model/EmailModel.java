@@ -1,5 +1,8 @@
 package org.yj.smtpstub.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 
 
@@ -13,6 +16,10 @@ import java.util.Date;
  */
 public final class EmailModel {
 
+    /**
+     * class logger
+     */
+    private static final Logger logger = LoggerFactory.getLogger(EmailModel.class);
     /**
      * date when message was received by server.
      * This may not be execution time due to asynchronous handling

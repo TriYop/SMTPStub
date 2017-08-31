@@ -21,7 +21,7 @@ final class SMTPAuthHandlerFactory implements AuthenticationHandlerFactory {
     /**
      * Logs events into a dedicated stream
      */
-    private static final Logger logger = LoggerFactory.getLogger(SMTPAuthHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationHandlerFactory.class);
     /**
      * defines default authentication mecanism.
      */
