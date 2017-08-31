@@ -18,8 +18,8 @@ import static org.junit.Assert.fail;
  *
  * @author TriYop
  */
-public class TestEmailProcessor {²
-    
+public class TestEmailProcessor {
+
     @Test
     public void testProcessNullValues() {
         try {
