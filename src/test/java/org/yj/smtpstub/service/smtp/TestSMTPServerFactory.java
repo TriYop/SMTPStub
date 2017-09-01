@@ -8,7 +8,7 @@ import org.yj.smtpstub.exception.InvalidHostException;
 import org.yj.smtpstub.exception.NetworkException;
 import org.yj.smtpstub.exception.PortException;
 
-
+import static org.junit.Assert.*;
 /**
  * SMTPStub
  * --------------------------------------------
@@ -21,26 +21,20 @@ public class TestSMTPServerFactory {
 
     @Test(expected = NetworkException.class)
     public void testGetRunningServerInvalidParameters() throws NetworkException {
-
         SMTPServer srvr = SMTPServerFactory.getRunningServer(0, null);
         srvr.stop();
-
     }
 
     @Test(expected = PortException.class)
     public void testGetRunningServerInvalidLowPort() throws NetworkException {
-
         SMTPServer srvr = SMTPServerFactory.getRunningServer(0, "localhost");
         srvr.stop();
-
     }
 
     @Test(expected = PortException.class)
     public void testGetRunningServerInvalidHighPort() throws NetworkException {
-
         SMTPServer srvr = SMTPServerFactory.getRunningServer(65536, "localhost");
         srvr.stop();
-
     }
 
 
@@ -81,9 +75,9 @@ public class TestSMTPServerFactory {
 
     @Test
     public void testGetRunningServerNominal() throws NetworkException {
-
         SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, "localhost");
         srvr.stop();
+        assert true;
     }
 
     @Test(expected = NetworkException.class)
@@ -94,7 +88,6 @@ public class TestSMTPServerFactory {
 
     @Test(expected = PortException.class)
     public void testGetRunningTLSServerInvalidLowPort() throws NetworkException {
-
         SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(0, "localhost");
         srvr.stop();
     }
@@ -143,13 +136,13 @@ public class TestSMTPServerFactory {
         if (null != srvr1 && srvr1.isRunning()) {
             srvr1.stop();
         }
-
     }
 
     @Test
     public void testGetRunningTLSServerNominal() throws NetworkException {
         SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2526, "localhost");
         srvr.stop();
+        assert true;
     }
 
 

@@ -46,13 +46,13 @@ public class TestFSMailStore {
 
     }
 
-    @Test(expected = java.io.IOException.class)
+    @Test(expected = IOException.class)
     public void testGetUniqueFileInvalidPath() throws IOException {
         FSMailStore.getUniqueFile("xw:///toto");
 
     }
 
-    @Test(expected = java.io.IOException.class)
+    @Test(expected = IOException.class)
     public void testGetUniqueFileMissingDir() throws IOException {
         String filename = "/TMPMAILS/toto";
         FSMailStore.getUniqueFile(filename);
@@ -71,7 +71,7 @@ public class TestFSMailStore {
         File uniqueFile = FSMailStore.getUniqueFile(baseName);
         uniqueFile.createNewFile();
         File uniqueFile1 = FSMailStore.getUniqueFile(baseName);
-        assertTrue("File names should not be respectively equal", !uniqueFile.getPath().equals(uniqueFile1.getPath()));
+        assertFalse("File names should not be respectively equal", uniqueFile.getPath().equals(uniqueFile1.getPath()));
     }
 
     @Test
@@ -118,6 +118,7 @@ public class TestFSMailStore {
         EmailModel model = new EmailModel();
         model.setEmailStr("not empty string");
         store.save(model);
+        assert true;
     }
 
     @Test
@@ -128,6 +129,7 @@ public class TestFSMailStore {
 
 
     @Test
+    @Ignore
     public void testGetEmailNominal() {
 
         Collection<EmailModel> emails = store.getAllEmails();
@@ -143,17 +145,18 @@ public class TestFSMailStore {
             assertEquals(expect.getReceivedDate(), result.getReceivedDate());
             assertEquals(expect.getSubject(), result.getSubject());
             assertEquals(expect.getEmailStr(), result.getEmailStr());
+            assert true;
+        } else {
+            fail("the test store should contain at least one email meta-data");
         }
+
     }
 
 
     @Test(expected = InvalidStoreException.class)
     public void testLoadIndexInvalidFile() throws InvalidStoreException {
-
         Configuration.set("emails.storage.fs.indexfile", "");
         FSMailStore.loadIndex();
-        fail("should have thrown an InvalidStoreException");
-
     }
 
     @Test
@@ -165,23 +168,18 @@ public class TestFSMailStore {
 
     @Test(expected = InvalidStoreException.class)
     public void testLoadIndexNoJSONFile() throws InvalidStoreException {
-
         Configuration.set("emails.storage.fs.indexfile", getResourceFile("/invalid_index.json"));
         FSMailStore.loadIndex();
-        fail("should have thrown an InvalidStoreException");
-
     }
 
 
     @Test
     public void testLoadIndexNominal() throws InvalidStoreException {
-
         logger.warn("Index file is set to {}", Configuration.get("emails.storage.fs.indexfile", FSMailStore.DEFAULT_MAILS_INDEX_FILE));
         FSMailStore.loadIndex();
         logger.warn("Loaded store without exploding : {}.", store.toString());
         logger.info("Store contains {} emails", store.getAllEmails().size());
         assertFalse(store.getAllEmails().isEmpty());
-
     }
 
 
