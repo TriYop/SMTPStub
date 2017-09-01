@@ -143,7 +143,6 @@ public class TestFSMailStore {
             assertEquals(expect.getReceivedDate(), result.getReceivedDate());
             assertEquals(expect.getSubject(), result.getSubject());
             assertEquals(expect.getEmailStr(), result.getEmailStr());
-            break;
         }
     }
 
