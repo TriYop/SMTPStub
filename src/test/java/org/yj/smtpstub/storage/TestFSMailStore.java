@@ -1,7 +1,6 @@
 package org.yj.smtpstub.storage;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,6 @@ import org.yj.smtpstub.model.EmailModel;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 
@@ -61,28 +59,25 @@ public class TestFSMailStore {
 
     @Test
     public void testGetUniqueFileWithoutCollision() throws IOException {
-        String baseName = "test_emaill"+String.valueOf(System.currentTimeMillis());
+        String baseName = "test_emaill" + String.valueOf(System.currentTimeMillis());
         File f = FSMailStore.getUniqueFile(baseName);
         assertEquals("File name should be equal to provided name + .eml extension", baseName + ".eml", f.getName());
     }
 
     @Test
     public void testGetUniqueFileWithCollision() throws IOException {
-        String baseName = "test_emaill"+String.valueOf(System.currentTimeMillis());;
+        String baseName = "test_emaill" + String.valueOf(System.currentTimeMillis());
+        ;
         File f1 = FSMailStore.getUniqueFile(baseName);
         f1.createNewFile();
         File f2 = FSMailStore.getUniqueFile(baseName);
         assertTrue("File names should not be respectively equal", !f1.getPath().equals(f2.getPath()));
     }
 
-
-    // Test addToIndex
-
     @Test
     public void testAddToIndexNullModel() {
-
         FSMailStore.addToIndex(null);
-
+        assert true;
     }
 
 
@@ -90,6 +85,7 @@ public class TestFSMailStore {
     public void testAddToIndexEmptyModel() {
         EmailModel model = new EmailModel();
         FSMailStore.addToIndex(model);
+        assert true;
     }
 
     @Test
@@ -135,9 +131,9 @@ public class TestFSMailStore {
     @Test
     public void testGetEmailNominal() {
 
-        Collection<EmailModel> emails= store.getAllEmails();
+        Collection<EmailModel> emails = store.getAllEmails();
 
-        for (EmailModel expect : emails)  {
+        for (EmailModel expect : emails) {
 
             EmailModel result = store.getEmail(0);
 
@@ -194,6 +190,7 @@ public class TestFSMailStore {
     public void testSaveIndexNominal() {
         //FIXME: implement this test with valid in and out index.
         FSMailStore.saveIndex();
+        assert true;
     }
 
     public final String getResourceFile(String filename) {

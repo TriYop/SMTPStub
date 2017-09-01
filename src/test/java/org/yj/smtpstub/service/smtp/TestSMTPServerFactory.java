@@ -16,8 +16,8 @@ import org.yj.smtpstub.exception.PortException;
  * @author TriYop
  */
 public class TestSMTPServerFactory {
-    private SMTPServerFactory factory;
     private static final Logger logger = LoggerFactory.getLogger(TestSMTPServerFactory.class);
+    private SMTPServerFactory factory;
 
     @Test(expected = NetworkException.class)
     public void testGetRunningServerInvalidParameters() throws NetworkException {
