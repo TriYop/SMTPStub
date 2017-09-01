@@ -20,69 +20,42 @@ import static org.junit.Assert.fail;
  */
 public class TestEmailProcessor {
 
-    @Test
-    public void testProcessNullValues() {
-        try {
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessAllNullValues() throws IncompleteEmailException{
+
             EmailProcessor.process(null, null, null);
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
 
-        try {
+    }
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessDataNullValues() throws IncompleteEmailException{
             EmailProcessor.process("", "", null);
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
 
-        try {
+    }
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessFromNullValues() throws IncompleteEmailException{
             EmailProcessor.process(null, "", new ByteArrayInputStream(new byte[0]));
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
 
-        try {
+    }
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessToNullValues() throws IncompleteEmailException{
             EmailProcessor.process("", null, new ByteArrayInputStream(new byte[0]));
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
-
-        assert true;
     }
 
     @Test
-    public void testProcessEmptyValues() {
-
-        try {
+    public void testProcessEmptyValues() throws InvalidStoreException, IncompleteEmailException {
             MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
             EmailProcessor.setStore(store);
-
             EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
-            assert true;
-        } catch (InvalidStoreException e) {
-            fail("Store management seems not to be ready to be used");
-        } catch (IncompleteEmailException e) {
-            fail("No exception should have been thrown.");
-        }
-
-
     }
 
     // test getter and setter at once.
     @Test
-    public void testSetGetStore() {
-        try {
+    public void testSetGetStore() throws InvalidStoreException {
             MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
             EmailProcessor.setStore(store);
 
             MailStore store2 = EmailProcessor.getStore();
             assertEquals(store, store2);
-        } catch (InvalidStoreException e) {
-            fail("Store management is not ready to be used");
-        }
     }
 
     // Test getStringFromStream method
