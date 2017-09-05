@@ -95,20 +95,22 @@ public class FSMailStore implements MailStore {
      * @return the file descriptor based on the base name and an iterator
      * @throws IOException the io exception
      */
-    static synchronized File getUniqueFile(String baseName) throws IOException {
-        int i = 0;
+    protected static synchronized File getUniqueFile(String baseName) throws IOException {
+        int indx = 0;
 
         File file = null;
         StringBuilder filename = new StringBuilder();
         while (file == null || file.exists()) {
             filename.delete(0, filename.length());
             filename.append(baseName);
-            if (i++ > 0) {
-                filename.append("_").append(i).append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
+            indx++;
+            if (indx > 1) {
+                filename.append("_").append(indx).append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
             } else {
                 filename.append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
             }
-            file = new File(filename.toString());
+            file = FileUtils.getFile(filename.toString());
+            //file = new File(filename.toString());
             logger.info("Checking if filename '{}' is valid", filename);
         }
         if (!file.createNewFile()) {
@@ -123,7 +125,7 @@ public class FSMailStore implements MailStore {
      *
      * @param email the email
      */
-    static synchronized void addToIndex(EmailModel email) {
+    protected static synchronized void addToIndex(EmailModel email) {
         if (email == null || email.hasEmptyField()) {
             logger.warn("A null or incomplete email was sent for indexing ...");
             return;
@@ -164,7 +166,7 @@ public class FSMailStore implements MailStore {
      *
      * @return
      */
-    static void loadIndex() throws InvalidStoreException {
+    protected static void loadIndex() throws InvalidStoreException {
         String indexFile = Configuration.get("emails.storage.fs.indexfile", DEFAULT_MAILS_INDEX_FILE);
         JSONParser parser = new JSONParser();
         try (FileReader file = new FileReader(indexFile)) {
@@ -210,10 +212,8 @@ public class FSMailStore implements MailStore {
      */
     @Override
     public synchronized void save(@Nullable EmailModel email) throws IncompleteEmailException {
-        if (email == null) {
-            return;
-        }
-        if (email.getReceivedDate() == null || email.getEmailStr() == null) {
+
+        if (email == null || email.getReceivedDate() == null || email.getEmailStr() == null) {
             throw new IncompleteEmailException();
         }
 

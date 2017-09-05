@@ -1,6 +1,8 @@
 package org.yj.smtpstub.processor;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.exception.InvalidStoreException;
 import org.yj.smtpstub.storage.FSMailStore;
@@ -19,6 +21,8 @@ import static org.junit.Assert.assertNotNull;
  * @author TriYop
  */
 public class TestEmailProcessor {
+
+    private static final Logger logger = LoggerFactory.getLogger(TestEmailProcessor.class);
 
     @Test(expected = IncompleteEmailException.class)
     public void testProcessAllNullValues() throws IncompleteEmailException {
@@ -65,14 +69,18 @@ public class TestEmailProcessor {
     // Test getStringFromStream method
     @Test
     public void testGetStringFromStreamNominal() {
-        EmailProcessor.getStringFromStream(new ByteArrayInputStream("This is my test string.".getBytes()));
-        assert true;
+        String expected = "This is my test string.";
+        logger.info("Expected String: \"{}\"", expected);
+        //FIXME
+        String result = EmailProcessor.getStringFromStream(new ByteArrayInputStream(expected.getBytes()));
+        logger.info("Returned string: \"{}\"", result);
+        assertEquals(expected, result);
     }
 
     @Test
     public void testGetStringFromStreamEmptyString() {
-        EmailProcessor.getStringFromStream(new ByteArrayInputStream(new byte[0]));
-        assert true;
+        String result = EmailProcessor.getStringFromStream(new ByteArrayInputStream(new byte[0]));
+        assertEquals("", result);
     }
 
 

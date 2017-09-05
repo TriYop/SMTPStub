@@ -2,7 +2,9 @@ package org.yj.smtpstub.storage;
 
 import org.junit.Test;
 import org.yj.smtpstub.exception.InvalidStoreException;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+
 /**
  * SMTPStub
  * --------------------------------------------

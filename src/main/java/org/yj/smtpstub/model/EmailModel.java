@@ -48,13 +48,6 @@ public final class EmailModel {
 
 
     /**
-     * Instantiates a new Email model.
-     */
-    public EmailModel() {
-        super();
-    }
-
-    /**
      * Gets received date.
      *
      * @return the received date
@@ -74,6 +67,7 @@ public final class EmailModel {
 
     public void setReceivedDate(final Date receivedDate) {
         if (receivedDate == null) {
+            logger.warn("date being set to NULL !");
             this.receivedDate = null;
         } else {
             this.receivedDate = (Date) receivedDate.clone();

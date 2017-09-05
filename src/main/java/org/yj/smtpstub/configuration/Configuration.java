@@ -19,7 +19,7 @@ public class Configuration {
     /**
      * logs events in a dedicated stream
      */
-    private  static  final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
     /**
      * default configuration file name
      */
@@ -91,8 +91,8 @@ public class Configuration {
         int value = defaultValue;
         if (config.containsKey(key)) {
             try {
-                value =  Integer.parseInt(config.getProperty(key));
-            } catch(NumberFormatException e) {
+                value = Integer.parseInt(config.getProperty(key));
+            } catch (NumberFormatException e) {
                 logger.warn("Value for key '" + key + "' was expected to be integer.");
             }
         }

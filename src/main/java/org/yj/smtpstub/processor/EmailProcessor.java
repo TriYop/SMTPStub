@@ -37,12 +37,6 @@ public final class EmailProcessor {
     private static MailStore store = null;
 
     /**
-     *
-     */
-    private EmailProcessor() {
-    }
-
-    /**
      * Gets store.
      *
      * @return the store
@@ -64,7 +58,7 @@ public final class EmailProcessor {
      * Process.
      *
      * @param from the from
-     * @param dest   the dest
+     * @param dest the dest
      * @param data the data
      */
     public static final void process(String from, String dest, InputStream data) throws IncompleteEmailException {
@@ -95,7 +89,7 @@ public final class EmailProcessor {
      * @param inStream the input stream that will be transformed into a String
      * @return
      */
-    static String getStringFromStream(@Nonnull InputStream inStream) {
+    protected static String getStringFromStream(@Nonnull InputStream inStream) {
         long prefixLines = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, Charset.forName("UTF8")));
         StringBuilder sb = new StringBuilder();
@@ -106,7 +100,10 @@ public final class EmailProcessor {
             while ((line = reader.readLine()) != null) {
                 lineNb++;
                 if (lineNb > prefixLines) {
-                    sb.append(line).append(System.lineSeparator());
+                    if (sb.length()>0) {
+                        sb.append(System.lineSeparator());
+                    }
+                    sb.append(line);
                 }
             }
         } catch (IOException ioe) {
@@ -121,7 +118,7 @@ public final class EmailProcessor {
      * @param data a string representing the email content.
      * @return the subject of the email, or an empty subject if not found.
      */
-    static String parseMessageSubject(@Nonnull String data) {
+    protected static String parseMessageSubject(@Nonnull String data) {
         try {
             BufferedReader reader = new BufferedReader(new StringReader(data));
 

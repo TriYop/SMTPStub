@@ -19,11 +19,6 @@ import org.yj.smtpstub.storage.MailStoreFactory;
  */
 final class SMTPStub {
     /**
-     * logs events in a dedicated stream
-     */
-    private static final Logger logger = LoggerFactory.getLogger(SMTPStub.class);
-
-    /**
      * default storage engine class
      */
     public static final String DEFAULT_STORAGE_ENGINE = FSMailStore.class.getCanonicalName();
@@ -35,6 +30,10 @@ final class SMTPStub {
      * default TCP port used for listening
      */
     public static final int DEFAULT_LISTEN_PORT = 25;
+    /**
+     * logs events in a dedicated stream
+     */
+    private static final Logger logger = LoggerFactory.getLogger(SMTPStub.class);
 
     /**
      * default private constructor that should never be used

@@ -12,8 +12,8 @@ public final class InvalidPortException extends PortException {
     /**
      * Creates a new InvalidPortException
      *
-     * @param parent   parent exception that was caught
-     * @param port the port number involved in the exception
+     * @param parent parent exception that was caught
+     * @param port   the port number involved in the exception
      */
     public InvalidPortException(Exception parent, int port) {
         super(parent, port);
