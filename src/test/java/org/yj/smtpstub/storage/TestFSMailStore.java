@@ -1,5 +1,6 @@
 package org.yj.smtpstub.storage;
 
+import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -76,16 +77,22 @@ public class TestFSMailStore {
 
     @Test
     public void testAddToIndexNullModel() {
+        int sizeBefore = store.getAllEmails().size();
         FSMailStore.addToIndex(null);
-        assert true;
+        int sizeAfter = store.getAllEmails().size();
+
+        assertEquals("null values should not be added to index", sizeBefore, sizeAfter);
     }
 
 
     @Test
     public void testAddToIndexEmptyModel() {
         EmailModel model = new EmailModel();
+        int sizeBefore = store.getAllEmails().size();
         FSMailStore.addToIndex(model);
-        assert true;
+        int sizeAfter = store.getAllEmails().size();
+
+        assertEquals("empty values should not be added to index", sizeBefore, sizeAfter);
     }
 
     @Test
@@ -123,8 +130,8 @@ public class TestFSMailStore {
 
     @Test
     public void testSaveNominal() throws IncompleteEmailException {
+        assertNotNull(store);
         store.save(sampleEmail);
-        assert true;
     }
 
 
@@ -145,7 +152,6 @@ public class TestFSMailStore {
             assertEquals(expect.getReceivedDate(), result.getReceivedDate());
             assertEquals(expect.getSubject(), result.getSubject());
             assertEquals(expect.getEmailStr(), result.getEmailStr());
-            assert true;
         } else {
             fail("the test store should contain at least one email meta-data");
         }
@@ -163,7 +169,7 @@ public class TestFSMailStore {
     public void testLoadIndexEmptyFile() throws InvalidStoreException {
         Configuration.set(STORAGE_INDEX_FILE_KEY, getResourceFile("/empty_index.json"));
         FSMailStore.loadIndex();
-        assert store.getAllEmails().isEmpty();
+        assertTrue("Messages index should be empty", store.getAllEmails().isEmpty());
     }
 
     @Test(expected = InvalidStoreException.class)
@@ -187,8 +193,11 @@ public class TestFSMailStore {
     @Ignore
     public void testSaveIndexNominal() {
         //FIXME: implement this test with valid in and out index.
-        FSMailStore.saveIndex();
-        assert true;
+        try {
+            FSMailStore.saveIndex();
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     public final String getResourceFile(String filename) {

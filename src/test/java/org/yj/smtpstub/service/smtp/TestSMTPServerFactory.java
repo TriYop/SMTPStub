@@ -76,8 +76,8 @@ public class TestSMTPServerFactory {
     @Test
     public void testGetRunningServerNominal() throws NetworkException {
         SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2525, "localhost");
+        assertNotNull(srvr);
         srvr.stop();
-        assert true;
     }
 
     @Test(expected = NetworkException.class)
@@ -141,8 +141,8 @@ public class TestSMTPServerFactory {
     @Test
     public void testGetRunningTLSServerNominal() throws NetworkException {
         SMTPServer srvr = SMTPServerFactory.getRunningTLSServer(2526, "localhost");
+        assertNotNull(srvr);
         srvr.stop();
-        assert true;
     }
 
 

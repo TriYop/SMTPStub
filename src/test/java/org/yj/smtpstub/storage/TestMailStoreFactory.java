@@ -2,7 +2,7 @@ package org.yj.smtpstub.storage;
 
 import org.junit.Test;
 import org.yj.smtpstub.exception.InvalidStoreException;
-
+import static org.junit.Assert.*;
 /**
  * SMTPStub
  * --------------------------------------------
@@ -15,7 +15,8 @@ public class TestMailStoreFactory {
     public void testGetMailStoreValidType() throws InvalidStoreException {
         String type = FSMailStore.class.getCanonicalName();
         Object obj = MailStoreFactory.getMailStore(type);
-        assert FSMailStore.class.equals(obj.getClass());
+        assertEquals("", FSMailStore.class, obj.getClass());
+
     }
 
     @Test(expected = InvalidStoreException.class)

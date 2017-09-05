@@ -10,6 +10,7 @@ import org.yj.smtpstub.storage.MailStoreFactory;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * SMTPStub
@@ -46,9 +47,9 @@ public class TestEmailProcessor {
     @Test
     public void testProcessEmptyValues() throws InvalidStoreException, IncompleteEmailException {
         MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+        assertNotNull(store);
         EmailProcessor.setStore(store);
         EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
-        assert true;
     }
 
     // test getter and setter at once.
