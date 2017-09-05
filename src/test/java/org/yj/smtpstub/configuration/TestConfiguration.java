@@ -14,12 +14,6 @@ public class TestConfiguration {
     private static final String TEST_STRING_VALUE = "test.value";
     private static final String TEST_INT_KEY = "test.int";
     private static final int TEST_INT_VALUE = 5;
-    // private Configuration config;
-
-    @Before
-    public void setUp() {
-        final Configuration config = new Configuration();
-    }
 
     @Test
     public void testGetExistingKey() {
