@@ -14,11 +14,11 @@ public class InvalidHostException extends NetworkException {
     /**
      * Constructs a new InvalidHostException object
      *
-     * @param ex   parent exception that was caught
+     * @param parent   parent exception that was caught
      * @param host provided hostname
      */
-    public InvalidHostException(UnknownHostException ex, String host) {
-        super("Host name could not be resolved as a valid address: " + host, ex);
+    public InvalidHostException(UnknownHostException parent, String host) {
+        super("Host name could not be resolved as a valid address: " + host, parent);
     }
 
 }
