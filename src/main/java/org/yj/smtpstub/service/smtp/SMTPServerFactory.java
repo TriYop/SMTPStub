@@ -90,6 +90,7 @@ public final class SMTPServerFactory {
             smtpServer.setRequireTLS(true);
             smtpServer.setPort(port);
             smtpServer.start();
+            logger.info("SMTP Server started, listening on port {}", port);
             return smtpServer;
         } catch (UnknownHostException exception) {
             logger.error("The provided hostname '{}' cannot be resolved as an IP address.", address, exception);

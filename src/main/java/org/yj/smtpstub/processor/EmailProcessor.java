@@ -64,18 +64,18 @@ public final class EmailProcessor {
      * Process.
      *
      * @param from the from
-     * @param to   the to
+     * @param dest   the dest
      * @param data the data
      */
-    public static final void process(String from, String to, InputStream data) throws org.yj.smtpstub.exception.IncompleteEmailException {
-        if (from == null || to == null || data == null) {
+    public static final void process(String from, String dest, InputStream data) throws IncompleteEmailException {
+        if (from == null || dest == null || data == null) {
             throw new IncompleteEmailException();
         }
 
         EmailModel model = new EmailModel();
         model.setFrom(from);
         model.setFrom(from);
-        model.setTo(to);
+        model.setTo(dest);
         String mailContent = getStringFromStream(data);
         model.setSubject(parseMessageSubject(mailContent));
         model.setEmailStr(mailContent);
@@ -84,32 +84,33 @@ public final class EmailProcessor {
         if (store != null) {
             try {
                 store.save(model);
-            } catch (IncompleteEmailException e) {
-                logger.error("email was incomplete.  ", e);
+            } catch (IncompleteEmailException exc) {
+                logger.error("email was incomplete.  ", exc);
             }
 
         }
     }
 
     /**
-     * @param is the input stream that will be transformed into a String
+     * @param inStream the input stream that will be transformed into a String
      * @return
      */
-    static String getStringFromStream(@Nonnull InputStream is) {
+    static String getStringFromStream(@Nonnull InputStream inStream) {
         long prefixLines = 0;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF8")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, Charset.forName("UTF8")));
         StringBuilder sb = new StringBuilder();
 
         String line;
         long lineNb = 0;
         try {
             while ((line = reader.readLine()) != null) {
-                if (++lineNb > prefixLines) {
+                lineNb++;
+                if (lineNb > prefixLines) {
                     sb.append(line).append(System.lineSeparator());
                 }
             }
-        } catch (IOException e) {
-            logger.error("", e);
+        } catch (IOException ioe) {
+            logger.error("", ioe);
         }
         return sb.toString();
     }
@@ -134,8 +135,8 @@ public final class EmailProcessor {
                     return matcher.group(1);
                 }
             }
-        } catch (IOException e) {
-            logger.error("", e);
+        } catch (IOException ioe) {
+            logger.error("", ioe);
         }
         return "";
     }

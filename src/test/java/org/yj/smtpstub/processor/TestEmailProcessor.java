@@ -10,7 +10,7 @@ import org.yj.smtpstub.storage.MailStoreFactory;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * SMTPStub
@@ -20,82 +20,59 @@ import static org.junit.Assert.fail;
  */
 public class TestEmailProcessor {
 
-    @Test
-    public void testProcessNullValues() {
-        try {
-            EmailProcessor.process(null, null, null);
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessAllNullValues() throws IncompleteEmailException {
 
-        try {
-            EmailProcessor.process("", "", null);
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+        EmailProcessor.process(null, null, null);
 
-        try {
-            EmailProcessor.process(null, "", new ByteArrayInputStream(new byte[0]));
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+    }
 
-        try {
-            EmailProcessor.process("", null, new ByteArrayInputStream(new byte[0]));
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessDataNullValues() throws IncompleteEmailException {
+        EmailProcessor.process("", "", null);
 
-        assert true;
+    }
+
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessFromNullValues() throws IncompleteEmailException {
+        EmailProcessor.process(null, "", new ByteArrayInputStream(new byte[0]));
+
+    }
+
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessToNullValues() throws IncompleteEmailException {
+        EmailProcessor.process("", null, new ByteArrayInputStream(new byte[0]));
     }
 
     @Test
-    public void testProcessEmptyValues() {
-
-        try {
-            MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
-            EmailProcessor.setStore(store);
-
-            EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
-            assert true;
-        } catch (InvalidStoreException e) {
-            fail("Store management seems not to be ready to be used");
-        } catch (IncompleteEmailException e) {
-            fail("No exception should have been thrown.");
-        }
-
-
+    public void testProcessEmptyValues() throws InvalidStoreException, IncompleteEmailException {
+        MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+        assertNotNull(store);
+        EmailProcessor.setStore(store);
+        EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
     }
 
     // test getter and setter at once.
     @Test
-    public void testSetGetStore() {
-        try {
-            MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
-            EmailProcessor.setStore(store);
+    public void testSetGetStore() throws InvalidStoreException {
+        MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+        EmailProcessor.setStore(store);
 
-            MailStore store2 = EmailProcessor.getStore();
-            assertEquals(store, store2);
-        } catch (InvalidStoreException e) {
-            fail("Store management is not ready to be used");
-        }
+        MailStore store2 = EmailProcessor.getStore();
+        assertEquals(store, store2);
     }
 
     // Test getStringFromStream method
     @Test
     public void testGetStringFromStreamNominal() {
-        //InputStream stream =
         EmailProcessor.getStringFromStream(new ByteArrayInputStream("This is my test string.".getBytes()));
+        assert true;
     }
 
     @Test
     public void testGetStringFromStreamEmptyString() {
-        //InputStream stream =
         EmailProcessor.getStringFromStream(new ByteArrayInputStream(new byte[0]));
+        assert true;
     }
 
 
