@@ -3,7 +3,7 @@ MAINTAINER TriYop "dev@yvanjanet.net"
 
 RUN mkdir -p /output
 
-ADD SMTPStub-1.0-SNAPSHOT.jar /SMTPStub.jar
+COPY SMTPStub-1.0-SNAPSHOT.jar /SMTPStub.jar
 
 VOLUME /output
 
