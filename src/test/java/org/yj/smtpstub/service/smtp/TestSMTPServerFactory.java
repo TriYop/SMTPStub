@@ -8,7 +8,8 @@ import org.yj.smtpstub.exception.InvalidHostException;
 import org.yj.smtpstub.exception.NetworkException;
 import org.yj.smtpstub.exception.PortException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * SMTPStub
  * --------------------------------------------
@@ -17,7 +18,6 @@ import static org.junit.Assert.*;
  */
 public class TestSMTPServerFactory {
     private static final Logger logger = LoggerFactory.getLogger(TestSMTPServerFactory.class);
-    private SMTPServerFactory factory;
 
     @Test(expected = NetworkException.class)
     public void testGetRunningServerInvalidParameters() throws NetworkException {

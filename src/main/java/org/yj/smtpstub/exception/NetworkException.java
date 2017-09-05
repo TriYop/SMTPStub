@@ -9,7 +9,6 @@ package org.yj.smtpstub.exception;
  */
 abstract public class NetworkException extends Exception {
     /**
-     *
      * @param message
      * @param throwable
      */

@@ -100,15 +100,14 @@ public class TestFSMailStore {
         assertFalse(store.getAllEmails().isEmpty());
     }
 
-    @Test
+    @Test(expected = IncompleteEmailException.class)
     public void testSaveNull() throws IncompleteEmailException {
-        store.save(null);
-        assertTrue(true);
+        this.store.save(null);
     }
 
     @Test(expected = IncompleteEmailException.class)
     public void testSaveEmpty() throws IncompleteEmailException {
-        store.save(new EmailModel());
+        this.store.save(new EmailModel());
     }
 
     @Test(expected = IncompleteEmailException.class)

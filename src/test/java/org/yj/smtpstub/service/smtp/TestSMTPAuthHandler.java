@@ -22,6 +22,7 @@ public class TestSMTPAuthHandler {
     @Test
     public void testGetIdentity() {
         smtpAuthHandler.getIdentity();
+        
     }
 
     @Test

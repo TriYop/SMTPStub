@@ -16,7 +16,6 @@ import org.subethamail.smtp.AuthenticationHandler;
 final class SMTPAuthHandler implements AuthenticationHandler {
 
 
-
     /**
      * VXNlcm5hbWU6 is base64 for "Username:"
      */

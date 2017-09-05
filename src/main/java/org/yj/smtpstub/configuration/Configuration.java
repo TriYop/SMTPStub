@@ -19,7 +19,7 @@ public class Configuration {
     /**
      * logs events in a dedicated stream
      */
-    private  static  final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
     /**
      * default configuration file name
      */
@@ -31,37 +31,33 @@ public class Configuration {
     /**
      * tells if config has already been initialized.
      */
-    private static boolean isInit = false;
-
-    /**
-     * Opens the "{@code configuration.properties}" file and maps data.
-     */
-    Configuration() {
-        init();
-    }
+    private static boolean isInit = init();
 
     /**
      * Initializes
      */
-    private static void init() {
+    private static boolean init() {
+        if (isInit) {
+            return true;
+        }
         InputStream in = config.getClass().getResourceAsStream(CONFIG_FILE);
+
         synchronized (config) {
             if (in == null) {
                 config.clear();
-                isInit = true;
-                return;
+                return false;
             }
             try {
                 // Load defaults settings
-
                 config.load(in);
                 in.close();
-                isInit = true;
+                return true;
                 // and override them from user settings
             } catch (IOException e) {
                 LoggerFactory.getLogger(Configuration.class).error("", e);
             }
         }
+        return false;
     }
 
     /**
@@ -91,8 +87,8 @@ public class Configuration {
         int value = defaultValue;
         if (config.containsKey(key)) {
             try {
-                value =  Integer.parseInt(config.getProperty(key));
-            } catch(NumberFormatException e) {
+                value = Integer.parseInt(config.getProperty(key));
+            } catch (NumberFormatException e) {
                 logger.warn("Value for key '" + key + "' was expected to be integer.");
             }
         }
