@@ -21,14 +21,14 @@ public class TestMailStoreFactory {
     @Test(expected = InvalidStoreException.class)
     public void testGetMailStoreInvalidInheritedType() throws InvalidStoreException {
         String type = String.class.getCanonicalName();
-        Object obj = MailStoreFactory.getMailStore(type);
+        MailStoreFactory.getMailStore(type);
 
     }
 
     @Test(expected = InvalidStoreException.class)
     public void testGetMailStoreInvalidType() throws InvalidStoreException {
         String type = "InvalidType";
-        Object obj = MailStoreFactory.getMailStore(type);
+        MailStoreFactory.getMailStore(type);
     }
 
     @Test(expected = InvalidStoreException.class)

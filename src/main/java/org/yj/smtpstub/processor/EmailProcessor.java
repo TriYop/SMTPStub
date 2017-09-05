@@ -67,7 +67,7 @@ public final class EmailProcessor {
      * @param to   the to
      * @param data the data
      */
-    public static final void process(String from, String to, InputStream data) throws org.yj.smtpstub.exception.IncompleteEmailException {
+    public static final void process(String from, String to, InputStream data) throws IncompleteEmailException {
         if (from == null || to == null || data == null) {
             throw new IncompleteEmailException();
         }

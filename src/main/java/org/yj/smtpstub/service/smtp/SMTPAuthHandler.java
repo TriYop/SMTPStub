@@ -7,12 +7,16 @@ import org.subethamail.smtp.AuthenticationHandler;
 /**
  * SMTPStub
  * --------------------------------------------
- * Simulates an authentication handler to allow capturing emails that are set up with login authentication.
+ * Simulates an authentication handler to allow capturing emails that are
+ * set up with login authentication.
  *
  * @author TriYop
  * @since 1.0
  */
 final class SMTPAuthHandler implements AuthenticationHandler {
+
+
+
     /**
      * VXNlcm5hbWU6 is base64 for "Username:"
      */
@@ -33,29 +37,33 @@ final class SMTPAuthHandler implements AuthenticationHandler {
     /**
      * initializes pass number to 0
      */
-    private transient int pass = 0;
+    private transient int pass;
 
     /**
      * Handles authentication process.
      *
      * @param clientInput The client's input, eg "AUTH PLAIN dGVzdAB0ZXN0ADEyMzQ="
-     * @return <code>null</code> if the authentication process is finished, otherwise a string to hand back to the client.
+     * @return <code>null</code> if the authentication process is finished, otherwise
+     * a string to hand back to the client.
      */
     @Override
-    public String auth(String clientInput) {
-        String prompt;
+    public String auth(final String clientInput) {
+        String prompt = null;
         // increment pass number
         pass++;
         switch (pass) {
             case 1:
+                logger.debug("calling for username");
                 prompt = SMTPAuthHandler.CALLBACK_USERNAME;
                 break;
             case 2:
+                logger.debug("calling for password");
                 prompt = SMTPAuthHandler.CALLBACK_PASSWORD;
                 break;
             default:
+                logger.debug("there is no more callback to send");
                 pass = 0;
-                prompt = null;
+                break;
         }
         return prompt;
     }
