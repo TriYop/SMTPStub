@@ -1,6 +1,5 @@
 package org.yj.smtpstub.storage;
 
-import com.sun.corba.se.spi.orbutil.fsm.FSM;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
