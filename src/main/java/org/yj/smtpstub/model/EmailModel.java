@@ -1,5 +1,8 @@
 package org.yj.smtpstub.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 
 
@@ -13,20 +16,36 @@ import java.util.Date;
  */
 public final class EmailModel {
 
+    /**
+     * class logger
+     */
+    private static final Logger logger = LoggerFactory.getLogger(EmailModel.class);
+    /**
+     * date when message was received by server.
+     * This may not be execution time due to asynchronous handling
+     */
     private Date receivedDate;
+    /**
+     * message emitter
+     */
     private String from;
+    /**
+     * message recipient
+     */
     private String to;
+    /**
+     * message subject
+     */
     private String subject;
+    /**
+     * message content body
+     */
     private String emailStr;
+    /**
+     * message file path used for storing message.
+     */
     private String filePath;
 
-
-    /**
-     * Instantiates a new Email model.
-     */
-    public EmailModel() {
-        super();
-    }
 
     /**
      * Gets received date.
@@ -34,7 +53,10 @@ public final class EmailModel {
      * @return the received date
      */
     public Date getReceivedDate() {
-        return receivedDate;
+        if (receivedDate == null) {
+            return null;
+        }
+        return (Date) receivedDate.clone();
     }
 
     /**
@@ -42,8 +64,14 @@ public final class EmailModel {
      *
      * @param receivedDate the received date
      */
-    public void setReceivedDate(Date receivedDate) {
-        this.receivedDate = receivedDate;
+
+    public void setReceivedDate(final Date receivedDate) {
+        if (receivedDate == null) {
+            logger.warn("date being set to NULL !");
+            this.receivedDate = null;
+        } else {
+            this.receivedDate = (Date) receivedDate.clone();
+        }
     }
 
     /**

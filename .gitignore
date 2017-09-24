@@ -18,6 +18,7 @@ target/*
 
 # Received emails folder
 inbox/*
+doc/*
 
 *.eml
 

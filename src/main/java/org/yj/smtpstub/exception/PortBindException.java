@@ -12,8 +12,13 @@ package org.yj.smtpstub.exception;
  * @since 1.0
  */
 public final class PortBindException extends PortException {
-
-    public PortBindException(Exception e, int port) {
-        super(e, port);
+    /**
+     * Creates a new PortBindException
+     *
+     * @param parent parent exception that was caught
+     * @param port   port number involved in this exeption
+     */
+    public PortBindException(Exception parent, int port) {
+        super(parent, port);
     }
 }

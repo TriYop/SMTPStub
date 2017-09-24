@@ -18,12 +18,26 @@ import org.yj.smtpstub.storage.MailStoreFactory;
  * @since 1.0
  */
 final class SMTPStub {
+    /**
+     * default storage engine class
+     */
+    public static final String DEFAULT_STORAGE_ENGINE = FSMailStore.class.getCanonicalName();
+    /**
+     * default IPv4 bind address
+     */
+    public static final String DEFAULT_BIND_ADDRESS = "0.0.0.0";
+    /**
+     * default TCP port used for listening
+     */
+    public static final int DEFAULT_LISTEN_PORT = 25;
+    /**
+     * logs events in a dedicated stream
+     */
     private static final Logger logger = LoggerFactory.getLogger(SMTPStub.class);
 
-    public static final String DEFAULT_STORAGE_ENGINE = FSMailStore.class.getCanonicalName();
-    public static final String DEFAULT_BIND_ADDRESS = "0.0.0.0";
-    public static final int DEFAULT_LISTEN_PORT = 25;
-
+    /**
+     * default private constructor that should never be used
+     */
     private SMTPStub() {
         throw new UnsupportedOperationException();
     }
@@ -36,11 +50,11 @@ final class SMTPStub {
     public static void main(final String[] args) {
         SMTPServer server = null;
         try {
-            String storeClassNmae= Configuration.get("emails.storage.engine", DEFAULT_STORAGE_ENGINE);
+            String storeClassNmae = Configuration.get("emails.storage.engine", DEFAULT_STORAGE_ENGINE);
 
             EmailProcessor.setStore(MailStoreFactory.getMailStore(storeClassNmae));
             server = SMTPServerFactory.getRunningServer(
-                    Configuration.getInt("smtp.secure.port", DEFAULT_LISTEN_PORT),
+                    Configuration.getInt("smtp.default.port", DEFAULT_LISTEN_PORT),
                     Configuration.get("smtp.bind.address", DEFAULT_BIND_ADDRESS));
         } catch (NumberFormatException e) {
             logger.error("Error: Invalid port number", e);

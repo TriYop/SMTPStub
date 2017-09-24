@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.*;
+
 /**
  * SMTPStub
  * --------------------------------------------
@@ -14,10 +15,10 @@ import static org.junit.Assert.*;
  */
 public class TestEmailModel {
 
-    EmailModel model;
+    private EmailModel model;
 
     @Before
-    public void setup() {
+    public void setUp() {
         model = new EmailModel();
 
     }
@@ -29,6 +30,8 @@ public class TestEmailModel {
         Date now = new Date();
         model.setReceivedDate(now);
         assertEquals("Expecting the provided date to be returned after setting value", now, model.getReceivedDate());
+        model.setReceivedDate(null);
+        assertEquals("Expecting value to be reset to null after null asignment", null, model.getReceivedDate());
     }
 
     @Test
@@ -79,6 +82,30 @@ public class TestEmailModel {
 
     }
 
+    @Test
+    public void testHasEmptyField() {
+
+        assertTrue(model.hasEmptyField());
+
+        model.setEmailStr("Subject: test\n\n");
+        assertTrue(model.hasEmptyField());
+
+        model.setFilePath("inbox/test");
+        assertTrue(model.hasEmptyField());
+
+        model.setFrom("from_value");
+        assertTrue(model.hasEmptyField());
+
+        model.setReceivedDate(new Date());
+        assertTrue(model.hasEmptyField());
+
+        model.setSubject("subject_value");
+        assertTrue(model.hasEmptyField());
+
+        model.setTo("to_value");
+        assertFalse(model.hasEmptyField());
+
+    }
 
 
 }

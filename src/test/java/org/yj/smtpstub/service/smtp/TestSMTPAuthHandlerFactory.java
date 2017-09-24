@@ -2,6 +2,9 @@ package org.yj.smtpstub.service.smtp;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.subethamail.smtp.AuthenticationHandler;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * SMTPStub
@@ -10,15 +13,16 @@ import org.junit.Test;
  * @author TriYop
  */
 public class TestSMTPAuthHandlerFactory {
-    SMTPAuthHandlerFactory factory;
+    private SMTPAuthHandlerFactory factory;
 
     @Before
-    public void setup() {
+    public void setUp() {
         factory = new SMTPAuthHandlerFactory();
     }
 
     @Test
     public void testCreate() {
-        factory.create();
+        AuthenticationHandler handler = factory.create();
+        assertNotNull(handler);
     }
 }

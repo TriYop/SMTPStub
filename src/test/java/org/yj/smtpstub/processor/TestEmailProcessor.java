@@ -1,7 +1,8 @@
 package org.yj.smtpstub.processor;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.exception.InvalidStoreException;
 import org.yj.smtpstub.storage.FSMailStore;
@@ -11,7 +12,7 @@ import org.yj.smtpstub.storage.MailStoreFactory;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * SMTPStub
@@ -21,115 +22,91 @@ import static org.junit.Assert.fail;
  */
 public class TestEmailProcessor {
 
+    private static final Logger logger = LoggerFactory.getLogger(TestEmailProcessor.class);
 
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessAllNullValues() throws IncompleteEmailException {
 
-    @Before
-    public void setup() {
+        EmailProcessor.process(null, null, null);
 
     }
 
-    @Test
-    public void testProcess_nullValues() {
-        try {
-            EmailProcessor.process(null, null, null);
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessDataNullValues() throws IncompleteEmailException {
+        EmailProcessor.process("", "", null);
 
-        try {
-            EmailProcessor.process("", "", null);
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+    }
 
-        try {
-            EmailProcessor.process(null, "", new ByteArrayInputStream(new byte[0]));
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessFromNullValues() throws IncompleteEmailException {
+        EmailProcessor.process(null, "", new ByteArrayInputStream(new byte[0]));
 
-        try {
-            EmailProcessor.process("", null, new ByteArrayInputStream(new byte[0]));
-            fail("test should have thrown an IncompleteEmailException.");
-        } catch (IncompleteEmailException e) {
-            assert true;
-        }
+    }
 
-        assert true;
+    @Test(expected = IncompleteEmailException.class)
+    public void testProcessToNullValues() throws IncompleteEmailException {
+        EmailProcessor.process("", null, new ByteArrayInputStream(new byte[0]));
     }
 
     @Test
-    public void testProcess_emptyValues() {
-
-        try {
-            MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
-            EmailProcessor.setStore(store);
-
-            EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
-            assert true;
-        } catch (InvalidStoreException e) {
-            fail("Store management seems not to be ready to be used");
-        }  catch (IncompleteEmailException e) {
-            fail("No exception should have been thrown.");
-        }
-
-
+    public void testProcessEmptyValues() throws InvalidStoreException, IncompleteEmailException {
+        MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+        assertNotNull(store);
+        EmailProcessor.setStore(store);
+        EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
     }
 
     // test getter and setter at once.
     @Test
-    public void testSetGetStore() {
-        try {
-            MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
-            EmailProcessor.setStore(store);
+    public void testSetGetStore() throws InvalidStoreException {
+        MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+        EmailProcessor.setStore(store);
 
-            MailStore store2 = EmailProcessor.getStore();
-            assertEquals(store, store2);
-        } catch (InvalidStoreException e) {
-            fail("Store management is not ready to be used");
-        }
+        MailStore store2 = EmailProcessor.getStore();
+        assertEquals(store, store2);
     }
 
     // Test getStringFromStream method
     @Test
-    public void testGetStringFromStream_nominal() {
-        //InputStream stream =
-        EmailProcessor.getStringFromStream(new ByteArrayInputStream("This is my test string.".getBytes()));
+    public void testGetStringFromStreamNominal() {
+        String expected = "This is my test string.";
+        logger.info("Expected String: \"{}\"", expected);
+        //FIXME
+        String result = EmailProcessor.getStringFromStream(new ByteArrayInputStream(expected.getBytes()));
+        logger.info("Returned string: \"{}\"", result);
+        assertEquals(expected, result);
     }
 
     @Test
-    public void testGetStringFromStream_emptyString() {
-        //InputStream stream =
-        EmailProcessor.getStringFromStream(new ByteArrayInputStream(new byte[0]));
+    public void testGetStringFromStreamEmptyString() {
+        String result = EmailProcessor.getStringFromStream(new ByteArrayInputStream(new byte[0]));
+        assertEquals("", result);
     }
 
 
     // Test  forparseMessageSubject method
     @Test
-    public void testParseMessageSubject_emptyMesage() {
+    public void testParseMessageSubjectEmptyMesage() {
         assertEquals("", EmailProcessor.parseMessageSubject(""));
     }
 
     @Test
-    public void testParseMessageSubject_noSubjectMesage() {
+    public void testParseMessageSubjectNoSubjectMesage() {
         assertEquals("", EmailProcessor.parseMessageSubject("This is a message\nwithout subject\nwithout subject:"));
     }
 
     @Test
-    public void testParseMessageSubject_subjectOnly() {
+    public void testParseMessageSubjectSubjectOnly() {
         assertEquals("this is my subject", EmailProcessor.parseMessageSubject("Subject: this is my subject"));
     }
 
     @Test
-    public void testParseMessageSubject_nominal() {
+    public void testParseMessageSubjectNominal() {
         assertEquals("this is my subject", EmailProcessor.parseMessageSubject("something:\nSubject: this is my subject\n\n and now, this is my message body"));
     }
 
     @Test
-    public void testParseMessageSubject_subjectInBody() {
+    public void testParseMessageSubjectSubjectInBody() {
         // Check that subject is parsed only in message headers and not in message body
         assertEquals("", EmailProcessor.parseMessageSubject("something:\n\n\nTest body\nSubject: this is my subject\n\n and now, this is my message body"));
     }

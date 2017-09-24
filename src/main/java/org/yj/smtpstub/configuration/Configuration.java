@@ -16,34 +16,48 @@ import java.util.Properties;
  * @since 1.0
  */
 public class Configuration {
-    private  static  final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    /**
+     * logs events in a dedicated stream
+     */
+    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    /**
+     * default configuration file name
+     */
     private static final String CONFIG_FILE = "/configuration.properties";
+    /**
+     * config properties in memory representation
+     */
     private static final Properties config = new Properties();
-    private static boolean isInit = false;
+    /**
+     * tells if config has already been initialized.
+     */
+    private static boolean isInit = init();
 
     /**
-     * Opens the "{@code configuration.properties}" file and maps data.
+     * Initializes
      */
-    Configuration() {
-        init();
-    }
-
-    private static void init() {
+    private static boolean init() {
+        if (isInit) {
+            return true;
+        }
         InputStream in = config.getClass().getResourceAsStream(CONFIG_FILE);
-        if (in == null) {
-            config.clear();
-            isInit = true;
-            return;
+
+        synchronized (config) {
+            if (in == null) {
+                config.clear();
+                return false;
+            }
+            try {
+                // Load defaults settings
+                config.load(in);
+                in.close();
+                return true;
+                // and override them from user settings
+            } catch (IOException e) {
+                LoggerFactory.getLogger(Configuration.class).error("", e);
+            }
         }
-        try {
-            // Load defaults settings
-            config.load(in);
-            in.close();
-            isInit = true;
-            // and override them from user settings
-        } catch (IOException e) {
-            LoggerFactory.getLogger(Configuration.class).error("", e);
-        }
+        return false;
     }
 
     /**
@@ -73,8 +87,8 @@ public class Configuration {
         int value = defaultValue;
         if (config.containsKey(key)) {
             try {
-                value =  Integer.parseInt(config.getProperty(key));
-            } catch(NumberFormatException e) {
+                value = Integer.parseInt(config.getProperty(key));
+            } catch (NumberFormatException e) {
                 logger.warn("Value for key '" + key + "' was expected to be integer.");
             }
         }

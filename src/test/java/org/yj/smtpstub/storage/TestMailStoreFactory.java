@@ -1,7 +1,9 @@
 package org.yj.smtpstub.storage;
 
-import org.junit.*;
+import org.junit.Test;
 import org.yj.smtpstub.exception.InvalidStoreException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * SMTPStub
@@ -10,58 +12,33 @@ import org.yj.smtpstub.exception.InvalidStoreException;
  * @author TriYop
  */
 public class TestMailStoreFactory {
-    @Before
-    public void setup() {}
-
-    @After
-    public void tearOff() {}
 
     @Test
-    public void testGetMailStore_validType() {
-        String type= FSMailStore.class.getCanonicalName();
-        try {
-            Object obj= MailStoreFactory.getMailStore(type);
-            assert FSMailStore.class.equals(obj.getClass());
-        } catch (InvalidStoreException ex) {
-            Assert.fail("Invalid class returned");
-        }
+    public void testGetMailStoreValidType() throws InvalidStoreException {
+        String type = FSMailStore.class.getCanonicalName();
+        Object obj = MailStoreFactory.getMailStore(type);
+        assertEquals("", FSMailStore.class, obj.getClass());
 
     }
 
-    @Test
-    public void testGetMailStore_invalidInheritedType() {
+    @Test(expected = InvalidStoreException.class)
+    public void testGetMailStoreInvalidInheritedType() throws InvalidStoreException {
         String type = String.class.getCanonicalName();
-        try {
-            Object obj = MailStoreFactory.getMailStore(type);
-            Assert.fail("should have thrown an exception");
-        } catch (InvalidStoreException ex) {
-            Assert.assertTrue(true);
-        }
+        MailStoreFactory.getMailStore(type);
+
     }
 
-    @Test
-    public void testGetMailStore_invalidType() {
+    @Test(expected = InvalidStoreException.class)
+    public void testGetMailStoreInvalidType() throws InvalidStoreException {
         String type = "InvalidType";
-        try {
-            Object obj = MailStoreFactory.getMailStore(type);
-            Assert.fail("should have thrown an exception");
-        } catch (InvalidStoreException ex) {
-            Assert.assertTrue(true);
-        }
+        MailStoreFactory.getMailStore(type);
     }
 
-    @Test
-    public void testGetMailStore_nullType() {
-        String type= null;
-        try {
-            Object obj= MailStoreFactory.getMailStore(type);
-            Assert.fail("should have thrown an exception");
-        } catch (InvalidStoreException ex) {
-            Assert.assertTrue(true);
-        }
+    @Test(expected = InvalidStoreException.class)
+    public void testGetMailStoreNullType() throws InvalidStoreException {
+        String type = null;
+        MailStoreFactory.getMailStore(type);
     }
-
-
 
 
 }

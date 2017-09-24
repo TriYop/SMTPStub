@@ -18,6 +18,9 @@ import java.io.InputStream;
  * @since 1.0
  */
 final class SMTPListener implements SimpleMessageListener {
+    /**
+     * Logs events into a dedicated stream
+     */
     private static final Logger logger = LoggerFactory.getLogger(SMTPListener.class);
 
     /**

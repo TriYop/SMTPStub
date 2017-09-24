@@ -34,36 +34,59 @@ import java.util.Set;
  * @since 1.0
  */
 public class FSMailStore implements MailStore {
-    private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
+    /**
+     * defines default directory for storing received emails
+     */
     public static final String DEFAULT_MAILS_DIRECTORY = "inbox";
+    /**
+     * defines default index file name
+     */
     public static final String DEFAULT_MAILS_INDEX_FILE = "index.json";
+    /**
+     * defines received emails default file extension
+     */
     public static final String DEFAULT_MAILS_EXTENSION = "eml";
+    /**
+     * defines index date format to be used for storage
+     */
     public static final String INDEX_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss.SSS";
+    /**
+     * logs events to a dedicated stream
+     */
+    private static final Logger logger = LoggerFactory.getLogger(FSMailStore.class);
     /**
      * The Index idx file.
      */
-    static final String INDEX_IDX_FILE = "file";
+    private static final String INDEX_IDX_FILE = "file";
     /**
      * The Index idx to.
      */
-    static final String INDEX_IDX_TO = "to";
+    private static final String INDEX_IDX_TO = "to";
     /**
      * The Index idx from.
      */
-    static final String INDEX_IDX_FROM = "from";
+    private static final String INDEX_IDX_FROM = "from";
     /**
      * The Index idx subject.
      */
-    static final String INDEX_IDX_SUBJECT = "subject";
+    private static final String INDEX_IDX_SUBJECT = "subject";
     /**
      * The Index idx date.
      */
-    static final String INDEX_IDX_DATE = "date";
+    private static final String INDEX_IDX_DATE = "date";
 
-    static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
-
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
+    /**
+     * DateFormat utility instance to parse and format Index stored dates
+     */
+    private static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
+    /**
+     * JSON Array to store in memory the emails index
+     */
     private static JSONArray emailsList = new JSONArray();
+    /**
+     * DateFormat utility instance to format received emails filenames
+     */
+    private final transient SimpleDateFormat filenameDateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
 
     /**
      * Gets a uniquely named filedescriptor for writing mails to disk
@@ -72,20 +95,22 @@ public class FSMailStore implements MailStore {
      * @return the file descriptor based on the base name and an iterator
      * @throws IOException the io exception
      */
-    static synchronized File getUniqueFile(String baseName) throws IOException {
-        int i = 0;
+    protected static synchronized File getUniqueFile(String baseName) throws IOException {
+        int indx = 0;
 
         File file = null;
         StringBuilder filename = new StringBuilder();
         while (file == null || file.exists()) {
             filename.delete(0, filename.length());
             filename.append(baseName);
-            if (i++ > 0) {
-                filename.append("_").append(i).append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
+            indx++;
+            if (indx > 1) {
+                filename.append("_").append(indx).append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
             } else {
                 filename.append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
             }
-            file = new File(filename.toString());
+            file = FileUtils.getFile(filename.toString());
+            //file = new File(filename.toString());
             logger.info("Checking if filename '{}' is valid", filename);
         }
         if (!file.createNewFile()) {
@@ -100,7 +125,7 @@ public class FSMailStore implements MailStore {
      *
      * @param email the email
      */
-    static synchronized void addToIndex(EmailModel email) {
+    protected static synchronized void addToIndex(EmailModel email) {
         if (email == null || email.hasEmptyField()) {
             logger.warn("A null or incomplete email was sent for indexing ...");
             return;
@@ -141,7 +166,7 @@ public class FSMailStore implements MailStore {
      *
      * @return
      */
-    static void loadIndex() throws InvalidStoreException {
+    protected static void loadIndex() throws InvalidStoreException {
         String indexFile = Configuration.get("emails.storage.fs.indexfile", DEFAULT_MAILS_INDEX_FILE);
         JSONParser parser = new JSONParser();
         try (FileReader file = new FileReader(indexFile)) {
@@ -163,39 +188,12 @@ public class FSMailStore implements MailStore {
     }
 
     /**
-     * @param email
-     */
-    @Override
-    public synchronized void save(@Nullable EmailModel email) throws IncompleteEmailException {
-        if (email == null) {
-            return;
-        }
-        if (email.getReceivedDate() == null || email.getEmailStr() == null) {
-            throw new IncompleteEmailException();
-        }
-
-        String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path", DEFAULT_MAILS_DIRECTORY), File.separator,
-                dateFormat.format(new Date()));
-
-        try {
-            File file = getUniqueFile(filePath);
-            email.setFilePath(file.getPath());
-            FileUtils.writeStringToFile(file, email.getEmailStr());
-        } catch (IOException e) {
-            logger.error("Error: Can't save email: {}", e.getMessage(), e);
-        }
-
-        addToIndex(email);
-        saveIndex();
-    }
-
-    /**
      * common method for parsing email models from JSON Objects
      *
      * @param emailObj
      * @return
      */
-    private static final EmailModel getEmailFromJSONObject(JSONObject emailObj) {
+    private static EmailModel getEmailFromJSONObject(JSONObject emailObj) {
         EmailModel email = new EmailModel();
         email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
         email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
@@ -207,6 +205,31 @@ public class FSMailStore implements MailStore {
             logger.warn(ex.getMessage());
         }
         return email;
+    }
+
+    /**
+     * @param email
+     */
+    @Override
+    public synchronized void save(@Nullable EmailModel email) throws IncompleteEmailException {
+
+        if (email == null || email.getReceivedDate() == null || email.getEmailStr() == null) {
+            throw new IncompleteEmailException();
+        }
+
+        String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path", DEFAULT_MAILS_DIRECTORY), File.separator,
+                filenameDateFormat.format(new Date()));
+
+        try {
+            File file = getUniqueFile(filePath);
+            email.setFilePath(file.getPath());
+            FileUtils.writeStringToFile(file, email.getEmailStr());
+            // we want to update the index only when email is well stored onto disk
+            addToIndex(email);
+            saveIndex();
+        } catch (IOException e) {
+            logger.error("Error: Can't save email: {}", e.getMessage(), e);
+        }
     }
 
     /**
@@ -227,15 +250,11 @@ public class FSMailStore implements MailStore {
      * @return
      */
     @Override
-    public EmailModel getEmail(int id) throws InvalidStoreException {
-        try {
-            JSONObject emailObj = (JSONObject) emailsList.get(id);
-            return getEmailFromJSONObject(emailObj);
-            // TODO: load email content from file
+    public EmailModel getEmail(int id) {
+        JSONObject emailObj = (JSONObject) emailsList.get(id);
+        return getEmailFromJSONObject(emailObj);
+        // TODO: load email content from file
 
-        } catch (NullPointerException ex) {
-            logger.error("Could not load email from index.");
-            throw new InvalidStoreException(ex);
-        }
+
     }
 }
