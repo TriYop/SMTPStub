@@ -1,0 +1,15 @@
+version: '2'
+services:
+    smtpstub-server:
+        container_name: SMTP-Stub
+        ports: 
+            - "25:25"
+        networks:
+            smtpstub:
+                aliases:
+                    - smtp.example.com
+                    - mail.example.com
+    networks:
+        smtpstub:
+            driver: bridge
+

@@ -2,10 +2,10 @@ FROM java:8
 
 RUN mkdir -p /output
 
-ADD fakeSMTP-2.1-SNAPSHOT.jar /fakeSMTP.jar
+ADD ../../../target/SMTPStub-1.0-SNAPSHOT.jar /SMTPStub.jar
 
 VOLUME /output
 
 EXPOSE 25
 
-ENTRYPOINT ["java","-jar","/fakeSMTP.jar","--background", "--output-dir", "/output", "--port", "25", "--start-server"]
+ENTRYPOINT ["java","-jar","/SMTPStub.jar"]
