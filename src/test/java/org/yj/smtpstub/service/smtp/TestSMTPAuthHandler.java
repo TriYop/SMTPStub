@@ -21,8 +21,7 @@ public class TestSMTPAuthHandler {
 
     @Test
     public void testGetIdentity() {
-        smtpAuthHandler.getIdentity();
-        
+        assertEquals("User", smtpAuthHandler.getIdentity());
     }
 
     @Test
@@ -30,6 +29,5 @@ public class TestSMTPAuthHandler {
         assertEquals(SMTPAuthHandler.CALLBACK_USERNAME, smtpAuthHandler.auth(""));
         assertEquals(SMTPAuthHandler.CALLBACK_PASSWORD, smtpAuthHandler.auth(""));
         assertEquals(null, smtpAuthHandler.auth(""));
-
     }
 }
