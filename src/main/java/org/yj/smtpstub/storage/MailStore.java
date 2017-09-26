@@ -32,8 +32,8 @@ public interface MailStore {
     /**
      * Gets email.
      *
-     * @param id the id
+     * @param emailId the id
      * @return the email
      */
-    EmailModel getEmail(int id);
+    EmailModel getEmail(int emailId);
 }

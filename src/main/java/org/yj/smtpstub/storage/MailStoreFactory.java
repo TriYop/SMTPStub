@@ -34,9 +34,9 @@ public final class MailStoreFactory {
     public static MailStore getMailStore(String type) throws InvalidStoreException {
         InvalidStoreException exc = null;
         try {
-            Class c = Class.forName(type);
-            if (MailStore.class.isAssignableFrom(c)) {
-                return (MailStore) c.newInstance();
+            Class storeClass = Class.forName(type);
+            if (MailStore.class.isAssignableFrom(storeClass)) {
+                return (MailStore) storeClass.newInstance();
             }
         } catch (ClassNotFoundException | NullPointerException ex) {
             logger.error("Mail storage engine {} is not a valid Storage engine", type, ex);
