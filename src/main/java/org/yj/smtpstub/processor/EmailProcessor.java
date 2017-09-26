@@ -67,9 +67,9 @@ public final class EmailProcessor {
         }
 
         EmailModel model = new EmailModel();
-        model.setFrom(from);
-        model.setFrom(from);
-        model.setTo(dest);
+        model.setEmitter(from);
+        model.setEmitter(from);
+        model.setRecipient(dest);
         String mailContent = getStringFromStream(data);
         model.setSubject(parseMessageSubject(mailContent));
         model.setEmailStr(mailContent);
@@ -92,7 +92,7 @@ public final class EmailProcessor {
     protected static String getStringFromStream(@Nonnull InputStream inStream) {
         long prefixLines = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, Charset.forName("UTF8")));
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
         String line;
         long lineNb = 0;
@@ -100,16 +100,16 @@ public final class EmailProcessor {
             while ((line = reader.readLine()) != null) {
                 lineNb++;
                 if (lineNb > prefixLines) {
-                    if (sb.length()>0) {
-                        sb.append(System.lineSeparator());
+                    if (stringBuilder.length()>0) {
+                        stringBuilder.append(System.lineSeparator());
                     }
-                    sb.append(line);
+                    stringBuilder.append(line);
                 }
             }
         } catch (IOException ioe) {
             logger.error("", ioe);
         }
-        return sb.toString();
+        return stringBuilder.toString();
     }
 
     /**

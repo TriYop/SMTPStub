@@ -46,20 +46,20 @@ public class TestEmailModel {
     @Test
     public void testFrom() {
         //tests both setter and getter at once
-        assertEquals("Expecting value to be null after initialization", null, model.getFrom());
+        assertEquals("Expecting value to be null after initialization", null, model.getEmitter());
         String testValue = "expectedValue";
-        model.setFrom(testValue);
-        assertEquals("Expecting provided value to be returned after setting value", testValue, model.getFrom());
+        model.setEmitter(testValue);
+        assertEquals("Expecting provided value to be returned after setting value", testValue, model.getEmitter());
 
     }
 
     @Test
     public void testTo() {
         //tests both setter and getter at once
-        assertEquals("Expecting value to be null after initialization", null, model.getTo());
+        assertEquals("Expecting value to be null after initialization", null, model.getRecipient());
         String testValue = "expectedValue";
-        model.setTo(testValue);
-        assertEquals("Expecting provided value to be returned after setting value", testValue, model.getTo());
+        model.setRecipient(testValue);
+        assertEquals("Expecting provided value to be returned after setting value", testValue, model.getRecipient());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class TestEmailModel {
         model.setFilePath("inbox/test");
         assertTrue(model.hasEmptyField());
 
-        model.setFrom("from_value");
+        model.setEmitter("from_value");
         assertTrue(model.hasEmptyField());
 
         model.setReceivedDate(new Date());
@@ -102,7 +102,7 @@ public class TestEmailModel {
         model.setSubject("subject_value");
         assertTrue(model.hasEmptyField());
 
-        model.setTo("to_value");
+        model.setRecipient("to_value");
         assertFalse(model.hasEmptyField());
 
     }

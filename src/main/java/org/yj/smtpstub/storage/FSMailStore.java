@@ -134,8 +134,8 @@ public class FSMailStore implements MailStore {
 
         emailObj.put(INDEX_IDX_FILE, email.getFilePath());
         emailObj.put(INDEX_IDX_SUBJECT, email.getSubject());
-        emailObj.put(INDEX_IDX_FROM, email.getFrom());
-        emailObj.put(INDEX_IDX_TO, email.getTo());
+        emailObj.put(INDEX_IDX_FROM, email.getEmitter());
+        emailObj.put(INDEX_IDX_TO, email.getRecipient());
         emailObj.put(INDEX_IDX_DATE, indexDateFormat.format(email.getReceivedDate()));
         synchronized (emailsList) {
             emailsList.add(emailObj);
@@ -197,8 +197,8 @@ public class FSMailStore implements MailStore {
         EmailModel email = new EmailModel();
         email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
         email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
-        email.setFrom((String) emailObj.get(INDEX_IDX_FROM));
-        email.setTo((String) emailObj.get(INDEX_IDX_TO));
+        email.setEmitter((String) emailObj.get(INDEX_IDX_FROM));
+        email.setRecipient((String) emailObj.get(INDEX_IDX_TO));
         try {
             email.setReceivedDate(indexDateFormat.parse((String) emailObj.get(INDEX_IDX_DATE)));
         } catch (java.text.ParseException ex) {
@@ -246,12 +246,12 @@ public class FSMailStore implements MailStore {
     }
 
     /**
-     * @param id
+     * @param emailId
      * @return
      */
     @Override
-    public EmailModel getEmail(int id) {
-        JSONObject emailObj = (JSONObject) emailsList.get(id);
+    public EmailModel getEmail(int emailId) {
+        JSONObject emailObj = (JSONObject) emailsList.get(emailId);
         return getEmailFromJSONObject(emailObj);
         // TODO: load email content from file
 
