@@ -94,17 +94,19 @@ public final class EmailProcessor {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, Charset.forName("UTF8")));
         StringBuilder stringBuilder = new StringBuilder();
 
-        String line;
+
         long lineNb = 0;
         try {
-            while ((line = reader.readLine()) != null) {
+            String line = reader.readLine();
+            while (line != null) {
                 lineNb++;
                 if (lineNb > prefixLines) {
-                    if (stringBuilder.length()>0) {
+                    if (stringBuilder.length() > 0) {
                         stringBuilder.append(System.lineSeparator());
                     }
                     stringBuilder.append(line);
                 }
+                line = reader.readLine();
             }
         } catch (IOException ioe) {
             logger.error("", ioe);
