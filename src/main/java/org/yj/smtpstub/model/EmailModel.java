@@ -22,17 +22,17 @@ public final class EmailModel {
     private static final Logger logger = LoggerFactory.getLogger(EmailModel.class);
     /**
      * date when message was received by server.
-     * This may not be execution time due to asynchronous handling
+     * This may not be execution time due recipient asynchronous handling
      */
     private Date receivedDate;
     /**
      * message emitter
      */
-    private String from;
+    private String emitter;
     /**
      * message recipient
      */
-    private String to;
+    private String recipient;
     /**
      * message subject
      */
@@ -67,7 +67,7 @@ public final class EmailModel {
 
     public void setReceivedDate(final Date receivedDate) {
         if (receivedDate == null) {
-            logger.warn("date being set to NULL !");
+            logger.warn("date being set recipient NULL !");
             this.receivedDate = null;
         } else {
             this.receivedDate = (Date) receivedDate.clone();
@@ -75,39 +75,39 @@ public final class EmailModel {
     }
 
     /**
-     * Gets from.
+     * Gets emitter.
      *
-     * @return the from
+     * @return the emitter
      */
-    public String getFrom() {
-        return from;
+    public String getEmitter() {
+        return emitter;
     }
 
     /**
-     * Sets from.
+     * Sets emitter.
      *
-     * @param from the from
+     * @param emitter the emitter
      */
-    public void setFrom(String from) {
-        this.from = from;
+    public void setEmitter(String emitter) {
+        this.emitter = emitter;
     }
 
     /**
-     * Gets to.
+     * Gets recipient.
      *
-     * @return the to
+     * @return the recipient
      */
-    public String getTo() {
-        return to;
+    public String getRecipient() {
+        return recipient;
     }
 
     /**
-     * Sets to.
+     * Sets recipient.
      *
-     * @param to the to
+     * @param recipient the recipient
      */
-    public void setTo(String to) {
-        this.to = to;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     /**
@@ -168,7 +168,7 @@ public final class EmailModel {
      * @return
      */
     public boolean hasEmptyField() {
-        return null == this.emailStr || null == this.filePath || null == this.from || null == this.receivedDate || null == this.subject || null == this.to;
+        return null == this.emailStr || null == this.filePath || null == this.emitter || null == this.receivedDate || null == this.subject || null == this.recipient;
     }
 
 

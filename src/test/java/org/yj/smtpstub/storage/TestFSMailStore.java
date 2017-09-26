@@ -36,8 +36,8 @@ public class TestFSMailStore {
         sampleEmail = new EmailModel();
         sampleEmail.setEmailStr("Email content");
         sampleEmail.setSubject("This is the subject");
-        sampleEmail.setTo("Somebody<somebody@example.com>");
-        sampleEmail.setFrom("Someone<Someone@example.com>");
+        sampleEmail.setRecipient("Somebody<somebody@example.com>");
+        sampleEmail.setEmitter("Someone<Someone@example.com>");
         sampleEmail.setFilePath("sample_path");
         sampleEmail.setReceivedDate(new Date());
 
@@ -145,8 +145,8 @@ public class TestFSMailStore {
             EmailModel result = store.getEmail(0);
 
             assertEquals(expect.getFilePath(), result.getFilePath());
-            assertEquals(expect.getFrom(), result.getFrom());
-            assertEquals(expect.getTo(), result.getTo());
+            assertEquals(expect.getEmitter(), result.getEmitter());
+            assertEquals(expect.getRecipient(), result.getRecipient());
             assertEquals(expect.getReceivedDate(), result.getReceivedDate());
             assertEquals(expect.getSubject(), result.getSubject());
             assertEquals(expect.getEmailStr(), result.getEmailStr());

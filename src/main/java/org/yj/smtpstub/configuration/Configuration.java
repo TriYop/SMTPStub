@@ -40,17 +40,17 @@ public class Configuration {
         if (isInit) {
             return true;
         }
-        InputStream in = config.getClass().getResourceAsStream(CONFIG_FILE);
+        InputStream inputStream = config.getClass().getResourceAsStream(CONFIG_FILE);
 
         synchronized (config) {
-            if (in == null) {
+            if (inputStream == null) {
                 config.clear();
                 return false;
             }
             try {
                 // Load defaults settings
-                config.load(in);
-                in.close();
+                config.load(inputStream);
+                inputStream.close();
                 return true;
                 // and override them from user settings
             } catch (IOException e) {
