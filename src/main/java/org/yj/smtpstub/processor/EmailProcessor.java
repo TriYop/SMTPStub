@@ -124,8 +124,8 @@ public final class EmailProcessor {
         try {
             BufferedReader reader = new BufferedReader(new StringReader(data));
 
-            String line;
-            while ((line = reader.readLine()) != null) {
+            String line = reader.readLine();
+            while (line != null) {
                 if ("".equals(line)) {
                     break;
                 }
@@ -133,6 +133,7 @@ public final class EmailProcessor {
                 if (matcher.matches()) {
                     return matcher.group(1);
                 }
+                line = reader.readLine();
             }
         } catch (IOException ioe) {
             logger.error("", ioe);
