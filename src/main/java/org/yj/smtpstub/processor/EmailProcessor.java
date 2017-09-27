@@ -48,10 +48,10 @@ public final class EmailProcessor {
     /**
      * Sets store.
      *
-     * @param store the store
+     * @param mailstore the store
      */
-    public static void setStore(MailStore store) {
-        EmailProcessor.store = store;
+    public static void setStore(MailStore mailstore) {
+        EmailProcessor.store = mailstore;
     }
 
     /**

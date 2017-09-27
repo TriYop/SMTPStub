@@ -85,7 +85,7 @@ public final class EmailModel {
      * @return the emitter
      */
     public String getEmitter() {
-        return emitter;0000
+        return emitter;
     }
 
     /**
@@ -127,10 +127,10 @@ public final class EmailModel {
     /**
      * Sets subject.
      *
-     * @param subject the subject
+     * @param subj the subject
      */
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setSubject(String subj) {
+        this.subject = subj;
     }
 
     /**
@@ -145,10 +145,10 @@ public final class EmailModel {
     /**
      * Sets email str.
      *
-     * @param emailStr the email str
+     * @param emailContent the email str
      */
-    public void setEmailStr(String emailStr) {
-        this.emailStr = emailStr;
+    public void setEmailStr(String emailContent) {
+        this.emailStr = emailContent;
     }
 
     /**
@@ -163,10 +163,10 @@ public final class EmailModel {
     /**
      * Sets file path.
      *
-     * @param filePath the file path
+     * @param filepath the file path
      */
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFilePath(String filepath) {
+        this.filePath = filepath;
     }
 
     /**
