@@ -20,23 +20,28 @@ public final class EmailModel {
      * class logger
      */
     private static final Logger logger = LoggerFactory.getLogger(EmailModel.class);
+
     /**
      * date when message was received by server.
      * This may not be execution time due recipient asynchronous handling
      */
     private Date receivedDate;
+
     /**
      * message emitter
      */
     private String emitter;
+
     /**
      * message recipient
      */
     private String recipient;
+
     /**
      * message subject
      */
     private String subject;
+
     /**
      * message content body
      */
@@ -62,15 +67,15 @@ public final class EmailModel {
     /**
      * Sets received date.
      *
-     * @param receivedDate the received date
+     * @param incomingDate the received date
      */
 
-    public void setReceivedDate(final Date receivedDate) {
-        if (receivedDate == null) {
+    public void setReceivedDate(final Date incomingDate) {
+        if (incomingDate == null) {
             logger.warn("date being set recipient NULL !");
             this.receivedDate = null;
         } else {
-            this.receivedDate = (Date) receivedDate.clone();
+            this.receivedDate = (Date) incomingDate.clone();
         }
     }
 
@@ -80,16 +85,16 @@ public final class EmailModel {
      * @return the emitter
      */
     public String getEmitter() {
-        return emitter;
+        return emitter;0000
     }
 
     /**
      * Sets emitter.
      *
-     * @param emitter the emitter
+     * @param emitterAddress the emitter
      */
-    public void setEmitter(String emitter) {
-        this.emitter = emitter;
+    public void setEmitter(String emitterAddress) {
+        this.emitter = emitterAddress;
     }
 
     /**
@@ -104,10 +109,10 @@ public final class EmailModel {
     /**
      * Sets recipient.
      *
-     * @param recipient the recipient
+     * @param recipientAddress the recipient
      */
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setRecipient(String recipientAddress) {
+        this.recipient = recipientAddress;
     }
 
     /**

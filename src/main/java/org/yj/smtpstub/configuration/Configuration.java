@@ -16,18 +16,22 @@ import java.util.Properties;
  * @since 1.0
  */
 public class Configuration {
+
     /**
      * logs events in a dedicated stream
      */
     private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
+
     /**
      * default configuration file name
      */
     private static final String CONFIG_FILE = "/configuration.properties";
+
     /**
      * config properties in memory representation
      */
     private static final Properties config = new Properties();
+
     /**
      * tells if config has already been initialized.
      */
