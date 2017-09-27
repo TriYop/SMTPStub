@@ -1,3 +1,4 @@
+package shared;
 /**
  * SMTPStub
  * --------------------------------------------
@@ -5,4 +6,3 @@
  * @author TriYop
  * @since
  */
-package shared;
