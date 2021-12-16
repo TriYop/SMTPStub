@@ -37,6 +37,11 @@ public final class EmailProcessor {
     private static MailStore store = null;
 
     /**
+     * Hides constructor
+     */
+    private EmailProcessor() {}
+
+    /**
      * Gets store.
      *
      * @return the store

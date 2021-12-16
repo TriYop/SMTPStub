@@ -1,9 +1,12 @@
 package org.yj.smtpstub.service.smtp;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.subethamail.smtp.server.SMTPServer;
+import org.yj.smtpstub.configuration.Configuration;
+import org.yj.smtpstub.configuration.PropertiesConfigurationLoader;
 import org.yj.smtpstub.exception.InvalidHostException;
 import org.yj.smtpstub.exception.NetworkException;
 import org.yj.smtpstub.exception.PortException;
@@ -18,6 +21,11 @@ import static org.junit.Assert.assertNotNull;
  */
 public class TestSMTPServerFactory {
     private static final Logger logger = LoggerFactory.getLogger(TestSMTPServerFactory.class);
+
+    @Before
+    public void setUp() {
+        Configuration.getInstance(new PropertiesConfigurationLoader("/etc/smtpstub.conf"));
+    }
 
     @Test(expected = NetworkException.class)
     public void testGetRunningServerInvalidParameters() throws NetworkException {

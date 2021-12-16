@@ -3,6 +3,7 @@ package org.yj.smtpstub.storage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yj.smtpstub.configuration.Configuration;
 import org.yj.smtpstub.exception.InvalidStoreException;
 
 /**
@@ -17,6 +18,7 @@ public final class MailStoreFactory {
      * Logs events into a dedicated stream
      */
     private static final Logger logger = LoggerFactory.getLogger(MailStoreFactory.class);
+    public static final String DEFAULT_STORAGE_ENGINE = FSMailStore.class.getCanonicalName();
 
     /**
      *
@@ -31,7 +33,9 @@ public final class MailStoreFactory {
      * @return
      * @throws InvalidStoreException
      */
-    public static MailStore getMailStore(String type) throws InvalidStoreException {
+    public static MailStore getMailStore() throws InvalidStoreException {
+
+        String type = Configuration.getInstance().getStringValue("emails.storage.engine", DEFAULT_STORAGE_ENGINE);
         InvalidStoreException exc = null;
         try {
             Class storeClass = Class.forName(type);
