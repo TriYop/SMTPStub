@@ -23,8 +23,8 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Prepare environment
-        run: |          
-          sudo mkdir -p /var/smtpstub/inbox
+        run: |         
+          sudo mkdir -p -m 777 /var/smtpstub/inbox          
           sudo bash -c "echo \"{'list':[]}\" > /var/smtpstub/index.json"
           sudo cp src/test/resources/configuration.properties /etc/smtpstub.conf
       - name: Build with Maven
