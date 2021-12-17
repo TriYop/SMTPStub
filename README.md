@@ -1,5 +1,6 @@
 # SMTP stubbed service. 
 
+[![Java CI with Maven](https://github.com/TriYop/SMTPStub/actions/workflows/mave,.yml/badge.svg)](https://github.com/TriYop/SMTPStub/actions/workflows/mave,.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
