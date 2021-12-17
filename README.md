@@ -5,6 +5,7 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
+[![CodeQL](https://github.com/TriYop/SMTPStub/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/TriYop/SMTPStub/actions/workflows/codeql-analysis.yml)
 [![Known Vulnerabilities](https://snyk.io/test/github/triyop/smtpstub/badge.svg)](https://snyk.io/test/github/triyop/smtpstub)
 
 It aims to answer SMTP requests and store all received emails into local filesystem.
