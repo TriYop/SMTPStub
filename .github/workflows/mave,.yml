@@ -25,7 +25,7 @@ jobs:
       - name: Prepare environment
         run: |          
           sudo mkdir -p /var/smtpstub/inbox
-          sudo echo "{'list':[]}"> /var/smtpstub/index.json
+          sudo bash -c "echo \"{'list':[]}\" > /var/smtpstub/index.json"
           sudo cp src/test/resources/configuration.properties /etc/smtpstub.conf
       - name: Build with Maven
         run: mvn -B package --file pom.xml
