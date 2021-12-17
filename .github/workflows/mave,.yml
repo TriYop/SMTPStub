@@ -23,17 +23,17 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Cache SonarCloud packages
-          uses: actions/cache@v1
-          with:
-            path: ~/.sonar/cache
-            key: ${{ runner.os }}-sonar
-            restore-keys: ${{ runner.os }}-sonar
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
-          uses: actions/cache@v1
-          with:
-            path: ~/.m2
-            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-            restore-keys: ${{ runner.os }}-m2
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       - name: Prepare environment
         run: |         
           sudo mkdir -p -m 777 /var/smtpstub/inbox          
