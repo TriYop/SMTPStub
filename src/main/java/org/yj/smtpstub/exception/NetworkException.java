@@ -12,7 +12,7 @@ abstract public class NetworkException extends Exception {
      * @param message
      * @param throwable
      */
-    public NetworkException(String message, Throwable throwable) {
+    protected NetworkException(String message, Throwable throwable) {
         super(message, throwable);
     }
 }

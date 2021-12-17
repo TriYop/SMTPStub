@@ -4,9 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.subethamail.smtp.server.SMTPServer;
 import org.yj.smtpstub.configuration.Configuration;
+import org.yj.smtpstub.configuration.ConfigurationLoader;
+import org.yj.smtpstub.configuration.PropertiesConfigurationLoader;
 import org.yj.smtpstub.processor.EmailProcessor;
 import org.yj.smtpstub.service.smtp.SMTPServerFactory;
-import org.yj.smtpstub.storage.FSMailStore;
 import org.yj.smtpstub.storage.MailStoreFactory;
 
 /**
@@ -18,10 +19,7 @@ import org.yj.smtpstub.storage.MailStoreFactory;
  * @since 1.0
  */
 final class SMTPStub {
-    /**
-     * default storage engine class
-     */
-    public static final String DEFAULT_STORAGE_ENGINE = FSMailStore.class.getCanonicalName();
+
     /**
      * default IPv4 bind address
      */
@@ -49,15 +47,21 @@ final class SMTPStub {
      */
     public static void main(final String[] args) {
         SMTPServer server = null;
+        ConfigurationLoader confLoader= new PropertiesConfigurationLoader("/etc/smtpstub.conf");
+        Configuration config = Configuration.getInstance(confLoader);
         try {
-            String storeClassNmae = Configuration.get("emails.storage.engine", DEFAULT_STORAGE_ENGINE);
-
-            EmailProcessor.setStore(MailStoreFactory.getMailStore(storeClassNmae));
+            EmailProcessor.setStore(MailStoreFactory.getMailStore());
             server = SMTPServerFactory.getRunningServer(
-                    Configuration.getInt("smtp.default.port", DEFAULT_LISTEN_PORT),
-                    Configuration.get("smtp.bind.address", DEFAULT_BIND_ADDRESS));
+                    config.getIntValue("smtp.port.default", DEFAULT_LISTEN_PORT),
+                    config.getStringValue("smtp.bind.address", DEFAULT_BIND_ADDRESS));
+            do {
+                Thread.sleep(5000);
+            } while (server.isRunning());
         } catch (NumberFormatException e) {
             logger.error("Error: Invalid port number", e);
+        } catch (InterruptedException e) {
+            logger.info("Shutting server down.");
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
             logger.error("Failed to auto-start smtp in background", e);
         } finally {

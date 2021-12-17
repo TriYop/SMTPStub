@@ -2,6 +2,8 @@ package org.yj.smtpstub.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.yj.smtpstub.configuration.Configuration;
+import org.yj.smtpstub.configuration.PropertiesConfigurationLoader;
 
 import java.util.Date;
 
@@ -19,8 +21,8 @@ public class TestEmailModel {
 
     @Before
     public void setUp() {
+        Configuration.getInstance(new PropertiesConfigurationLoader("/etc/smtpstub.conf"));
         model = new EmailModel();
-
     }
 
     @Test

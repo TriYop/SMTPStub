@@ -20,7 +20,7 @@ public abstract class PortException extends NetworkException {
      * @param parent the exception we need to copy the stack trace from.
      * @param port   the selected portnumber which was the cause of the exception.
      */
-    public PortException(Exception parent, int port) {
+    protected PortException(Exception parent, int port) {
         super("Port " + port + " could not be opened.", parent);
         if (parent != null) {
             setStackTrace(parent.getStackTrace());

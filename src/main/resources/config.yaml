@@ -1,0 +1,43 @@
+---
+test:
+  key: test.value
+  int: 5
+
+logback:
+  appender:
+    name: STDOUT
+  level: INFO
+
+smtp:
+  port:
+    default: 25
+    secure: 587
+  bind:
+    address: localhost
+  relay:
+    domains: []
+
+http:
+  port:
+    default: 80
+    secure: 443
+  bind:
+    address: localhost
+
+pop3:
+  port:
+    default: 110
+
+tls:
+  enabled: false
+  keyfile:
+  certificate:
+
+emails:
+  storage:
+    engine: org.yj.smtpstub.storage.FSMailStore
+    fs:
+      path: /var/smtpstub/inbox
+      indexfile: /var/smtpstub/index.json
+      suffix: eml
+...

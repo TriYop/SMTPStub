@@ -18,6 +18,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -37,11 +42,11 @@ public class FSMailStore implements MailStore {
     /**
      * defines default directory for storing received emails
      */
-    public static final String DEFAULT_MAILS_DIRECTORY = "inbox";
+    public static final String DEFAULT_MAILS_DIRECTORY = "/var/smtpstub/inbox";
     /**
      * defines default index file name
      */
-    public static final String DEFAULT_MAILS_INDEX_FILE = "index.json";
+    public static final String DEFAULT_MAILS_INDEX_FILE = "/var/smtpstub/index.json";
     /**
      * defines received emails default file extension
      */
@@ -75,18 +80,59 @@ public class FSMailStore implements MailStore {
      */
     private static final String INDEX_IDX_DATE = "date";
 
+
+    private static final String MAILS_DIRECTORY_KEY = "emails.storage.fs.path";
+    private static final String MAILS_INDEX_FILE_KEY = "emails.storage.fs.indexfile";
+    private static final String MAILS_SUFFIX_KEY = "emails.storage.fs.suffix";
+
+
     /**
      * DateFormat utility instance to parse and format Index stored dates
      */
-    private static final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
+    private final DateFormat indexDateFormat = new SimpleDateFormat(INDEX_DATE_FORMAT);
     /**
      * JSON Array to store in memory the emails index
      */
     private static JSONArray emailsList = new JSONArray();
+
+
+    private String storeRootDirectory;
+    private String indexFilePath;
     /**
      * DateFormat utility instance to format received emails filenames
      */
     private final transient SimpleDateFormat filenameDateFormat = new SimpleDateFormat("ddMMyyhhmmssSSS");
+
+    public FSMailStore() {
+        try {
+            String root = Configuration.getInstance().getStringValue(MAILS_DIRECTORY_KEY, DEFAULT_MAILS_DIRECTORY);
+            Path p = Paths.get(root);
+            if (!Files.isDirectory(p) && !Files.notExists(p)) {
+                Files.createDirectories(p);
+
+            }
+            storeRootDirectory = p.toString();
+
+        } catch (IOException e) {
+            logger.warn("Could nout ceeate missing store directory.", e);
+        }
+
+        try {
+            String root = Configuration.getInstance().getStringValue(MAILS_INDEX_FILE_KEY, DEFAULT_MAILS_INDEX_FILE);
+            Path p = Paths.get(root);
+            if (!Files.isRegularFile(p) && !Files.notExists(p)) {
+                Files.createFile(p);
+                saveIndex();
+            }
+            indexFilePath = p.toString();
+            loadIndex();
+        } catch (IOException e) {
+            logger.warn("Could nout ceeate missing index file", e);
+        } catch (InvalidStoreException e) {
+            logger.error("Could not load store content.", e);
+        }
+    }
+
 
     /**
      * Gets a uniquely named filedescriptor for writing mails to disk
@@ -95,23 +141,29 @@ public class FSMailStore implements MailStore {
      * @return the file descriptor based on the base name and an iterator
      * @throws IOException the io exception
      */
-    protected static synchronized File getUniqueFile(String baseName) throws IOException {
+    protected synchronized File getUniqueFile(String baseName) throws IOException {
         int indx = 0;
 
         File file = null;
         StringBuilder filename = new StringBuilder();
+
+        String fname = "";
+        if (!storeRootDirectory.endsWith("/")) {
+            fname = storeRootDirectory.concat("/").concat(baseName);
+        } else {
+            fname = storeRootDirectory.concat(baseName);
+        }
+        String extension = Configuration.getInstance().getStringValue(MAILS_SUFFIX_KEY, DEFAULT_MAILS_EXTENSION);
         while (file == null || file.exists()) {
             filename.delete(0, filename.length());
-            filename.append(baseName);
+            filename.append(fname);
             indx++;
             if (indx > 1) {
-                filename.append("_").append(indx).append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
+                filename.append("_").append(indx).append('.').append(extension);
             } else {
-                filename.append(Configuration.get("mails.suffix", DEFAULT_MAILS_EXTENSION));
+                filename.append('.').append(extension);
             }
             file = FileUtils.getFile(filename.toString());
-            //file = new File(filename.toString());
-            logger.info("Checking if filename '{}' is valid", filename);
         }
         if (!file.createNewFile()) {
             throw new IOException("File " + filename.toString() + " could not be created");
@@ -125,7 +177,7 @@ public class FSMailStore implements MailStore {
      *
      * @param email the email
      */
-    protected static synchronized void addToIndex(EmailModel email) {
+    protected synchronized void addToIndex(EmailModel email) {
         if (email == null || email.hasEmptyField()) {
             logger.warn("A null or incomplete email was sent for indexing ...");
             return;
@@ -145,12 +197,12 @@ public class FSMailStore implements MailStore {
     /**
      * Save index.
      */
-    protected static synchronized void saveIndex() {
+    protected synchronized void saveIndex() {
         synchronized (emailsList) {
-            String indexFile = Configuration.get("emails.storage.fs.indexfile", DEFAULT_MAILS_INDEX_FILE);
+            logger.info("Mail index set to " + indexFilePath);
             JSONObject obj = new JSONObject();
             obj.put("list", emailsList);
-            try (FileWriter file = new FileWriter(indexFile)) {
+            try (FileWriter file = new FileWriter(indexFilePath)) {
 
                 file.write(obj.toJSONString());
                 file.flush();
@@ -167,7 +219,7 @@ public class FSMailStore implements MailStore {
      * @return
      */
     protected static void loadIndex() throws InvalidStoreException {
-        String indexFile = Configuration.get("emails.storage.fs.indexfile", DEFAULT_MAILS_INDEX_FILE);
+        String indexFile = Configuration.getInstance().getStringValue(MAILS_INDEX_FILE_KEY, DEFAULT_MAILS_INDEX_FILE);
         JSONParser parser = new JSONParser();
         try (FileReader file = new FileReader(indexFile)) {
             if (file.ready()) {
@@ -193,7 +245,7 @@ public class FSMailStore implements MailStore {
      * @param emailObj
      * @return
      */
-    private static EmailModel getEmailFromJSONObject(JSONObject emailObj) {
+    private EmailModel getEmailFromJSONObject(JSONObject emailObj) {
         EmailModel email = new EmailModel();
         email.setFilePath((String) emailObj.get(INDEX_IDX_FILE));
         email.setSubject((String) emailObj.get(INDEX_IDX_SUBJECT));
@@ -217,18 +269,19 @@ public class FSMailStore implements MailStore {
             throw new IncompleteEmailException();
         }
 
-        String filePath = String.format("%s%s%s", Configuration.get("emails.storage.fs.path", DEFAULT_MAILS_DIRECTORY), File.separator,
-                filenameDateFormat.format(new Date()));
+        String filePath = String.format(filenameDateFormat.format(new Date()));
 
         try {
             File file = getUniqueFile(filePath);
             email.setFilePath(file.getPath());
-            FileUtils.writeStringToFile(file, email.getEmailStr());
+            logger.debug(file.getPath());
+
+            FileUtils.writeStringToFile(file, email.getEmailStr(), StandardCharsets.UTF_8);
             // we want to update the index only when email is well stored onto disk
             addToIndex(email);
             saveIndex();
         } catch (IOException e) {
-            logger.error("Error: Can't save email: {}", e.getMessage(), e);
+            logger.error("Error: Can't save email to {} : {}", filePath, e.getMessage(), e);
         }
     }
 

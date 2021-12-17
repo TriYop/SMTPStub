@@ -1,10 +1,14 @@
 package org.yj.smtpstub.processor;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yj.smtpstub.configuration.Configuration;
+import org.yj.smtpstub.configuration.PropertiesConfigurationLoader;
 import org.yj.smtpstub.exception.IncompleteEmailException;
 import org.yj.smtpstub.exception.InvalidStoreException;
+import org.yj.smtpstub.model.EmailModel;
 import org.yj.smtpstub.storage.FSMailStore;
 import org.yj.smtpstub.storage.MailStore;
 import org.yj.smtpstub.storage.MailStoreFactory;
@@ -23,6 +27,12 @@ import static org.junit.Assert.assertNotNull;
 public class TestEmailProcessor {
 
     private static final Logger logger = LoggerFactory.getLogger(TestEmailProcessor.class);
+
+    @Before
+    public void setUp() {
+        Configuration.getInstance(new PropertiesConfigurationLoader("/etc/smtpstub.conf"));
+    }
+
 
     @Test(expected = IncompleteEmailException.class)
     public void testProcessAllNullValues() throws IncompleteEmailException {
@@ -50,7 +60,7 @@ public class TestEmailProcessor {
 
     @Test
     public void testProcessEmptyValues() throws InvalidStoreException, IncompleteEmailException {
-        MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+        MailStore store = MailStoreFactory.getMailStore();
         assertNotNull(store);
         EmailProcessor.setStore(store);
         EmailProcessor.process("", "", new ByteArrayInputStream(new byte[0]));
@@ -59,7 +69,7 @@ public class TestEmailProcessor {
     // test getter and setter at once.
     @Test
     public void testSetGetStore() throws InvalidStoreException {
-        MailStore store = MailStoreFactory.getMailStore(FSMailStore.class.getCanonicalName());
+        MailStore store = MailStoreFactory.getMailStore();
         EmailProcessor.setStore(store);
 
         MailStore store2 = EmailProcessor.getStore();
@@ -70,10 +80,7 @@ public class TestEmailProcessor {
     @Test
     public void testGetStringFromStreamNominal() {
         String expected = "This is my test string.";
-        logger.info("Expected String: \"{}\"", expected);
-        //FIXME
         String result = EmailProcessor.getStringFromStream(new ByteArrayInputStream(expected.getBytes()));
-        logger.info("Returned string: \"{}\"", result);
         assertEquals(expected, result);
     }
 
