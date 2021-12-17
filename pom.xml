@@ -16,6 +16,8 @@
         <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
         <docker.image>SMTPStub</docker.image>
         <doxygen.configurationFile>${project.basedir}/Doxyfile</doxygen.configurationFile>
+        <sonar.organization>triyop-1</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencies>
