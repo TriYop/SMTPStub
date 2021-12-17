@@ -1,6 +1,9 @@
 # SMTP stubbed service. 
-[![Build Status](https://www.travis-ci.org/TriYop/SMTPStub.svg?branch=master)](https://www.travis-ci.org/TriYop/SMTPStub)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5339bb4587354eafb9961953f6423210)](https://www.codacy.com/app/TriYop/SMTPStub?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TriYop/SMTPStub&amp;utm_campaign=Badge_Grade)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=TriYop_SMTPStub2&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=TriYop_SMTPStub2)
 [![Known Vulnerabilities](https://snyk.io/test/github/triyop/smtpstub/badge.svg)](https://snyk.io/test/github/triyop/smtpstub)
 
 It aims to answer SMTP requests and store all received emails into local filesystem.
